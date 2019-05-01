@@ -1,6 +1,6 @@
 # matrixLM
 
-Core functions for closed-form least squares estimates for matrix linear models. 
+Core functions for closed-form least squares estimates for matrix linear models. Variance shrinkage adapted from Ledoit & Wolf (2003) <sup>[1](#myfootnote1)</sup>.
 
 An extension of `matrixLM` for applications in high-throughput genetic screens is the [`GeneticScreen`](https://github.com/janewliang/GeneticScreen.jl) package. See the associated paper, ["Matrix linear models for high-throughput chemical genetic screens"](https://www.biorxiv.org/content/10.1101/468140v1), for more details. 
 
@@ -56,7 +56,7 @@ Y = X*B*transpose(Z)+E
 dat = RawData(Response(Y), Predictors(X, Z))
 ```
 
-Least-squares estimates for matrix linear models can be obtained by running `mlm`. An object of type `Mlm` will be returned, with variables for the coefficient estimates (`B`), the coefficient variance estimates (`varB`), and the estimated variance of the errors (`sigma`). By default, `mlm` estimates both row and column main effects (X and Z intercepts), but this behavior can be suppressed by setting `isXIntercept=false` and/or `isZntercept=false`. Column weights for `Y` and the target type for variance shrinkage can be optionally supplied to `weights` and `targetType`, respectively. 
+Least-squares estimates for matrix linear models can be obtained by running `mlm`. An object of type `Mlm` will be returned, with variables for the coefficient estimates (`B`), the coefficient variance estimates (`varB`), and the estimated variance of the errors (`sigma`). By default, `mlm` estimates both row and column main effects (X and Z intercepts), but this behavior can be suppressed by setting `isXIntercept=false` and/or `isZntercept=false`. Column weights for `Y` and the target type for variance shrinkage <sup>[1](#myfootnote1)</sup> can be optionally supplied to `weights` and `targetType`, respectively. 
 
 ```
 est = mlm(dat)
@@ -83,3 +83,7 @@ tStats, pVals = mlm_perms(dat, nPerms)
 ```
 
 Additional details can be found in the documentation for specific functions. 
+
+---
+
+<a name="myfootnote1">1</a>. Ledoit, O., & Wolf, M. (2003). Improved estimation of the covariance matrix of stock returns with an application to portfolio selection. Journal of empirical finance, 10(5), 603-621. 
