@@ -9,7 +9,8 @@ An extension of `matrixLM` for applications in high-throughput genetic screens i
 The `matrixLM` package can be installed by running: 
 
 ```
-using Pkg; Pkg.add("https://github.com/janewliang/matrixLM.jl")
+using Pkg
+Pkg.add(PackageSpec(url="https://github.com/janewliang/matrixLM.jl", rev="master"))
 ```
 
 `matrixLM` was developed in [Julia v1.1](https://julialang.org/downloads/). 
@@ -37,8 +38,9 @@ q = 20
 Random.seed!(1)
 X_df = hcat(DataFrame(catvar1=rand(1:5, n), catvar2=rand(["A", "B", "C"], n)), 
             DataFrame(rand(n,4)))
-# Use the contr function to get contrasts for the two categorical variables
-# contr returns a DataFrame, so X needs to be converted into a 2d array
+# Use the contr function to get contrasts for the two categorical variables 
+# (treatment contrasts for catvar1 and sum contrasts for catvar2).
+# contr returns a DataFrame, so X needs to be converted into a 2d array.
 X = convert(Array{Float64,2}, contr(X_df, [:catvar1, :catvar2], 
                                     ["treat", "sum"]))
 # Number of row covariates
@@ -54,7 +56,7 @@ Y = X*B*transpose(Z)+E
 dat = RawData(Response(Y), Predictors(X, Z))
 ```
 
-Least-squares estimates for matrix linear models can be obtained by running `mlm`. An object of type `Mlm` will be returned, with variables for the coefficient estimates (`B`), the coefficient variance estimates (`varB`), and the estimated variance of the erros (`sigma`) By default, `mlm` estimates both row and column main effects (X and Z intercepts), but this behavior can be suppressed by setting `isXIntercept = false` and/or `isZntercept = false`. Column weights for `Y` and the target type for variance shrinkage can be optionally supplied to `weights` and `targetType`, respectively. 
+Least-squares estimates for matrix linear models can be obtained by running `mlm`. An object of type `Mlm` will be returned, with variables for the coefficient estimates (`B`), the coefficient variance estimates (`varB`), and the estimated variance of the errors (`sigma`). By default, `mlm` estimates both row and column main effects (X and Z intercepts), but this behavior can be suppressed by setting `isXIntercept=false` and/or `isZntercept=false`. Column weights for `Y` and the target type for variance shrinkage can be optionally supplied to `weights` and `targetType`, respectively. 
 
 ```
 est = mlm(dat)
@@ -67,13 +69,13 @@ preds = predict(est)
 resids = resid(est)
 ```
 
-The t-statistics for an `Mlm` object (defined as `est.B ./ sqrt.(est.varB)`) can be obtained by running `t_stat`. By default, `t_stat` does not return the corresponding t-statistics for any main effects that were estimated by `mlm`, but they will be returned if `isMainEff = true` is specified. 
+The t-statistics for an `Mlm` object (defined as `est.B ./ sqrt.(est.varB)`) can be obtained by running `t_stat`. By default, `t_stat` does not return the corresponding t-statistics for any main effects that were estimated by `mlm`, but they will be returned if `isMainEff=true`. 
 
 ```
 tStats = t_stat(est)
 ```
 
-Permutation p-values for the t-statistics can be computed by `mlm_perms`. `mlm_perms` calls the more general function `perm_pvals` and will run the permutations in parallel when possible. The illustrative example below only runs 5 permutations, but a different number can be specified as the second argument. By default, the function used to permute `Y` is `shuffle_rows`, which shuffles the rows for `Y`. Alternative functions to permute `Y`, such as `shuffle_cols`, can be passed into the argument `permFun`. `mlm_perms` calls `mlm` and `t_stat` , so the user is free to specify arguments for `mlm` or `t_stat`; by default, `mlm_perms` will call both functions using their default behavior. 
+Permutation p-values for the t-statistics can be computed by `mlm_perms`. `mlm_perms` calls the more general function `perm_pvals` and will run the permutations in parallel when possible. The illustrative example below only runs 5 permutations, but a different number can be specified as the second argument. By default, the function used to permute `Y` is `shuffle_rows`, which shuffles the rows for `Y`. Alternative functions for permuting `Y`, such as `shuffle_cols`, can be passed into the argument `permFun`. `mlm_perms` calls `mlm` and `t_stat` , so the user is free to specify keyword arguments for `mlm` or `t_stat`; by default, `mlm_perms` will call both functions using their default behavior. 
 
 ```
 nPerms = 5
