@@ -29,23 +29,24 @@ using Random
 # Dimensions of matrices 
 n = 100
 m = 250
+# Number of column covariates
 q = 20
 
 # Randomly generate an X matrix of row covariates with 2 categorical variables
 # and 4 continuous variables
+Random.seed!(1)
 X_df = hcat(DataFrame(catvar1=rand(1:5, n), catvar2=rand(["A", "B", "C"], n)), 
             DataFrame(rand(n,4)))
 # Use the contr function to get contrasts for the two categorical variables
 # contr returns a DataFrame, so X needs to be converted into a 2d array
 X = convert(Array{Float64,2}, contr(X_df, [:catvar1, :catvar2], 
                                     ["treat", "sum"]))
-# Number of rows in X
+# Number of row covariates
 p = size(X)[2]
 
 # Randomly generate some data for column covariates Z and response variable Y
-Random.seed!(1)
 Z = rand(m,q)
-B = rand(1:20,p,q)
+B = rand(-5:5,p,q)
 E = randn(n,m)
 Y = X*B*transpose(Z)+E
 
