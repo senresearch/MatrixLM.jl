@@ -20,20 +20,30 @@ using Pkg; Pkg.add("https://github.com/janewliang/matrixLM.jl")
 using matrixLM
 ```
 
-First, construct a `RawData` object consisting of the response variable `Y` and row/column predictors `X` and `Z`. 
+First, construct a `RawData` object consisting of the response variable `Y` and row/column predictors `X` and `Z`. All three matrices must be passed in as 2-dimensional arrays. Note that the `contr` function can be used to set up treatment and/or sum contrasts for categorical variables stored in a DataFrame. By default, `contr` generates treatment contrasts for all specified categorical variables. 
 
 ```
+using DataFrames
 using Random
 
 # Dimensions of matrices 
 n = 100
 m = 250
-p = 10
 q = 20
 
-# Randomly generate some data
+# Randomly generate an X matrix of row covariates with 2 categorical variables
+# and 4 continuous variables
+X_df = hcat(DataFrame(catvar1=rand(1:5, n), catvar2=rand(["A", "B", "C"], n)), 
+            DataFrame(rand(n,4)))
+# Use the contr function to get contrasts for the two categorical variables
+# contr returns a DataFrame, so X needs to be converted into a 2d array
+X = convert(Array{Float64,2}, contr(X_df, [:catvar1, :catvar2], 
+                                    ["treat", "sum"]))
+# Number of rows in X
+p = size(X)[2]
+
+# Randomly generate some data for column covariates Z and response variable Y
 Random.seed!(1)
-X = rand(n,p)
 Z = rand(m,q)
 B = rand(1:20,p,q)
 E = randn(n,m)
