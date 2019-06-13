@@ -25,9 +25,7 @@ function calc_resid(X::AbstractArray{Float64,2}, Y::AbstractArray{Float64,2},
     resid = calc_preds(X, Z, B) 
     
     # Compute residuals over fitted values
-    for j in 1:size(resid, 2), i in 1:size(resid,1)
-        resid[i,j] = Y[i,j] - resid[i,j] 
-    end
+    resid .= Y .- resid
     
     return resid
 end
@@ -55,15 +53,15 @@ Calculate residuals in place
 None; updates residuals in place. 
 
 """
-function calc_resid!(resid::AbstractArray{Float64,2}, X::AbstractArray{Float64,2}, 
-                    Y::AbstractArray{Float64,2}, Z::AbstractArray{Float64,2}, 
-                    B::AbstractArray{Float64,2})
+function calc_resid!(resid::AbstractArray{Float64,2}, 
+                     X::AbstractArray{Float64,2}, 
+                     Y::AbstractArray{Float64,2}, 
+                     Z::AbstractArray{Float64,2}, 
+                     B::AbstractArray{Float64,2})
     
     # Obtain fitted values in place
     calc_preds!(resid, X, Z, B) 
     
     # Compute residuals in place over fitted values
-    for j in 1:size(resid, 2), i in 1:size(resid,1)
-        resid[i,j] = Y[i,j] - resid[i,j]  
-    end
+    resid .= Y .- resid
 end

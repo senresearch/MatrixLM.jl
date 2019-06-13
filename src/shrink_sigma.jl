@@ -15,16 +15,12 @@ Centers columns of a 2d array
 function center(A::AbstractArray{Float64,2})
     
     # Row means of A
-    m = mean(A, 1)
+    m = mean(A, dims=1)
     # Initialize centered matrix
     W = zeros(size(A))
     
-    # Iterate through all elements of A to subtract column means
-    for j=1:size(A, 2) 
-        for i=1:size(A, 1) 
-            W[i,j] = A[i,j] - m[j]
-        end
-    end
+    # Subtract column means
+    W .= A .- m
     
     return W
 end

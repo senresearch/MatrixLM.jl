@@ -35,7 +35,8 @@ function perm_pvals(fun::Function, data::RawData, nPerms::Int64=1000;
     absTestStats= abs.(testStats)
 
     # Initialze array to store permutation p-values
-    pvals = convert(SharedArrays.SharedArray{Float64,2}, zeros(size(testStats))) 
+    pvals = convert(SharedArrays.SharedArray{Float64,2}, 
+                    zeros(size(testStats))) 
     # Initialize array to store test statistics based on permuted data
     absPermTestStats = Array{Float64}(undef, size(testStats))
     # Initialize RawData object to store permuted Y

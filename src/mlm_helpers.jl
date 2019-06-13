@@ -21,7 +21,8 @@ Calculates the the coefficient estimates
 """
 function calc_coeffs(X::AbstractArray{Float64,2}, Y::AbstractArray{Float64,2}, 
                      Z::AbstractArray{Float64,2}, 
-                     XTX::AbstractArray{Float64,2}, ZTZ::AbstractArray{Float64,2})
+                     XTX::AbstractArray{Float64,2}, 
+                     ZTZ::AbstractArray{Float64,2})
     
     return transpose(ZTZ\(transpose((XTX\transpose(X)*Y)*Z)))
 end
@@ -51,6 +52,7 @@ shrinkage coefficient lambda is 0.
 
 """
 function calc_sigma(resid::AbstractArray{Float64,2}, targetType::Nothing)
+
     # Residual sum of squares
     RSS = transpose(resid)*resid
     # Divide by the number of samples
@@ -84,7 +86,8 @@ Tuple
   (0 = no shrinkage, 1 = complete shrinkage)
 
 """
-function calc_sigma(resid::AbstractArray{Float64,2}, targetType::AbstractString) 
+function calc_sigma(resid::AbstractArray{Float64,2}, 
+                    targetType::AbstractString) 
     
     return shrink_sigma(resid, targetType) 
 end
@@ -112,7 +115,8 @@ estimates.
 
 """
 function calc_var(X::AbstractArray{Float64,2}, Z::AbstractArray{Float64,2}, 
-                  XTX::AbstractArray{Float64,2}, ZTZ::AbstractArray{Float64,2}, 
+                  XTX::AbstractArray{Float64,2}, 
+                  ZTZ::AbstractArray{Float64,2}, 
                   sigma::AbstractArray{Float64,2})
     
     # LHS of covariance matrix 

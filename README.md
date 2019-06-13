@@ -1,6 +1,6 @@
 # matrixLM
 
-Core functions for closed-form least squares estimates for matrix linear models. Variance shrinkage adapted from Ledoit & Wolf (2003) <sup>[1](#myfootnote1)</sup>.
+Core functions to obtain closed-form least squares estimates for matrix linear models. Variance shrinkage is adapted from Ledoit & Wolf (2003) <sup>[1](#myfootnote1)</sup>.
 
 An extension of `matrixLM` for applications in high-throughput genetic screens is the [`GeneticScreen`](https://github.com/janewliang/GeneticScreen.jl) package. See the associated paper, ["Matrix linear models for high-throughput chemical genetic screens"](https://www.biorxiv.org/content/10.1101/468140v1), for more details. 
 
