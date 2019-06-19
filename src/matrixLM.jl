@@ -7,7 +7,8 @@ using Statistics
 import Statistics.mean
 using LinearAlgebra
 using LinearAlgebra.BLAS
-import LinearAlgebra.mul!, LinearAlgebra.diag, LinearAlgebra.diagm
+import LinearAlgebra.I, LinearAlgebra.mul!, 
+    LinearAlgebra.diag, LinearAlgebra.diagm
 using DataFrames
 using Random
 

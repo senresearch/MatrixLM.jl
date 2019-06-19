@@ -117,13 +117,13 @@ function shrink_sigma(resid::AbstractArray{Float64,2}, targetType::String)
     
     if targetType=="A"  # Shrink to identity
         # Create identity target matrix
-        T = eye(p)
+        T = Matrix{Float64}(I, p, p)
         # Estimate optimal lambda
         lambda = sum(varEst) / sum((est-T).^2)
         
     elseif targetType=="B"  # Shrink to common variance
         # Create target matrix
-        T = eye(p) * mean(diag(est))
+        T = Matrix{Float64}(I, p, p) * mean(diag(est))
         # Estimate optimal lambda
         lambda = sum(varEst) / sum((est-T).^2)
         
@@ -131,7 +131,7 @@ function shrink_sigma(resid::AbstractArray{Float64,2}, targetType::String)
         v = mean(diag(est))
         c = (sum(est) - sum(diag(est))) / (n*(n-1))
         # Create target matrix
-        T = fill(c,(p,p)) + (v-c)*eye(p) 
+        T = fill(c,(p,p)) + (v-c) * Matrix{Float64}(I, p, p)
         # Estimate optimal lambda
         lambda = sum(varEst) / sum((est-T).^2)
         
