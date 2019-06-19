@@ -51,5 +51,5 @@ function calc_preds!(preds::AbstractArray{Float64,2},
                      B::AbstractArray{Float64,2})
     
     # Update predicted values in place
-    LinearAlgebra.mul!(preds, X*B, transpose(Z)) 
+    mul!(preds, X*B, transpose(Z)) 
 end

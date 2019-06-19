@@ -15,7 +15,7 @@ function.
 """
 function diagonal(A::AbstractArray{Float64,2})
     
-    return LinearAlgebra.diag(A)
+    return diag(A)
 end
 
 

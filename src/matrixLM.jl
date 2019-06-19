@@ -5,6 +5,7 @@ using Distributed
 using SharedArrays
 using LinearAlgebra
 using LinearAlgebra.BLAS
+import LinearAlgebra.mul!, LinearAlgebra.diag, LinearAlgebra.diagm
 using DataFrames
 using Random
 

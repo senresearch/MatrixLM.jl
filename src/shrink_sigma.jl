@@ -123,25 +123,25 @@ function shrink_sigma(resid::AbstractArray{Float64,2}, targetType::String)
         
     elseif targetType=="B"  # Shrink to common variance
         # Create target matrix
-        T = eye(p) * mean(LinearAlgebra.diag(est))
+        T = eye(p) * mean(diag(est))
         # Estimate optimal lambda
         lambda = sum(varEst) / sum((est-T).^2)
         
     elseif targetType=="C"  # Shrink to equal variance and covariance
-        v = mean(LinearAlgebra.diag(est))
-        c = (sum(est) - sum(LinearAlgebra.diag(est))) / (n*(n-1))
+        v = mean(diag(est))
+        c = (sum(est) - sum(diag(est))) / (n*(n-1))
         # Create target matrix
         T = fill(c,(p,p)) + (v-c)*eye(p) 
         # Estimate optimal lambda
         lambda = sum(varEst) / sum((est-T).^2)
         
     elseif targetType=="D"  # Shrink to zero correlation
-        v = LinearAlgebra.diag(est)
+        v = diag(est)
         # Create target matrix
-        T = LinearAlgebra.diagm(v)
+        T = diagm(v)
         # Estimate optimal lambda
-        lambda = (sum(varEst) - sum(LinearAlgebra.diag(varEst))) /
-                 (sum(est.^2) - sum(LinearAlgebra.diag(est).^2))
+        lambda = (sum(varEst) - sum(diag(varEst))) /
+                 (sum(est.^2) - sum(diag(est).^2))
     end
         
     return lambda*T + (1-lambda)*est, lambda
