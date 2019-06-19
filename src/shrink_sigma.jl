@@ -138,7 +138,7 @@ function shrink_sigma(resid::AbstractArray{Float64,2}, targetType::String)
     elseif targetType=="D"  # Shrink to zero correlation
         v = diag(est)
         # Create target matrix
-        T = diagm(v)
+        T = diagm(0 => v)
         # Estimate optimal lambda
         lambda = (sum(varEst) - sum(diag(varEst))) /
                  (sum(est.^2) - sum(diag(est).^2))
