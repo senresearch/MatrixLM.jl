@@ -13,7 +13,7 @@ using Pkg
 Pkg.add(PackageSpec(url="https://github.com/janewliang/matrixLM.jl", rev="master"))
 ```
 
-`matrixLM` was developed in [Julia v1.1](https://julialang.org/downloads/). 
+`matrixLM` was developed in [Julia v1.3](https://julialang.org/downloads/). 
 
 ## Usage 
 
