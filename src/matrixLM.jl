@@ -4,7 +4,6 @@ module matrixLM
 using Distributed
 using SharedArrays
 using Statistics
-import Statistics.mean
 using LinearAlgebra
 using LinearAlgebra.BLAS
 import LinearAlgebra.I, LinearAlgebra.mul!, 
