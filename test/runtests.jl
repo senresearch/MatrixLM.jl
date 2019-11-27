@@ -27,18 +27,11 @@ using GLM
     
     # Data frame to be passed into lm
     GLMData = DataFrame(hcat(vec(Y), kron(Z,X)))
-    
-    # Put together the formula for lm (no intercept)
-    vlist = vcat(names(GLMData)[2:end], "-1")
-    rhs = join(vlist," + ")
-    fm = Formula(:x1, Meta.parse(rhs))
-    
     # lm estimate
-    GLMEst = lm(fm, GLMData)
+    GLMEst = lm(convert(Array{Float64, 2}, GLMData[:,2:end]), convert(Array{Float64, 1}, GLMData[:,1]))
     
     # Put together RawData object for MLM
     MLMData = RawData(Response(Y), Predictors(X, Z))
-    
     # mlm estimate
     MLMEst = mlm(MLMData, isXIntercept = false, isZIntercept = false)
     
