@@ -118,7 +118,7 @@ function mlm_fit(data::RawData, weights::Array{Float64,1}, targetType)
     B = calc_coeffs(get_X(data), get_Y(data), WZ, XTX, ZTWZ)
     
     # Calculate residuals 
-    resid = calc_resid(get_X, get_Y(data), get_Z(data), B)
+    resid = calc_resid(get_X(data), get_Y(data), get_Z(data), B)
     
     # Estimate variance of errors, optionally with variance shrinkage
     sigma, lambda = calc_sigma(resid, targetType)
