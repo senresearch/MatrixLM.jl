@@ -163,7 +163,7 @@ function contr(df::DataFrames.DataFrame, cVars::AbstractArray{Symbol,1},
             dummyDf = get_dummy(df, var, cTypes[var.==cVars][1], 
                                 trtRefs[var.==cVars][1])
             for dummy in names(dummyDf)
-                newDf[dummy] = dummyDf[dummy]
+                newDf[:,dummy] = dummyDf[:,dummy]
             end
         end
     end
