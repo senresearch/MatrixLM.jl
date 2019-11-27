@@ -157,13 +157,13 @@ function contr(df::DataFrames.DataFrame, cVars::AbstractArray{Symbol,1},
     for var in names(df)
         if !in(var, cVars)
             # Add non-categorical variables to the new DataFrame
-            newDf[:,var] = df[:,var]
+            newDf[!,var] = df[:,var]
         else
             # Convert categorical variables to specified dummy contrasts
             dummyDf = get_dummy(df, var, cTypes[var.==cVars][1], 
                                 trtRefs[var.==cVars][1])
             for dummy in names(dummyDf)
-                newDf[:,dummy] = dummyDf[:,dummy]
+                newDf[!,dummy] = dummyDf[:,dummy]
             end
         end
     end
