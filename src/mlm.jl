@@ -99,7 +99,7 @@ An Mlm object
 function mlm_fit(data::RawData, weights::Array{Float64,1}, targetType)
     
     # Throw an error if the length of weights is incorrect
-    if (length(weights) != size(Y,2)) 
+    if (length(weights) != size(get_Y(data),2)) 
         error("Weights must be same length as number of columns in Y.")
     end
     
