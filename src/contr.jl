@@ -8,7 +8,7 @@ reference level.
 # Arguments 
 
 - df = DataFrame of variables
-- cVar = character string for the categorical variable in df to be converted
+- cVar = symbol for the categorical variable in df to be converted
 - cType = character string indicating the type of contrast to use for `cVar`
 - trtRef = nothing
 
@@ -17,7 +17,7 @@ reference level.
 DataFrame of dummy variables for the specified categorical variable
 
 """
-function get_dummy(df::DataFrames.DataFrame, cVar::String, cType::String, 
+function get_dummy(df::DataFrames.DataFrame, cVar::Symbol, cType::String, 
                    trtRef::Nothing)
     # Obtain the levels to use for the dummy indicators, depending on 
     # contrast type
@@ -66,7 +66,7 @@ reference level.
 # Arguments 
 
 - df = DataFrame of variables
-- cVar = character string for the categorical variable in df to be converted
+- cVar = symbol for the categorical variable in df to be converted
 - cType = character string indicating the type of contrast to use for `cVar`
 - trtRef = character string specifying the level in cVar to use as the 
 reference 
@@ -76,7 +76,7 @@ reference
 DataFrame of dummy variables for the specified categorical variable
 
 """
-function get_dummy(df::DataFrames.DataFrame, cVar::String, cType::String, 
+function get_dummy(df::DataFrames.DataFrame, cVar::Symbol, cType::String, 
                    trtRef::String)
     
     # Obtain the levels to use for the dummy indicators.
@@ -136,7 +136,7 @@ will signal to the function that no contrasts should be created. The
 original DataFrame will be returned. 
 
 """
-function contr(df::DataFrames.DataFrame, cVars::AbstractArray{String,1}, 
+function contr(df::DataFrames.DataFrame, cVars::AbstractArray{Symbol,1}, 
                cTypes::AbstractArray{String,1}=repeat(["treat"], 
                                                       inner=length(cVars)), 
                trtRefs::AbstractArray= repeat([nothing], inner=length(cVars))) 
@@ -148,7 +148,7 @@ function contr(df::DataFrames.DataFrame, cVars::AbstractArray{String,1},
 
     # Ensure that all Symbols in cVars are variables in df
     for cVar in cVars 
-        if !in(cVar, names(df))
+        if !in(cVar, propertynames(df))
             error(string(cVar, " is not a variable in the DataFrame"))
         end
     end
@@ -157,7 +157,7 @@ function contr(df::DataFrames.DataFrame, cVars::AbstractArray{String,1},
     newDf = DataFrame()
     
     # Iterate through variables in df
-    for var in names(df)
+    for var in propertynames(df)
         if !in(var, cVars)
             # Add non-categorical variables to the new DataFrame
             newDf[!,var] = df[:,var]
@@ -165,7 +165,7 @@ function contr(df::DataFrames.DataFrame, cVars::AbstractArray{String,1},
             # Convert categorical variables to specified dummy contrasts
             dummyDf = get_dummy(df, var, cTypes[var.==cVars][1], 
                                 trtRefs[var.==cVars][1])
-            for dummy in names(dummyDf)
+            for dummy in propertynames(dummyDf)
                 newDf[!,dummy] = dummyDf[:,dummy]
             end
         end
