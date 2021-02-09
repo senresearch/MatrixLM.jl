@@ -139,8 +139,7 @@ original DataFrame will be returned.
 function contr(df::DataFrames.DataFrame, cVars::AbstractArray{String,1}, 
                cTypes::AbstractArray{String,1}=repeat(["treat"], 
                                                       inner=length(cVars)), 
-               trtRefs::AbstractArray{Union{Nothing, String},1}=
-               repeat([nothing], inner=length(cVars)))  
+               trtRefs::AbstractArray= repeat([nothing], inner=length(cVars))) 
    
     # If cVars only contains an empty Symbol, stop and return df
     if cVars == [Symbol()]
