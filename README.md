@@ -2,7 +2,7 @@
 
 Core functions to obtain closed-form least squares estimates for matrix linear models. Variance shrinkage is adapted from Ledoit & Wolf (2003) <sup>[1](#myfootnote1)</sup>.
 
-An extension of `matrixLM` for applications in high-throughput genetic screens is the [`GeneticScreen`](https://github.com/janewliang/GeneticScreen.jl) package. See the associated paper, ["Matrix linear models for high-throughput chemical genetic screens"](http://dx.doi.org/10.1534/genetics.119.302299), for more details. 
+An extension of `matrixLM` for applications in high-throughput genetic screens is the [`GeneticScreen`](https://github.com/senresearch/GeneticScreen.jl) package. See the associated paper, ["Matrix linear models for high-throughput chemical genetic screens"](http://dx.doi.org/10.1534/genetics.119.302299), for more details. 
 
 ## Installation 
 
@@ -10,10 +10,10 @@ The `matrixLM` package can be installed by running:
 
 ```
 using Pkg
-Pkg.add(PackageSpec(url="https://github.com/janewliang/matrixLM.jl", rev="master"))
+Pkg.add(PackageSpec(url="https://github.com/senresearch/matrixLM.jl", rev="master"))
 ```
 
-`matrixLM` was developed in [Julia v1.3](https://julialang.org/downloads/). 
+`matrixLM` was developed in [Julia v1.5.3](https://julialang.org/downloads/). 
 
 ## Usage 
 
@@ -41,7 +41,7 @@ X_df = hcat(DataFrame(catvar1=rand(1:5, n), catvar2=rand(["A", "B", "C"], n)),
 # Use the contr function to get contrasts for the two categorical variables 
 # (treatment contrasts for catvar1 and sum contrasts for catvar2).
 # contr returns a DataFrame, so X needs to be converted into a 2d array.
-X = convert(Array{Float64,2}, contr(X_df, [:catvar1, :catvar2], 
+X = convert(Array{Float64,2}, contr(X_df, ["catvar1", "catvar2"], 
                                     ["treat", "sum"]))
 # Number of row covariates
 p = size(X)[2]

@@ -28,7 +28,8 @@ using GLM
     # Data frame to be passed into lm
     GLMData = DataFrame(hcat(vec(Y), kron(Z,X)))
     # lm estimate
-    GLMEst = lm(convert(Array{Float64, 2}, GLMData[:,2:end]), convert(Array{Float64, 1}, GLMData[:,1]))
+    GLMEst = lm(convert(Array{Float64, 2}, GLMData[:,2:end]), 
+                convert(Array{Float64, 1}, GLMData[:,1]))
     
     # Put together RawData object for MLM
     MLMData = RawData(Response(Y), Predictors(X, Z))

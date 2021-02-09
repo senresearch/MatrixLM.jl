@@ -8,7 +8,7 @@ reference level.
 # Arguments 
 
 - df = DataFrame of variables
-- cVar = Symbol for the categorical variable in df to be converted.
+- cVar = character string for the categorical variable in df to be converted
 - cType = character string indicating the type of contrast to use for `cVar`
 - trtRef = nothing
 
@@ -17,11 +17,11 @@ reference level.
 DataFrame of dummy variables for the specified categorical variable
 
 """
-function get_dummy(df::DataFrames.DataFrame, cVar::Symbol, cType::String, 
+function get_dummy(df::DataFrames.DataFrame, cVar::String, cType::String, 
                    trtRef::Nothing)
     # Obtain the levels to use for the dummy indicators, depending on 
     # contrast type
-    thisVar = df[:,cVar]
+    thisVar = string.(df[:,cVar])
     if cType=="treat"
         levs = unique(thisVar)[2:end]
     elseif (cType=="sum")
@@ -51,7 +51,7 @@ function get_dummy(df::DataFrames.DataFrame, cVar::Symbol, cType::String,
     
     # Convert results to a DataFrame and rename columns 
     newDf = convert(DataFrame, dummies)
-    names!(newDf, [Symbol("$(cVar)_$k") for k in levs])
+    rename!(newDf, [Symbol("$(cVar)_$k") for k in levs])
     return newDf
 end
 
@@ -66,20 +66,21 @@ reference level.
 # Arguments 
 
 - df = DataFrame of variables
-- cVar = Symbol for the categorical variable in df to be converted.
+- cVar = character string for the categorical variable in df to be converted
 - cType = character string indicating the type of contrast to use for `cVar`
-- trtRef = string specifying the level in cVar to use as the reference 
+- trtRef = character string specifying the level in cVar to use as the 
+reference 
 
 # Value
 
 DataFrame of dummy variables for the specified categorical variable
 
 """
-function get_dummy(df::DataFrames.DataFrame, cVar::Symbol, cType::String, 
+function get_dummy(df::DataFrames.DataFrame, cVar::String, cType::String, 
                    trtRef::String)
     
     # Obtain the levels to use for the dummy indicators.
-    thisVar = df[:,cVar]
+    thisVar = string.(df[:,cVar])
     if cType=="treat"
         levs = unique(thisVar)[unique(thisVar) .!= trtRef]
     else
@@ -97,7 +98,7 @@ function get_dummy(df::DataFrames.DataFrame, cVar::Symbol, cType::String,
     
     # Convert results to a DataFrame and rename columns 
     newDf = convert(DataFrame, dummies)
-    names!(newDf, [Symbol("$(cVar)_$k") for k in levs])
+    rename!(newDf, [Symbol("$(cVar)_$k") for k in levs])
     return newDf
 end
 
@@ -113,18 +114,19 @@ All other variables are left as-is.
 - df = DataFrame of variables
 - cVars = 1d array of symbols corresponding to categorical variable names 
   in df to be converted
-- cTypes = 1d array of the same length as `cVars`, indicating the types of 
-  contrasts to use. Defaults to treatment contrasts ("treat") for all 
-  variables in `cVars`. Other options include "sum" for sum contrasts,  
-  "noint" for treatment contrasts with no intercept, and "sumnoint" for sum 
-  contrasts with no intercept. For "treat" `cTypes`, you can also specify the 
-  level to use as the reference treatment. 
-- trtRefs = optional 1d array of strings specifying the levels in `cVar` to 
-  use as the references for treatment contrasts. Defaults to nothing.
+- cTypes = 1d array of character strings of the same length as `cVars`, 
+  indicating the types of contrasts to use. Defaults to treatment contrasts 
+  ("treat") for all variables in `cVars`. Other options include "sum" for sum 
+  contrasts, "noint" for treatment contrasts with no intercept, and 
+  "sumnoint" for sum contrasts with no intercept. For "treat" `cTypes`, you 
+  can also specify the level to use as the reference treatment using `trtRefs`. 
+- trtRefs = optional 1d array of character strings of the same length as 
+  `cVars`, specifying the level to use as the references for treatment 
+  contrasts. Defaults to nothing for all variables in `cVars`.
 	
 # Value
 
-DataFrame with same variables as the original DataFrame, with categorical 
+DataFrame with same variables as the original DataFrame, but categorical 
 variables converted to dummy contrasts. 
 
 # Some notes
@@ -134,9 +136,11 @@ will signal to the function that no contrasts should be created. The
 original DataFrame will be returned. 
 
 """
-function contr(df::DataFrames.DataFrame, cVars::AbstractArray{Symbol,1}, 
-    cTypes::AbstractArray{String,1}=repeat(["treat"], inner=length(cVars)), 
-    trtRefs::AbstractArray=repeat([nothing], inner=length(cVars)))  
+function contr(df::DataFrames.DataFrame, cVars::AbstractArray{String,1}, 
+               cTypes::AbstractArray{String,1}=repeat(["treat"], 
+                                                      inner=length(cVars)), 
+               trtRefs::AbstractArray{Union{Nothing, String},1}=
+               repeat([nothing], inner=length(cVars)))  
    
     # If cVars only contains an empty Symbol, stop and return df
     if cVars == [Symbol()]
