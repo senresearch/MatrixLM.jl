@@ -1,4 +1,4 @@
-name = "matrixLM"
+name = "MatrixLM"
 uuid = "37290134-6146-11e9-0c71-a5c489be1f53"
 authors = ["Jane Liang"]
 version = "0.1.0"

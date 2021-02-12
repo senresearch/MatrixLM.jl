@@ -1,24 +1,26 @@
-# matrixLM
+# MatrixLM
 
 Core functions to obtain closed-form least squares estimates for matrix linear models. Variance shrinkage is adapted from Ledoit & Wolf (2003) <sup>[1](#myfootnote1)</sup>.
 
-An extension of `matrixLM` for applications in high-throughput genetic screens is the [`GeneticScreen`](https://github.com/senresearch/GeneticScreen.jl) package. See the associated paper, ["Matrix linear models for high-throughput chemical genetic screens"](http://dx.doi.org/10.1534/genetics.119.302299), for more details. 
+An extension of `MatrixLM` for applications in high-throughput genetic screens is the [`GeneticScreens`](https://github.com/senresearch/GeneticScreens.jl) package. See the associated paper, ["Matrix linear models for high-throughput chemical genetic screens"](http://dx.doi.org/10.1534/genetics.119.302299) and [reproducible code](https://github.com/senresearch/mlm_gs_supplement), for more details. 
+
+[`MatrixLMnet`](https://github.com/senresearch/MatrixLMnet.jl) is a related package that implements algorithms for  L<sub>1</sub>-penalized estimates for matrix linear models. See the associated paper, ["Sparse matrix linear models for structured high-throughput data"](https://arxiv.org/abs/1712.05767) and [reproducible code](https://github.com/senresearch/mlm_l1_supplement), for more details. 
 
 ## Installation 
 
-The `matrixLM` package can be installed by running: 
+The `MatrixLM` package can be installed by running: 
 
 ```
 using Pkg
-Pkg.add(PackageSpec(url="https://github.com/senresearch/matrixLM.jl", rev="master"))
+Pkg.add(PackageSpec(url="https://github.com/senresearch/MatrixLM.jl", rev="master"))
 ```
 
-`matrixLM` was developed in [Julia v1.5.3](https://julialang.org/downloads/). 
+`MatrixLM` was developed in [Julia v1.5.3](https://julialang.org/downloads/). 
 
 ## Usage 
 
 ```
-using matrixLM
+using MatrixLM
 ```
 
 First, construct a `RawData` object consisting of the response variable `Y` and row/column predictors `X` and `Z`. All three matrices must be passed in as 2-dimensional arrays. Note that the `contr` function can be used to set up treatment and/or sum contrasts for categorical variables stored in a DataFrame. By default, `contr` generates treatment contrasts for all specified categorical variables (`"treat"`). Other options include `"sum"` for sum contrasts, `"noint"` for treatment contrasts with no intercept, and `"sumnoint"` for sum contrasts with no intercept. 
