@@ -1,4 +1,4 @@
-module matrixLM
+module MatrixLM
 
 
 using Distributed
