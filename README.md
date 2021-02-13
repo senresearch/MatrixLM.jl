@@ -1,6 +1,6 @@
 # MatrixLM
 
-[![Build Status](https://travis-ci.org/senresearch/MatrixLM.jl.svg?branch=master)](https://travis-ci.org/senresearch/MatrixLM.jl)
+[![Build Status](https://travis-ci.com/senresearch/MatrixLM.jl.svg?branch=master)](https://travis-ci.com/senresearch/MatrixLM.jl)
 
 Core functions to obtain closed-form least squares estimates for matrix linear models. Variance shrinkage is adapted from Ledoit & Wolf (2003)<sup>[1](#myfootnote1)</sup>.
 
