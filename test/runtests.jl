@@ -1,5 +1,5 @@
 using Test
-using matrixLM
+using MatrixLM
 
 using DataFrames
 using Random
