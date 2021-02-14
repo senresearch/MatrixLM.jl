@@ -36,8 +36,8 @@ using GLM
     # mlm estimate
     MLMEst = mlm(MLMData, isXIntercept = false, isZIntercept = false)
     
-    @test isapprox(GLM.coef(GLMEst), vec(matrixLM.coef(MLMEst)), atol=tol)
-    @test isapprox(GLM.predict(GLMEst), vec(matrixLM.predict(MLMEst).Y), atol=tol)
+    @test isapprox(GLM.coef(GLMEst), vec(MatrixLM.coef(MLMEst)), atol=tol)
+    @test isapprox(GLM.predict(GLMEst), vec(MatrixLM.predict(MLMEst).Y), atol=tol)
     @test LinearAlgebra.issymmetric(round.(MLMEst.sigma, digits=10)) # and also positive semi-definite?
 
 end
