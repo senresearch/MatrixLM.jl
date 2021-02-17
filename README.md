@@ -14,7 +14,13 @@ The `MatrixLM` package can be installed by running:
 
 ```
 using Pkg
-Pkg.add(PackageSpec(url="https://github.com/senresearch/MatrixLM.jl", rev="master"))
+Pkg.add("MatrixLM")
+```
+
+For the most recent version use:
+```
+using Pkg
+Pkg.add("https://github.com/senresearch/MatrixLM.jl")
 ```
 
 `MatrixLM` was developed in [Julia v1.5.3](https://julialang.org/downloads/). 
