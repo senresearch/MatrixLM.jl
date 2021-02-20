@@ -17,10 +17,10 @@ using Pkg
 Pkg.add("MatrixLM")
 ```
 
-For the most recent version use:
+For the most recent version, use:
 ```
 using Pkg
-Pkg.add("https://github.com/senresearch/MatrixLM.jl")
+Pkg.add(url = "https://github.com/senresearch/MatrixLM.jl", rev="master")
 ```
 
 ## Usage 
@@ -83,7 +83,7 @@ The t-statistics for an `Mlm` object (defined as `est.B ./ sqrt.(est.varB)`) can
 tStats = t_stat(est)
 ```
 
-Permutation p-values for the t-statistics can be computed by `mlm_perms`. `mlm_perms` calls the more general function `perm_pvals` and will run the permutations in parallel when possible. The illustrative example below only runs 5 permutations, but a different number can be specified as the second argument. By default, the function used to permute `Y` is `shuffle_rows`, which shuffles the rows for `Y`. Alternative functions for permuting `Y`, such as `shuffle_cols`, can be passed into the argument `permFun`. `mlm_perms` calls `mlm` and `t_stat` , so the user is free to specify keyword arguments for `mlm` or `t_stat`; by default, `mlm_perms` will call both functions using their default behavior. 
+Permutation p-values for the t-statistics can be computed by the `mlm_perms` function. `mlm_perms` calls the more general function `perm_pvals` and will run the permutations in parallel when possible. The illustrative example below only runs 5 permutations, but a different number can be specified as the second argument. By default, the function used to permute `Y` is `shuffle_rows`, which shuffles the rows for `Y`. Alternative functions for permuting `Y`, such as `shuffle_cols`, can be passed into the argument `permFun`. `mlm_perms` calls `mlm` and `t_stat` , so the user is free to specify keyword arguments for `mlm` or `t_stat`; by default, `mlm_perms` will call both functions using their default behavior. 
 
 ```
 nPerms = 5
