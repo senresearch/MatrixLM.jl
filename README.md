@@ -23,8 +23,6 @@ using Pkg
 Pkg.add("https://github.com/senresearch/MatrixLM.jl")
 ```
 
-`MatrixLM` was developed in [Julia v1.5.3](https://julialang.org/downloads/). 
-
 ## Usage 
 
 ```
