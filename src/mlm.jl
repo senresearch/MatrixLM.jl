@@ -132,7 +132,7 @@ end
 
 
 """
-    mlm(data; isXIntercept, isZIntercept, weights, targetType)
+    mlm(data; hasXIntercept, hasZIntercept, weights, targetType)
 
 Matrix linear model using least squares method. Column weighted least squares 
 and shrinkage of the variance of the errors are options. 
@@ -143,9 +143,9 @@ and shrinkage of the variance of the errors are options.
 
 # Keyword arguments
 
-- isXIntercept = boolean flag indicating whether or not to include an `X` 
+- hasXIntercept = boolean flag indicating whether or not to include an `X` 
   intercept (row main effects). Defaults to `true`. 
-- isZIntercept = boolean flag indicating whether or not to include a `Z` 
+- hasZIntercept = boolean flag indicating whether or not to include a `Z` 
   intercept (column main effects). Defaults to `true`. 
 - weights = 1d array of floats to use as column weights for `Y`, or `nothing`. 
   If the former, must be the same length as the number of columns of `Y`. 
@@ -163,30 +163,40 @@ and shrinkage of the variance of the errors are options.
 An Mlm object
 
 """
-function mlm(data::RawData; isXIntercept::Bool=true, isZIntercept::Bool=true, 
-             weights=nothing, targetType=nothing)
-    			 
+function mlm(data::RawData; hasXIntercept::Bool=true, hasZIntercept::Bool=true, 
+             weights=nothing, targetType=nothing, kwargs...)
+
+    if haskey(kwargs, :isXintercept)
+        @warn "Deprecated keyword arguments isXIntercept is now hasXIntercept."
+        hasXIntercept = kwargs[:isXIntercept]
+    end
+
+    if haskey(kwargs, :isZintercept)
+        @warn "Deprecated keyword arguments isZIntercept is now hasZIntercept."
+        hasZIntercept = kwargs[:isZIntercept]
+    end
+    
     # Add X and Z intercepts if necessary
-    if isXIntercept==true && data.predictors.isXIntercept==false
+    if hasXIntercept==true && data.predictors.hasXIntercept==false
         data.predictors.X = add_intercept(data.predictors.X)
-        data.predictors.isXIntercept = true
+        data.predictors.hasXIntercept = true
         data.p = data.p + 1
     end
-    if isZIntercept==true && data.predictors.isZIntercept==false
+    if hasZIntercept==true && data.predictors.hasZIntercept==false
         data.predictors.Z = add_intercept(data.predictors.Z)
-        data.predictors.isZIntercept = true
+        data.predictors.hasZIntercept = true
         data.q = data.q + 1
     end
     
     # Remove X and Z intercepts in new predictors if necessary
-    if isXIntercept==false && data.predictors.isXIntercept==true
+    if hasXIntercept==false && data.predictors.hasXIntercept==true
         data.predictors.X = remove_intercept(data.predictors.X)
-        data.predictors.isXIntercept = false
+        data.predictors.hasXIntercept = false
         data.p = data.p - 1
     end
-    if isZIntercept==false && data.predictors.isZIntercept==true
+    if hasZIntercept==false && data.predictors.hasZIntercept==true
         data.predictors.Z = remove_intercept(data.predictors.Z)
-        data.predictors.isZIntercept = false
+        data.predictors.hasZIntercept = false
         data.q = data.q - 1
     end
 
@@ -221,16 +231,16 @@ function t_stat(MLM::Mlm, isMainEff::Bool=false)
     # Cases when not including main effects
     if isMainEff== false 
         # If X and Z intercepts were both included
-        if (MLM.data.predictors.isXIntercept==true) && 
-           (MLM.data.predictors.isZIntercept==true) 
+        if (MLM.data.predictors.hasXIntercept==true) && 
+           (MLM.data.predictors.hasZIntercept==true) 
             return MLM.B[2:end, 2:end]./sqrt.(MLM.varB[2:end, 2:end])
             
         # If only X intercept was included
-        elseif MLM.data.predictors.isXIntercept==true 
+        elseif MLM.data.predictors.hasXIntercept==true 
             return MLM.B[2:end, :]./sqrt.(MLM.varB[2:end, :])
             
         # If only Z intercept was included
-        elseif  MLM.data.predictors.isZIntercept==true 
+        elseif  MLM.data.predictors.hasZIntercept==true 
             return MLM.B[:, 2:end]./sqrt.(MLM.varB[:, 2:end])
             
         end

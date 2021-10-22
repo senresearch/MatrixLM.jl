@@ -47,5 +47,4 @@ include("predict.jl")
 include("perm_pvals.jl")
 include("mlm_perms.jl")
 
-
 end 
