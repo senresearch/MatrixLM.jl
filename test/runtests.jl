@@ -34,7 +34,7 @@ using GLM
     MLMData = RawData(Response(Y), Predictors(X, Z))
     # mlm estimate
     # MLMEst = mlm(MLMData, hasXIntercept = false, hasZIntercept = false)
-    MLMEst = mlm(MLMData, isXIntercept = false, isZIntercept = false)
+    MLMEst = mlm(MLMData, hasXIntercept = false, hasZIntercept = false)
     
     @test isapprox(GLM.coef(GLMEst), vec(MatrixLM.coef(MLMEst)), atol=tol)
     @test isapprox(GLM.predict(GLMEst), vec(MatrixLM.predict(MLMEst).Y), atol=tol)

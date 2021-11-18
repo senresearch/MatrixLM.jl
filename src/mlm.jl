@@ -169,16 +169,16 @@ function mlm(data::RawData; hasXIntercept::Bool=true, hasZIntercept::Bool=true,
     #= Deprecation:check for previous version keyword arguments
     ---------------------------------------------------------------------------------------------=#
     if haskey(kwargs, :isXIntercept)
-        Base.depwarn("Keyword arguments `isXIntercept` and `isZIntercept` are deprecated, use 
-                    `hasXIntercept` and `hasZIntercept` instead.", 
-                    :mlm, force=true)
+        @warn "Keyword arguments `isXIntercept` and `isZIntercept` are deprecated, use 
+                    `hasXIntercept` and `hasZIntercept` instead." 
+              
         hasXIntercept = values(kwargs).isXIntercept
     end
 
     if haskey(kwargs, :isZIntercept)
-        Base.depwarn("Keyword arguments `isXIntercept` and `isZIntercept` are deprecated, use 
-                    `hasXIntercept` and `hasZIntercept` instead.", 
-                    :mlm, force=true)
+        @warn "Keyword arguments `isXIntercept` and `isZIntercept` are deprecated, use 
+                    `hasXIntercept` and `hasZIntercept` instead."
+                    
         hasZIntercept = values(kwargs).isZIntercept
     end
     #-----------------------------------------------------------------------------------------------
