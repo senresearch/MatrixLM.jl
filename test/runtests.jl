@@ -26,15 +26,15 @@ using GLM
     Y = X*B*transpose(Z)+E
     
     # Data frame to be passed into lm
-    GLMData = DataFrame(hcat(vec(Y), kron(Z,X)))
+    GLMData = DataFrame(hcat(vec(Y), kron(Z,X)), :auto)
     # lm estimate
-    GLMEst = lm(convert(Array{Float64, 2}, GLMData[:,2:end]), 
-                convert(Array{Float64, 1}, GLMData[:,1]))
+    GLMEst = lm(Matrix(GLMData[:,2:end]), Vector(GLMData[:,1]))
     
     # Put together RawData object for MLM
     MLMData = RawData(Response(Y), Predictors(X, Z))
     # mlm estimate
-    MLMEst = mlm(MLMData, isXIntercept = false, isZIntercept = false)
+    # MLMEst = mlm(MLMData, hasXIntercept = false, hasZIntercept = false)
+    MLMEst = mlm(MLMData, hasXIntercept = false, hasZIntercept = false)
     
     @test isapprox(GLM.coef(GLMEst), vec(MatrixLM.coef(MLMEst)), atol=tol)
     @test isapprox(GLM.predict(GLMEst), vec(MatrixLM.predict(MLMEst).Y), atol=tol)
