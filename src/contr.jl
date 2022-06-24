@@ -1,5 +1,5 @@
 """
-    get_dummy(df, cVar, cType. trtRef)
+    get_dummy(df::DataFrames.DataFrame, cVar::Symbol, cType::String, trtRef::Nothing)
 
 Convert categorical variable to dummy indicators using specified contrast 
 type. This covers all cases except for treatment contrasts with a specified 
@@ -57,8 +57,7 @@ end
 
 
 """
-
-    get_dummy(df, cVar, cType. trtRef)
+    get_dummy(df::DataFrames.DataFrame, cVar::Symbol, cType::String, trtRef::String)
 
 Convert categorical variables to for treatment contrasts with a specified 
 reference level. 
@@ -104,7 +103,9 @@ end
 
 
 """
-    contr(df, cVars, cTypes, trtRefs)
+    contr(df::DataFrames.DataFrame, cVars::AbstractArray{Symbol,1}, 
+          cTypes::AbstractArray{String,1}=repeat(["treat"], inner=length(cVars)), 
+          trtRefs::AbstractArray= repeat([nothing], inner=length(cVars))) 
 
 Converts categorical variables in a DataFrame to specified contrast types. 
 All other variables are left as-is. 
