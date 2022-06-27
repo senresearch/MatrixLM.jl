@@ -1,5 +1,5 @@
 """
-calc_resid(X::AbstractArray{Float64,2}, Y::AbstractArray{Float64,2}, 
+    calc_resid(X::AbstractArray{Float64,2}, Y::AbstractArray{Float64,2}, 
            Z::AbstractArray{Float64,2}, B::AbstractArray{Float64,2})
 
 Calculate residuals
