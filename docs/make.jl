@@ -10,7 +10,7 @@ makedocs(
          modules  = [MatrixLM],
          pages=[
                 "Home" => "index.md",
-                "Demo1: Simulation Study" => "Demo1:Simulation.md",
+                "Demo1: Simulation Study" => "Demo1_Simulation.md",
                 "User Guide" => "manual.md"
                ])
 deploydocs(;
