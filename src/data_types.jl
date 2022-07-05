@@ -1,5 +1,5 @@
 """
-    Response(Y)
+    Response(Y::AbstractArray{Float64,2})
 
 Type for storing response matrix
 
@@ -11,7 +11,7 @@ end
 
 
 """
-    Predictors(X, Z, hasXIntercept, hasZIntercept)
+    Predictors(X::AbstractArray{Float64,2} ,  Z::AbstractArray{Float64,2} , hasXIntercept::Bool, hasZIntercept::Bool)
 
 Type for storing predictor (covariate) matrices. Also stores boolean 
 variables hasXIntercept and hasZIntercept (if they are not supplied, they 
@@ -42,7 +42,7 @@ end
 
 
 """
-    RawData(response, predictors)
+    RawData(response::Response, predictors::Predictors)
 
 Type for storing response and predictor matrices
 
@@ -83,7 +83,7 @@ end
 
 
 """
-    get_X(data)
+    get_X(data::RawData)
 
 Extract X matrix from RawData object 
 
@@ -103,7 +103,7 @@ end
 
 
 """
-    get_Z(data)
+    get_Z(data::RawData)
 
 Extract Z matrix from RawData object
 
@@ -123,7 +123,7 @@ end
 
 
 """
-    get_Y(data)
+    get_Y(data::RawData)
 
 Extract Y matrix from RawData object
 
