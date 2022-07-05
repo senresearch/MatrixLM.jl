@@ -1,6 +1,6 @@
 """
 
-    calc_coeffs(X::AbstractArray{Float64,2}, Y::AbstractArray{Float64,2}, Z::AbstractArray{Float64,2}, XTX::AbstractArray{Float64,2}, ZTZ::AbstractArray{Float64,2})
+    calc_coeffs(X, Y, Z, XTX, ZTZ)
 
 Calculates the the coefficient estimates
 
@@ -29,7 +29,7 @@ end
 
 
 """
-    calc_sigma(resid::AbstractArray{Float64,2}, targetType::Nothing)
+    calc_sigma(resid, targetType)
 
 Estimates variance of errors and the shrinkage coefficient, without variance 
 shrinkage. 
@@ -63,7 +63,7 @@ end
 
 
 """
-    calc_sigma(resid::AbstractArray{Float64,2}, targetType::AbstractString)
+    calc_sigma(resid, targetType)
 
 Estimates variance of errors and the shrinkage coefficient, with variance 
 shrinkage. 
@@ -94,7 +94,7 @@ end
 
 
 """
-    calc_var(X::AbstractArray{Float64,2}, Z::AbstractArray{Float64,2}, XTX::AbstractArray{Float64,2}, ZTZ::AbstractArray{Float64,2}, sigma::AbstractArray{Float64,2})
+    calc_var(X, Z, XTX, ZTZ, sigma)
 
 Calculate the variance (diagonal of the covariance matrix) of the coefficient 
 estimates. 

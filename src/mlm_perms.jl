@@ -1,6 +1,6 @@
 """
-    mlm_perms(data::RawData, nPerms::Int64=1000; permFun::Function=shuffle_rows, hasXIntercept::Bool=true, hasZIntercept::Bool=true, 
-              weights=nothing, targetType=nothing, isMainEff::Bool=false)
+    mlm_perms(data, nPerms; permFun, hasXIntercept, hasZIntercept, 
+              weights, targetType, isMainEff)
 
 Obtains permutation p-values for MLM t-statistics. 
 

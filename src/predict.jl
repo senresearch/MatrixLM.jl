@@ -1,5 +1,5 @@
 """
-    coef(MLM::Mlm)
+    coef(MLM)
 
 Extracts coefficients from Mlm object
 
@@ -19,7 +19,7 @@ end
 
 
 """
-    predict(MLM::Mlm, newPredictors::Predictors=MLM.data.predictors)
+    predict(MLM, newPredictors)
 
 Calculates new predictions based on Mlm object
 
@@ -70,7 +70,7 @@ end
 
 
 """
-    fitted(MLM::Mlm)
+    fitted(MLM)
 
 Calculate fitted values of an Mlm object
 
@@ -91,7 +91,7 @@ end
 
 
 """
-    resid(MLM::Mlm, newData::RawData=MLM.data)
+    resid(MLM, newData)
 
 Calculates residuals of an Mlm object
 

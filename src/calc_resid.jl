@@ -1,6 +1,5 @@
 """
-    calc_resid(X::AbstractArray{Float64,2}, Y::AbstractArray{Float64,2}, 
-           Z::AbstractArray{Float64,2}, B::AbstractArray{Float64,2})
+    calc_resid(X, Y, Z, B)
 
 Calculate residuals
 
@@ -33,11 +32,7 @@ end
 
 
 """
-    calc_resid!(resid::AbstractArray{Float64,2}, 
-                     X::AbstractArray{Float64,2}, 
-                     Y::AbstractArray{Float64,2}, 
-                     Z::AbstractArray{Float64,2}, 
-                     B::AbstractArray{Float64,2})
+    calc_resid!(resid, X, Y, Z, B)
 
 Calculate residuals in place
 

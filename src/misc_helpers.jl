@@ -1,5 +1,5 @@
 """
-    add_intercept(A::AbstractArray{Float64,2})
+    add_intercept(A)
 
 Insert an intercept column (column of ones) at the beginning of a 2d array. 
 
@@ -25,7 +25,7 @@ end
 
 
 """
-    remove_intercept(A::AbstractArray{Float64,2})
+    remove_intercept(A)
 
 Remove the intercept column, assumed to be the first column of a 2d array. 
 
@@ -53,7 +53,7 @@ end
 
 
 """
-    shuffle_rows(A::AbstractArray{Float64,2})
+    shuffle_rows(A)
 
 Shuffles rows of a 2d array 
 
@@ -73,7 +73,7 @@ end
 
 
 """
-    shuffle_cols(A::AbstractArray{Float64,2})
+    shuffle_cols(A)
 
 Shuffles columns of a 2d array 
 

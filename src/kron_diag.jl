@@ -1,5 +1,5 @@
 """
-    diagonal(A::AbstractArray{Float64,2})
+    diagonal(A)
 
 Get the diagonal of a 2d array of floats. This just calls the base diag 
 function.
@@ -46,7 +46,7 @@ end
 
 
 """
-    diagonal(A::Float64)
+    diagonal(A)
 
 Get the diagonal of a single scalar (float) value. Behaves like an identity 
 function (returns itself). 
