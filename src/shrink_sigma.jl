@@ -1,5 +1,5 @@
 """
-    center(A)
+    center(A::AbstractArray{Float64,2})
 
 Centers columns of a 2d array
 
@@ -27,7 +27,7 @@ end
 
 
 """
-    cov_est(resid)
+    cov_est(resid::AbstractArray{Float64,2})
 
 Estimates error variance and its variance/covariance
 
@@ -79,7 +79,7 @@ end
 
 
 """
-    shrink_sigma(resid, targetType)
+    shrink_sigma(resid::AbstractArray{Float64,2}, targetType::String)
 
 Estimates variance of errors and the shrinkage coefficient
 

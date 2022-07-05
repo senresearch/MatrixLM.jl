@@ -1,5 +1,5 @@
 """
-    perm_pvals(fun, data, nPerms; permFun, funArgs...)
+    perm_pvals(fun::Function, data::RawData, nPerms::Int64=1000; permFun::Function=shuffle_rows, funArgs...)
 
 Obtains permutation p-values. 
 
