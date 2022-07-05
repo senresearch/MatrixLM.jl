@@ -1,5 +1,7 @@
 """
-    calc_preds(X, Z, B)
+    calc_preds(X::AbstractArray{Float64,2}, 
+               Z::AbstractArray{Float64,2}, 
+               B::AbstractArray{Float64,2})
 
 Predict values
 
@@ -26,7 +28,10 @@ end
 
 
 """
-    calc_preds(preds, X, Z, B)
+    calc_preds!(preds::AbstractArray{Float64,2}, 
+                X::AbstractArray{Float64,2}, 
+                Z::AbstractArray{Float64,2}, 
+                B::AbstractArray{Float64,2})
 
 Predict values in place
 

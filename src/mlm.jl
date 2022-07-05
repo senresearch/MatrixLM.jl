@@ -1,5 +1,5 @@
 """
-    Mlm(B, varB, sigma, data, weights, targetType, lambda)
+    Mlm(B::Array{Float64,2} , varB::Array{Float64,2} , sigma::Array{Float64,2} , data::RawData, weights, targetType, lambda::Float64)
 
 Type for storing the results of an mlm model fit. 
 
@@ -26,7 +26,7 @@ end
 
 
 """
-    mlm_fit(data, weights, targetType)
+    mlm_fit(data::RawData, weights::Nothing, targetType)
 
 Matrix linear model using least squares method. Optionally incorporates 
 shrinkage of the variance of the errors. 
@@ -73,7 +73,7 @@ end
 
 
 """
-    mlm_fit(data, weights, targetType)
+    mlm_fit(data::RawData, weights::Array{Float64,1}, targetType)
 
 Matrix linear model using column weighted least squares method. Optionally 
 incorporates shrinkage of the variance of the errors. 
@@ -132,7 +132,7 @@ end
 
 
 """
-    mlm(data; hasXIntercept, hasZIntercept, weights, targetType)
+    mlm(data::RawData; hasXIntercept::Bool=true, hasZIntercept::Bool=true, weights=nothing, targetType=nothing)
 
 Matrix linear model using least squares method. Column weighted least squares 
 and shrinkage of the variance of the errors are options. 
@@ -218,7 +218,7 @@ end
 
 
 """
-    t_stat(MLM, isMainEff)
+    t_stat(MLM::Mlm, isMainEff::Bool=false)
 
 Calculates t-statistics of an Mlm object
 
