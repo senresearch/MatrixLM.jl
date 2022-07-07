@@ -1,5 +1,6 @@
 """
-    Mlm(B::Array{Float64,2} , varB::Array{Float64,2} , sigma::Array{Float64,2} , data::RawData, weights, targetType, lambda::Float64)
+    Mlm(B::Array{Float64,2}, varB::Array{Float64,2}, sigma::Array{Float64,2},    
+        data::RawData, weights, targetType, lambda::Float64)
 
 Type for storing the results of an mlm model fit. 
 

@@ -14,7 +14,7 @@ makedocs(
                 "User Guide" => "manual.md"
                ])
 deploydocs(;
-    repo="https://github.com/senresearch/MatrixLM.jl",
-    devbranch= "main",
+    repo= "https://github.com/senresearch/MatrixLM.jl",
+    devbranch= "dev",
     devurl = "stable"
 )
