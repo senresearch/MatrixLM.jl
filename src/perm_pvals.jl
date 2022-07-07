@@ -1,17 +1,18 @@
 """
-    perm_pvals(fun::Function, data::RawData, nPerms::Int64=1000; permFun::Function=shuffle_rows, funArgs...)
+    perm_pvals(fun::Function, data::RawData, nPerms::Int64=1000; 
+               permFun::Function=shuffle_rows, funArgs...)
 
 Obtains permutation p-values. 
 
 # Arguments
 
-- fun = function that returns a test statistic
-- data = RawData object
-- nPerms = number of permutations. Defaults to `1000`.
+- fun::Function = function that returns a test statistic
+- data::RawData = RawData object
+- nPerms::Int64 = number of permutations. Defaults to `1000`.
 
 # Keyword arguments
 
-- permFun = function used to permute `Y`. Defaults to `shuffle_rows` 
+- permFun::Function = function used to permute `Y`. Defaults to `shuffle_rows` 
   (shuffles rows of `Y`). 
 - funArgs = variable keyword arguments to be passed into `fun`
 

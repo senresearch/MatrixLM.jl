@@ -11,7 +11,8 @@ end
 
 
 """
-    Predictors(X::AbstractArray{Float64,2} ,  Z::AbstractArray{Float64,2} , hasXIntercept::Bool, hasZIntercept::Bool)
+    Predictors(X::AbstractArray{Float64,2}, Z::AbstractArray{Float64,2},
+               hasXIntercept::Bool, hasZIntercept::Bool)
 
 Type for storing predictor (covariate) matrices. Also stores boolean 
 variables hasXIntercept and hasZIntercept (if they are not supplied, they 
@@ -89,7 +90,7 @@ Extract X matrix from RawData object
 
 # Arguments
 
-- data = RawData object
+- data::RawData: RawData object
 
 # Value
 
@@ -109,7 +110,7 @@ Extract Z matrix from RawData object
 
 # Arguments
 
-- data = RawData object
+- data::RawData: RawData object
 
 # Value
 
@@ -129,7 +130,7 @@ Extract Y matrix from RawData object
 
 # Arguments
 
-- data = RawData object
+- data::RawData: RawData object
 
 # Value
 
