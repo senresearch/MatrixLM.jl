@@ -43,7 +43,10 @@ issues, improving performance and adding new features.
 
 ## Questions
 
-If you have questions about contributing or using `matrixLM` package, please communicate author form github.
+If you have questions about contributing or using `MatrixLM` package, please communicate author form github.
 
----
+## Citing `MatrixLM`
+
+If you use `MatrixLM` in a scientific publication, please consider citing following paper:
+
 
