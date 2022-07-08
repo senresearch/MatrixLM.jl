@@ -49,4 +49,21 @@ If you have questions about contributing or using `MatrixLM` package, please com
 
 If you use `MatrixLM` in a scientific publication, please consider citing following paper:
 
+Jane W Liang, Robert J Nichols, Śaunak Sen, Matrix Linear Models for High-Throughput Chemical Genetic Screens, Genetics, Volume 212, Issue 4, 1 August 2019, Pages 1063–1073, https://doi.org/10.1534/genetics.119.302299
 
+```
+@article{10.1534/genetics.119.302299,
+    author = {Liang, Jane W and Nichols, Robert J and Sen, Śaunak},
+    title = "{Matrix Linear Models for High-Throughput Chemical Genetic Screens}",
+    journal = {Genetics},
+    volume = {212},
+    number = {4},
+    pages = {1063-1073},
+    year = {2019},
+    month = {06},
+    issn = {1943-2631},
+    doi = {10.1534/genetics.119.302299},
+    url = {https://doi.org/10.1534/genetics.119.302299},
+    eprint = {https://academic.oup.com/genetics/article-pdf/212/4/1063/42105135/genetics1063.pdf},
+}
+```
