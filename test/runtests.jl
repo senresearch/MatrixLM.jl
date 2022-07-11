@@ -3,6 +3,9 @@ using MatrixLM
 
 @testset "MatrixLM" begin 
     include("testMlm.jl")
+    include("miscHelperTesting.jl")
+    include("shrinkSigmaTesting.jl")
+    include("mlmPermsTesting.jl")
 end
 
 
