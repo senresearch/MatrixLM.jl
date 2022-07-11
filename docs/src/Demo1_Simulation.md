@@ -1,7 +1,9 @@
 # Overview
 
-For matrix linear model, let $Y$ be a n$\times$m response matrix, the model can be expressed as: 
+The matrix linear model is a simple, yet flexible, multivariate framework. It encodes both categorical and continuous relationships to enhance detection of associations between responses and predictors.
+For matrix linear model, let $Y$ be a $n \times m$ response matrix, the model can be expressed as: 
 $$ Y = XBZ^T+E $$
+
 $X_{n \times p}$ is the matrix for main predictor
 
 $Z_{m \times q}$ denote the matrix from extra knowledge. 
