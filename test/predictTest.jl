@@ -28,7 +28,8 @@ fitted = MatrixLM.predict(MLMEst)
 fitted2 = MatrixLM.fitted(MLMEst)
 
 @test isapprox(MatrixLM.coef(MLMEst), B, atol=3)
-@test isapprox(sum(fitted.Y - Y), 0, atol=1.3)
+@test sizeof(fitted.Y) == sizeof(Y)
+@test sizeof(fitted2.Y) == sizeof(Y)
 
 @test typeof(fitted) == typeof(fitted2)
 @test isapprox(fitted.Y, fitted2.Y, atol=tol)
