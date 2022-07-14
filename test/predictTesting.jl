@@ -1,5 +1,13 @@
+###########
+# Library #
+###########
 using Test
 using MatrixLM
+
+
+###########################
+# Generate Simulated Data #
+###########################
 
 # Tolerance for tests
 tol = 10.0^(-7)
@@ -27,11 +35,12 @@ MLMEst = mlm(MLMData, hasXIntercept = false, hasZIntercept = false)
 fitted = MatrixLM.predict(MLMEst)
 fitted2 = MatrixLM.fitted(MLMEst)
 
+# Testing the coefficients of the model with simulated B Matrix
 @test isapprox(MatrixLM.coef(MLMEst), B, atol=3)
+# testing the dimension of fitted y with actual Y, to see their consistancy
 @test sizeof(fitted.Y) == sizeof(Y)
 @test sizeof(fitted2.Y) == sizeof(Y)
-
 @test typeof(fitted) == typeof(fitted2)
 @test isapprox(fitted.Y, fitted2.Y, atol=tol)
-
+# testing the calc_preds function, too see if they are identical with the resid function
 @test MatrixLM.calc_resid(get_X(MLMData), get_Y(MLMData), get_Z(MLMData),MatrixLM.coef(MLMEst)) == resid(MLMEst)
