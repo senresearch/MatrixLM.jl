@@ -34,8 +34,8 @@ shrinkage of the variance of the errors.
 
 # Arguments
 
-- data = RawData object
-- weights = `nothing`
+- data::RawData: RawData object
+- weights::Nothing: `nothing`
 - targetType = string indicating the target type toward which to shrink the 
   error variance, or `nothing`. If the former, acceptable inputs are "A", "B", 
   "C", and "D". 
@@ -81,8 +81,8 @@ incorporates shrinkage of the variance of the errors.
 
 # Arguments
 
-- data = RawData object
-- weights = 1d array of floats to use as column weights for `Y`. Must be the 
+- data::RawData = RawData object
+- weights::Array{Float64,1} = 1d array of floats to use as column weights for `Y`. Must be the 
   same length as the number of columns of `Y`. 
 - targetType = string indicating the target type toward which to shrink the 
   error variance, or `nothing`. If the former, acceptable inputs are "A", "B", 
@@ -140,13 +140,13 @@ and shrinkage of the variance of the errors are options.
 
 # Arguments
 
-- data = RawData object
+- data::RawData = RawData object
 
 # Keyword arguments
 
-- hasXIntercept = boolean flag indicating whether or not to include an `X` 
+- hasXIntercept::Bool = boolean flag indicating whether or not to include an `X` 
   intercept (row main effects). Defaults to `true`. 
-- hasZIntercept = boolean flag indicating whether or not to include a `Z` 
+- hasZIntercept::Bool = boolean flag indicating whether or not to include a `Z` 
   intercept (column main effects). Defaults to `true`. 
 - weights = 1d array of floats to use as column weights for `Y`, or `nothing`. 
   If the former, must be the same length as the number of columns of `Y`. 
@@ -225,8 +225,8 @@ Calculates t-statistics of an Mlm object
 
 # Arguments 
 
-- MLM = Mlm object
-- isMainEff = boolean flag indicating whether or not to include t-statistics 
+- MLM::Mlm = Mlm object
+- isMainEff::Bool = boolean flag indicating whether or not to include t-statistics 
   for the main effects
 
 # Value

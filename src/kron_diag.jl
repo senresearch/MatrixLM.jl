@@ -6,7 +6,7 @@ function.
 
 # Arguments
 
-- A = 2d array of floats
+- A::AbstractArray{Float64,2}: 2d array of floats
 
 # Value 
 
@@ -20,14 +20,14 @@ end
 
 
 """
-    diagonal(A)
+    diagonal(A::AbstractArray{Float64,1})
 
 Get the diagonal of a 1d array of floats. Behaves like an identity function 
 (returns itself). 
 
 # Arguments
 
-- A = 1d array of floats
+- A::AbstractArray{Float64,1}: 1d array of floats
 
 # Value 
 
@@ -53,7 +53,7 @@ function (returns itself).
 
 # Arguments
 
-- A = floating scalar
+- A::Float64: floating scalar
 
 # Value 
 

@@ -1,33 +1,35 @@
 """
-    mlm_perms(data::RawData, nPerms::Int64=1000; permFun::Function=shuffle_rows, hasXIntercept::Bool=true, hasZIntercept::Bool=true, 
+    mlm_perms(data::RawData, nPerms::Int64=1000; 
+              permFun::Function=shuffle_rows, 
+              hasXIntercept::Bool=true, hasZIntercept::Bool=true, 
               weights=nothing, targetType=nothing, isMainEff::Bool=false)
 
 Obtains permutation p-values for MLM t-statistics. 
 
 # Arguments
 
-- data = RawData object
-- nPerms = number of permutations. Defaults to `1000`.
+- data::RawData: RawData object
+- nPerms::Int64=1000: Number of permutations. Defaults to `1000`.
 
 # Keyword arguments
 
-- permFun = function used to permute `Y`. Defaults to `shuffle_rows` 
+- permFun::Function: function used to permute `Y`. Defaults to `shuffle_rows` 
   (shuffles rows of `Y`). 
-- hasXIntercept = boolean flag indicating whether or not to include an `X` 
+- hasXIntercept::Bool=true: Boolean flag indicating whether or not to include an `X` 
   intercept (row main effects). Defaults to `true`. 
-- hasZIntercept = boolean flag indicating whether or not to include a `Z` 
+- hasZIntercept::Bool=true: Boolean flag indicating whether or not to include a `Z` 
   intercept (column main effects). Defaults to `true`. 
-- weights = 1d array of floats to use as column weights for `Y`, or `nothing`. 
+- weights: 1d array of floats to use as column weights for `Y`, or `nothing`. 
   If the former, must be the same length as the number of columns of `Y`. 
   Defaults to `nothing`. 
-- targetType = string indicating the target type toward which to shrink the 
+- targetType: string indicating the target type toward which to shrink the 
   error variance, or `nothing`. If the former, acceptable inputs are "A", "B", 
   "C", and "D". Defaults to `nothing`.
     - "A": Target is identity matrix
     - "B": Target is diagonal matrix with constant diagonal
     - "C": Target is has same diagonal element, and same off-diagonal element
     - "D": Target is diagonal matrix with unequal entries 
-- isMainEff = boolean flag indicating whether or not to include p-values for 
+- isMainEff::Bool: boolean flag indicating whether or not to include p-values for 
   the main effects
 
 # Value

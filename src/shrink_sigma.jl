@@ -5,7 +5,7 @@ Centers columns of a 2d array
 
 # Arguments
 
-- A = 2d array of floats
+- A::AbstractArray{Float64,2} = 2d array of floats
 
 # Value
 
@@ -33,7 +33,7 @@ Estimates error variance and its variance/covariance
 
 # Arguments
 
-- resid = 2d array of floats consisting of the residuals
+- resid::AbstractArray{Float64,2} = 2d array of floats consisting of the residuals
 
 # Value
 
@@ -85,8 +85,8 @@ Estimates variance of errors and the shrinkage coefficient
 
 # Arguments
 
-- resid = 2d array of floats consisting of the residuals
-- targetType = string indicating the target type toward which to shrink the 
+- resid::AbstractArray{Float64,2} = 2d array of floats consisting of the residuals
+- targetType::String = string indicating the target type toward which to shrink the 
   variance. Acceptable inputs are "A", "B", "C", and "D". 
     - "A": Target is identity matrix
     - "B": Target is diagonal matrix with constant diagonal

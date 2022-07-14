@@ -10,8 +10,8 @@ makedocs(
          modules  = [MatrixLM],
          pages=[
                 "Home" => "index.md",
-                "Demo1: Simulation Study" => "Demo1_Simulation.md",
-                "User Guide" => "manual.md"
+                "Getting Started" => "Demo1_Simulation.md",
+                "Types and Functions" => "manual.md"
                ])
 deploydocs(;
     repo= "https://github.com/senresearch/MatrixLM.jl",
