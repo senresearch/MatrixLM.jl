@@ -18,7 +18,9 @@ X = rand(n,p)
 A = zeros(Float64, n, m)
 A_inter = copy(add_intercept(A))
 
-@test shuffle_rows(X) != X
-@test shuffle_cols(X) != X
+
+
+@test isapprox(sum(shuffle_rows(X),dims=1), sum(X,dims=1))
+@test isapprox(sum(shuffle_cols(X),dims=2), sum(X,dims=2))
 @test isapprox(A_inter, hcat(ones(size(A,1)), A), atol=tol)
 @test isapprox(remove_intercept(A_inter), A, atol=tol)

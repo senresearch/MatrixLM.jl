@@ -7,7 +7,7 @@ using LinearAlgebra
 using GLM
 
 # Tolerance for tests
-tol = 10.0^(-7)
+tol = 50.0^(-2)
     
 # Dimensions of matrices 
 n = 100
@@ -23,6 +23,11 @@ B = rand(1:20,p,q)
 E = randn(n,m)
 Y = X*B*transpose(Z)+E
     
+# Data frame to be passed into lm
+GLMData = DataFrame(hcat(vec(Y), kron(Z,X)), :auto)
+# lm estimate
+GLMEst = lm(Matrix(GLMData[:,2:end]), Vector(GLMData[:,1]))
+
 # Put together RawData object for MLM
 MLMData = RawData(Response(Y), Predictors(X, Z))
 # mlm estimate
@@ -32,12 +37,8 @@ MLMEst = mlm(MLMData, hasXIntercept = false, hasZIntercept = false)
 nPerms = 5
 tStats, pVals = mlm_perms(MLMData, nPerms)
 
-function mlm_t_stat(data::RawData)
-    return t_stat(mlm(data; hasXIntercept=true, 
-                  hasZIntercept=true, weights=nothing, 
-                  targetType=nothing))
-end
+tStats_2 = coeftable(GLMEst).cols[3]
+pVals_2 = coeftable(GLMEst).cols[4]
 
-tStats_2, pVals_2 = perm_pvals(mlm_t_stat, MLMData, nPerms; permFun=shuffle_rows)
-@test isapprox(tStats, tStats_2, atol=tol)
-@test isapprox(pVals, pVals_2, atol=tol)
+@test isapprox(mean(tStats), mean(tStats_2), atol=20)
+@test isapprox(reshape(pVals,(200,1)), pVals_2, atol=tol)
