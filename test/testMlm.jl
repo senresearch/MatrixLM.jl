@@ -30,6 +30,11 @@ Z = rand(m,q)
 B = rand(1:20,p,q)
 E = randn(n,m)
 Y = X*B*transpose(Z)+E
+#w = rand(Float64, m)
+w = 2 .* ones(m) 
+W = diagm(w)
+WZ = W * Z
+Yw = X*B*transpose(WZ)+E
     
 # Data frame to be passed into lm
 GLMData = DataFrame(hcat(vec(Y), kron(Z,X)), :auto)
@@ -38,6 +43,7 @@ GLMEst = lm(Matrix(GLMData[:,2:end]), Vector(GLMData[:,1]))
     
 # Put together RawData object for MLM
 MLMData = RawData(Response(Y), Predictors(X, Z))
+MLMData_w = RawData(Response(Yw), Predictors(X, Z))
 # mlm estimate
 # MLMEst = mlm(MLMData, hasXIntercept = false, hasZIntercept = false)
 MLMEst = mlm(MLMData, hasXIntercept = false, hasZIntercept = false)
@@ -46,3 +52,11 @@ MLMEst = mlm(MLMData, hasXIntercept = false, hasZIntercept = false)
 @test isapprox(GLM.predict(GLMEst), vec(MatrixLM.predict(MLMEst).Y), atol=tol)
 @test LinearAlgebra.issymmetric(round.(MLMEst.sigma, digits=10)) # and also positive semi-definite?
 
+
+MLMEst_w = mlm(MLMData_w, weights = w, hasXIntercept = false, hasZIntercept = false, targetType = 'E')
+GLMData_w = DataFrame(hcat(vec(Yw), kron(WZ,X)), :auto)
+GLMEst_w = lm(Matrix(GLMData_w[:,2:end]), Vector(GLMData_w[:,1]))
+
+@test isapprox(GLM.coef(GLMEst_w), vec(MatrixLM.coef(MLMEst_w)), atol=1)
+@test isapprox(GLM.predict(GLMEst_w), vec(MatrixLM.predict(MLMEst_w).Y), atol=tol)
+@test LinearAlgebra.issymmetric(round.(MLMEst_w.sigma, digits=10))
