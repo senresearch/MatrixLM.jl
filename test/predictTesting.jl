@@ -44,3 +44,9 @@ fitted2 = MatrixLM.fitted(MLMEst)
 @test isapprox(fitted.Y, fitted2.Y, atol=tol)
 # testing the calc_preds function, too see if they are identical with the resid function
 @test MatrixLM.calc_resid(get_X(MLMData), get_Y(MLMData), get_Z(MLMData),MatrixLM.coef(MLMEst)) == resid(MLMEst)
+
+# testing the model with intercept
+resid_1 = resid(MLMEst)
+MLMEst_inter = mlm(MLMData, hasXIntercept = true, hasZIntercept = true)
+resid_inter = MatrixLM.resid(MLMEst_inter)
+@test size(resid_1) == size(resid_inter)
