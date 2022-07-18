@@ -47,16 +47,20 @@ MLMData_w = RawData(Response(Yw), Predictors(X, Z))
 # MLMEst = mlm(MLMData, hasXIntercept = false, hasZIntercept = false)
 MLMEst = mlm(MLMData, hasXIntercept = false, hasZIntercept = false)
     
-@test isapprox(GLM.coef(GLMEst), vec(MatrixLM.coef(MLMEst)), atol=tol)
-@test isapprox(GLM.predict(GLMEst), vec(MatrixLM.predict(MLMEst).Y), atol=tol)
-@test LinearAlgebra.issymmetric(round.(MLMEst.sigma, digits=10)) # and also positive semi-definite?
+@testset "testmlm" begin
+    @test isapprox(GLM.coef(GLMEst), vec(MatrixLM.coef(MLMEst)), atol=tol)
+    @test isapprox(GLM.predict(GLMEst), vec(MatrixLM.predict(MLMEst).Y), atol=tol)
+    @test LinearAlgebra.issymmetric(round.(MLMEst.sigma, digits=10))
+end
 
 
 MLMEst_w = mlm(MLMData_w, weights = w , hasXIntercept = false, hasZIntercept = false, targetType = 'E')
 GLMData_w = DataFrame(hcat(vec(Yw), kron(WZ,X)), :auto)
 GLMEst_w = lm(Matrix(GLMData_w[:,2:end]), Vector(GLMData_w[:,1]))
 
-# @test isapprox(GLM.coef(GLMEst_w), vec(MatrixLM.calc_coeffs(X,Yw,W*Z,transpose(X)*X,transpose(Z)*W*W*Z)), atol=tol)
-# @test isapprox(GLM.predict(GLMEst_w), vec(MatrixLM.predict(MLMEst_w).Y), atol=tol)
-@test LinearAlgebra.issymmetric(round.(MLMEst_w.sigma, digits=10))
-@test isapprox(GLM.coef(GLMEst_w), vec(MatrixLM.coef(MLMEst_w)), atol=tol)
+@testset "weightedMlmTest" begin
+    @test isapprox(GLM.coef(GLMEst_w), vec(MatrixLM.calc_coeffs(X,Yw,W*Z,transpose(X)*X,transpose(Z)*W*W*Z)), atol=tol)
+    #@test isapprox(GLM.predict(GLMEst_w), vec(MatrixLM.predict(MLMEst_w).Y), atol=tol)
+    @test LinearAlgebra.issymmetric(round.(MLMEst_w.sigma, digits=10))
+    #@test isapprox(GLM.coef(GLMEst_w), vec(MatrixLM.coef(MLMEst_w)), atol=tol)
+end;

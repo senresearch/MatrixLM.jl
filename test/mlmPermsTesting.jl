@@ -48,6 +48,8 @@ tStats, pVals = mlm_perms(MLMData, nPerms)
 tStats_2 = coeftable(GLMEst).cols[3]
 pVals_2 = coeftable(GLMEst).cols[4]
 
-# Testing the p value and t Statistics are similar between MatrixLM and GLM package
-@test isapprox(mean(tStats), mean(tStats_2), atol=20)
-@test isapprox(reshape(pVals,(200,1)), pVals_2, atol=tol)
+@testset "mlmPermsTesting" begin
+    # Testing the p value and t Statistics are similar between MatrixLM and GLM package
+    @test isapprox(mean(tStats), mean(tStats_2), atol=20)
+    @test isapprox(reshape(pVals,(200,1)), pVals_2, atol=tol)    
+end
