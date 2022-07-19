@@ -22,7 +22,7 @@ end
 
 """
 
-function design_matrix(;f, df::DataFrame,cntrst::Dict{Symbol, AbstractContrasts}, cntestArray::Nothing)
+function design_matrix(;f, df::DataFrame,cntrst::Dict{Symbol, AbstractContrasts})
     return modelmatrix(f, df, hints= cntrst)
 end
 
@@ -39,9 +39,9 @@ end
 
 """
 
-function design_matrix(;f, df::DataFrame, cntrst::Nothing, cntrstArray)
+function design_matrix(;f, df::DataFrame, cntrst::Matrix)
     cntrsts = Dict{Symbol, AbstractContrasts}()
-    for cntrsTuple in cntrstArray
+    for cntrsTuple in cntrst
         for i in 1:length(cntrsTuple)-1
             fun = cntrsTuple[length(cntrsTuple)]
             cntrsts[cntrsTuple[i]] = fun

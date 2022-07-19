@@ -7,6 +7,6 @@ X_df = hcat(DataFrame(catvar1=rand(1:5, n), catvar2=rand(["A", "B", "C"], n),cat
 
 methods = Dict(:catvar1 => DummyCoding(), :catvar2 => EffectsCoding(base = "A"),:catvar3 =>DummyCoding())
 mat = design_matrix(f=@mlmFormula(catvar1 + catvar2 + catvar3 + x1 + x2 + x3 + x4),df=X_df,
-               cntrstArray=[(:catvar1, DummyCoding()) (:catvar2, :catvar3, EffectsCoding()) ]  )
+               cntrst=[(:catvar1, DummyCoding()) (:catvar2, :catvar3, EffectsCoding()) ]  )
 mat2 = design_matrix(f=@mlmFormula(catvar1 + catvar2 + catvar3 + x1 + x2 + x3 + x4),df=X_df,
                cntrst = methods)
