@@ -4,7 +4,6 @@
     Capture and parse a formula expression for matrix linear model.
 
 """
-
 macro mlmFormula(ex)
     name = join(map(x -> isspace(string(ex)[x]) ? "" : string(ex)[x], 1:length(string(ex))))
     return :(sum(term.(split($name, "+"))))
@@ -21,7 +20,6 @@ end
     - cntrst::Dict{Symbol, AbstractContrasts} = Encoding method for categorical or ordinal variables
 
 """
-
 function design_matrix(;f, df::DataFrame,cntrst::Dict{Symbol, AbstractContrasts})
     return modelmatrix(f, df, hints= cntrst)
 end
@@ -38,7 +36,6 @@ end
     - cntrstArray = An array containing tuples of variable and its encoding function.
 
 """
-
 function design_matrix(;f, df::DataFrame, cntrst::Matrix)
     cntrsts = Dict{Symbol, AbstractContrasts}()
     for cntrsTuple in cntrst
