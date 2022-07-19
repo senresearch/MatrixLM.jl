@@ -1,5 +1,3 @@
-using StatsModels, Random
-
 """
     mlmFormula(ex)
 
