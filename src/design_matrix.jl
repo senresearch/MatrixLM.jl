@@ -1,3 +1,5 @@
+using StatsModels, Random
+
 """
     mlmFormula(ex)
 
@@ -6,8 +8,7 @@
 """
 
 macro mlmFormula(ex)
-    name = string(ex)
-    name = join(map(x -> isspace(name[x]) ? "" : name[x], 1:length(name)))
+    name = join(map(x -> isspace(string(ex)[x]) ? "" : string(ex)[x], 1:length(string(ex))))
     return :(sum(term.(split($name, "+"))))
 end
 
@@ -24,5 +25,29 @@ end
 """
 
 function design_matrix(;f, df::DataFrame,cntrst::Dict{Symbol, AbstractContrasts})
+    return modelmatrix(f, df, hints= cntrst)
+end
+
+"""
+
+    design_matrix(;f, df::DataFrame,cntrstArray::Array)
+
+    Build design matrix.
+    # Arguments 
+
+    - f = formula for matrixLM, use @mlmFormula
+    - df::DataFrames.DataFrame = DataFrame of variables
+    - cntrstArray = An array containing tuples of variable and its encoding function.
+
+"""
+
+function design_matrix(;f, df::DataFrame, cntrstArray)
+    cntrst = Dict{Symbol, AbstractContrasts}()
+    for cntrsTuple in cntrstArray
+        for i in 1:length(cntrsTuple)-1
+            fun = cntrsTuple[length(cntrsTuple)]
+            cntrst[cntrsTuple[i]] = fun
+        end
+    end    
     return modelmatrix(f, df, hints= cntrst)
 end
