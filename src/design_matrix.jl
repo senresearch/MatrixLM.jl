@@ -5,10 +5,8 @@
 
 """
 macro mlmFormula(ex)
-    #name = join(map(x -> isspace(string(ex)[x]) ? "" : string(ex)[x], 1:length(string(ex))))
-    #return :(sum(term.(split($name, "+"))))
-
-    return @formula(0~ex).rhs
+    ex_string = "0 ~" * string(ex) 
+    return @eval(@formula($(Meta.parse(ex_string))).rhs)
 end
 
 """
@@ -28,14 +26,14 @@ end
 
 """
 
-    design_matrix(;f, df::DataFrame,cntrstArray::Array)
+    design_matrix(f, df::DataFrame, cntrst::Vector)
 
     Build design matrix.
     # Arguments 
 
     - f = formula for matrixLM, use @mlmFormula
     - df::DataFrames.DataFrame = DataFrame of variables
-    - cntrstArray = An array containing tuples of variable and its encoding function.
+    - cntrst = An vactor containing tuples of variable and its encoding function.
 
 """
 function design_matrix(f, df::DataFrame, cntrst::Vector)
