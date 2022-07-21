@@ -1,19 +1,18 @@
-# Overview
+
+## Overview
 
 The matrix linear model is a simple, yet flexible, multivariate framework. It encodes both categorical and continuous relationships to enhance detection of associations between responses and predictors.
 For matrix linear model, let $Y$ be a $n \times m$ response matrix, the model can be expressed as: 
-$$ Y = XBZ^T+E $$
 
-$X_{n \times p}$ is the matrix for main predictor
+$$Y = XBZ^T+E$$
 
-$Z_{m \times q}$ denote the matrix from extra knowledge. 
-
-$E_{n \times m}$ is the error term 
-
+Where $X_{n \times p}$ is the matrix for main predictor,
+$Z_{m \times q}$ denote the matrix from extra knowledge,
+$E_{n \times m}$ is the error term, 
 $B_{p \times q}$ is the matrix for main and interaction effects.
 
 
-# Data Generation
+## Data Generation
 
 First, construct a `RawData` object consisting of the response variable `Y` and row/column predictors `X` and `Z`. All three matrices must be passed in as 2-dimensional arrays. Note that the `contr` function can be used to set up treatment and/or sum contrasts for categorical variables stored in a DataFrame. By default, `contr` generates treatment contrasts for all specified categorical variables (`"treat"`). Other options include `"sum"` for sum contrasts, `"noint"` for treatment contrasts with no intercept, and `"sumnoint"` for sum contrasts with no intercept. 
 
@@ -58,9 +57,6 @@ Finally, using all the data we have to construct a RawData object. The usage of 
 dat = RawData(Response(Y), Predictors(X, Z))
 ```
 
-
-# Model Study
-
 ## Model construction
 
 The matrix linear model could be build by using RawData object directly.
@@ -102,7 +98,7 @@ resids = resid(est) # Residuals
 
 
 
-## t-statistics and permutation test
+## T-statistics and permutation test
 
 The t-statistics for an `Mlm` object (defined as `est.B ./ sqrt.(est.varB)`) can be obtained by running `t_stat`. By default, `t_stat` does not return the corresponding t-statistics for any main effects that were estimated by `mlm`, but they will be returned if `isMainEff=true`. 
 
@@ -194,84 +190,3 @@ heatmap(X)
 
     
 ![svg](../images/heatmap_X.svg)
-    
-
-
-
-# For ordinal variables
-
-For this part our X matrix has only one ordinal variable(catvar1) from 1 to 5. The encoding method for ordinal variable is `SeqDiffCoding()` from package `StatsModels`
-
-
-```julia
-using StatsModels
-```
-
-
-```julia
-levels = unique(X_df.catvar1)
-encoding = StatsModels.ContrastsMatrix(SeqDiffCoding(), levels).matrix
-encoding_intercept = inv(hcat(ones(5,1),encoding))
-X2 = reduce(vcat,transpose.(map(x -> encoding_intercept[x,:], X_df.catvar1)))
-```
-
-
-
-
-```julia
-p = size(X2)[2]
-n = 100
-m = 250
-q = 20
-```
-
-
-
-
-
-```julia
-# Number of column covariates
-Z2 = rand(m,q)
-B2 = rand(-5:5,p,q)
-E2 = randn(n,m)
-Y2 = X2*B2*transpose(Z2)+E2
-```
-
-
-
-
-```julia
-dat2 = RawData(Response(Y2), Predictors(X2, Z2))
-```
-
-
-
-```julia
-est2 = mlm(dat2)
-```
-
-
-
-```julia
-heatmap(coef(est2))
-```
-
-
-
-
-    
-![svg](../images/heatmap_esti_coef2.svg)
-    
-
-
-
-
-```julia
-heatmap(B2)
-```
-
-
-
-
-    
-![svg](../images/heatmap_B2.svg)

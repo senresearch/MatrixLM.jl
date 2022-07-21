@@ -27,7 +27,7 @@ Pkg.add("MatrixLM")
 For the most recent version, use:
 ```
 using Pkg
-Pkg.add(url = "https://github.com/senresearch/MatrixLM.jl", rev="master")
+Pkg.add(url = "https://github.com/senresearch/MatrixLM.jl", rev="main")
 ```
 Alternatively, you can also install `MatrixLM` from the julia REPL. Press `]` to enter pkg mode again, and enter the following:
 
@@ -43,7 +43,7 @@ issues, improving performance and adding new features.
 
 ## Questions
 
-If you have questions about contributing or using `MatrixLM` package, please communicate author form github.
+If you have questions about contributing or using `MatrixLM` package, please communicate with authors form github.
 
 ## Citing `MatrixLM`
 

@@ -39,8 +39,8 @@ end
 function design_matrix(f, df::DataFrame, cntrst::Vector)
     cntrsts = Dict{Symbol, AbstractContrasts}()
     for cntrsTuple in cntrst
+        fun = cntrsTuple[length(cntrsTuple)]
         for i in 1:length(cntrsTuple)-1
-            fun = cntrsTuple[length(cntrsTuple)]
             cntrsts[cntrsTuple[i]] = fun
         end
     end    
