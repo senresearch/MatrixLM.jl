@@ -74,3 +74,5 @@ heatmap(B2)
 
     
 ![svg](../images/heatmap_B2.svg)
+
+## Case study: metabolomics analysis

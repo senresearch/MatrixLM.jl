@@ -95,7 +95,29 @@ preds = predict(est) # Prediction value
 resids = resid(est) # Residuals
 ```
 
+```julia
+heatmap(Y)
+```
 
+
+
+
+    
+![svg](../images/heatmap_Y.svg)
+    
+
+
+
+
+```julia
+heatmap(X)
+```
+
+
+
+
+    
+![svg](../images/heatmap_X.svg)
 
 
 ## T-statistics and permutation test
@@ -134,7 +156,7 @@ nPerms = 5
 tStats, pVals = mlm_perms(dat, nPerms)
 ```
 
-After the modeling, we can compaire the difference between model estimation effect and the effect matrix that we generated.
+After the modeling, we can compare the difference between model estimation effect and the effect matrix that we generated.
 
 
 
@@ -163,30 +185,3 @@ heatmap(esti_coef)
     
 ![svg](../images/heatmap_esti_coef.svg)
     
-
-
-
-
-```julia
-heatmap(Y)
-```
-
-
-
-
-    
-![svg](../images/heatmap_Y.svg)
-    
-
-
-
-
-```julia
-heatmap(X)
-```
-
-
-
-
-    
-![svg](../images/heatmap_X.svg)
