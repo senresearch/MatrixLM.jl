@@ -92,8 +92,15 @@ preds = predict(est) # Prediction value
 
 
 ```julia
-resids = resid(est) # Residuals
+resids = resid(est)
+histogram((reshape(resids,250*100,1)), title = "Distribution of the residuals", label = "resid")
 ```
+![svg](../images/distResid.svg)
+
+
+
+
+
 
 ```julia
 heatmap(Y)
@@ -102,19 +109,21 @@ heatmap(Y)
 
 
 
+
+
     
 ![svg](../images/heatmap_Y.svg)
     
 
+```julia
+heatmap(preds.Y)
+```
 
-
+![svg](../images/heatmap_predY.svg)
 
 ```julia
 heatmap(X)
 ```
-
-
-
 
     
 ![svg](../images/heatmap_X.svg)
@@ -158,7 +167,30 @@ tStats, pVals = mlm_perms(dat, nPerms)
 
 After the modeling, we can compare the difference between model estimation effect and the effect matrix that we generated.
 
+```julia
+heatmap(tStats)
+```
 
+
+
+
+    
+![svg](../images/heatmap_tStat.svg)
+    
+
+
+
+
+```julia
+heatmap(pVals)
+```
+
+
+
+
+    
+![svg](../images/heatmap_pVals.svg)
+    
 
 
 ```julia
@@ -176,12 +208,12 @@ heatmap(B)
 
 
 ```julia
-heatmap(esti_coef)
+heatmap(esti_coef[1:end .!= 1, 1:end .!= 1]) # remove auto generated intercepts
 ```
 
 
 
 
     
-![svg](../images/heatmap_esti_coef.svg)
+![svg](../images/heatmap_esti_coefs.svg)
     
