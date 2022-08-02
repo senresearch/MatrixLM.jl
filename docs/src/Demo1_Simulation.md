@@ -57,7 +57,7 @@ Finally, using all the data we have to construct a RawData object. The usage of 
 dat = RawData(Response(Y), Predictors(X, Z))
 ```
 
-## Model construction
+## Modelling
 
 The matrix linear model could be build by using RawData object directly.
 

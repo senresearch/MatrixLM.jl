@@ -1,7 +1,7 @@
 """
     mlmFormula(ex)
 
-    Capture and parse a formula expression for matrix linear model.
+Capture and parse a formula expression for matrix linear model.
 
 """
 macro mlmFormula(ex)
@@ -12,12 +12,12 @@ end
 """
     design_matrix(f, df::DataFrame,cntrst::Dict{Symbol, AbstractContrasts})
 
-    Build design matrix.
-    # Arguments 
+Build design matrix.
+# Arguments 
 
-    - f = formula for matrixLM, use @mlmFormula
-    - df::DataFrames.DataFrame = DataFrame of variables
-    - cntrst::Dict{Symbol, AbstractContrasts} = Encoding method for categorical or ordinal variables
+- f = formula for matrixLM, use @mlmFormula
+- df::DataFrames.DataFrame = DataFrame of variables
+- cntrst::Dict{Symbol, AbstractContrasts} = Encoding method for categorical or ordinal variables
 
 """
 function design_matrix(f, df::DataFrame,cntrst::Dict{Symbol, AbstractContrasts})
@@ -28,12 +28,12 @@ end
 
     design_matrix(f, df::DataFrame, cntrst::Vector)
 
-    Build design matrix.
-    # Arguments 
+Build design matrix.
+# Arguments 
 
-    - f = formula for matrixLM, use @mlmFormula
-    - df::DataFrames.DataFrame = DataFrame of variables
-    - cntrst = An vactor containing tuples of variable and its encoding function.
+- f = formula for matrixLM, use @mlmFormula
+- df::DataFrames.DataFrame = DataFrame of variables
+- cntrst = An vactor containing tuples of variable and its encoding function.
 
 """
 function design_matrix(f, df::DataFrame, cntrst::Vector)

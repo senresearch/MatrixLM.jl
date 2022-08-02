@@ -5,7 +5,6 @@ const src = "https://github.com/senresearch/MatrixLM.jl"
 
 makedocs(
          sitename = "MatrixLM",
-         authors = "Jane W. Liang, Saunak Sen",
          format = Documenter.HTML(),
          modules  = [MatrixLM],
          pages=[
@@ -16,6 +15,6 @@ makedocs(
                ])
 deploydocs(;
     repo= "https://github.com/senresearch/MatrixLM.jl",
-    devbranch= "dev",
+    devbranch= "testing",
     devurl = "stable"
 )
