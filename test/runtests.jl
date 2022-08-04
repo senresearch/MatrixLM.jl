@@ -7,6 +7,8 @@ using MatrixLM
     include("shrinkSigmaTesting.jl")
     include("mlmPermsTesting.jl")
     include("predictTesting.jl")
+    include("kronDiagTesting.jl")
+    include("designMatrixTesting.jl")
 end
 
 
