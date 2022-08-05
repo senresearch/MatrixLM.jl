@@ -2,7 +2,7 @@
 # Library #
 ###########
 using Test
-using MatrixLM, StatsBase, Random
+using MatrixLM
 
 
 ###########################
