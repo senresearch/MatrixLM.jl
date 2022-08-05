@@ -2,7 +2,7 @@
 # Library #
 ###########
 using Test
-using MatrixLM
+using MatrixLM, StatsBase, Random
 
 
 ###########################
@@ -27,40 +27,53 @@ E = randn(n,m)
 Y = X*B*transpose(Z)+E
 
 # Put together RawData object for MLM
-MLMData = RawData(Response(Y), Predictors(X, Z))
-# mlm estimate
-# MLMEst = mlm(MLMData, addXIntercept = false, addZIntercept = false)
-MLMEst = mlm(MLMData, addXIntercept = false, addZIntercept = false)
+# X: no intercept
+# Z: no intercept
+MLMData = RawData(Response(Y), Predictors(X, Z));
 
-fitted = MatrixLM.predict(MLMEst)
-fitted2 = MatrixLM.fitted(MLMEst)
+######################################
+# Test: predicted and fitted results #
+######################################
 
-@testset "predictTesting" begin
-    # Testing the coefficients of the model with simulated B Matrix
-    @test isapprox(MatrixLM.coef(MLMEst), B, atol=3)
+# Estimate Ŷpredict with X, Z intercept
+MLMEst = mlm(MLMData, addXIntercept = true, addZIntercept = true) # WARNING IT CHANGES INTERCEPT IN ORGINAL MLMData
+Ŷpredict_a = MatrixLM.predict(MLMEst).Y
+Ŷfitted = MatrixLM.fitted(MLMEst).Y
+
+
+@testset "predictTesting" begin   
     # testing the dimension of fitted y with actual Y, to see their consistancy
-    @test sizeof(fitted.Y) == sizeof(Y)
-    @test sizeof(fitted2.Y) == sizeof(Y)
-    @test typeof(fitted) == typeof(fitted2)
-    @test isapprox(fitted.Y, fitted2.Y, atol=tol)
+    @test sizeof(Ŷpredict) == sizeof(Y)
+    @test sizeof(Ŷfitted) == sizeof(Y)
+    @test isapprox(Ŷpredict, Ŷfitted, atol=tol)
     # testing the calc_preds function, too see if they are identical with the resid function
     @test MatrixLM.calc_resid(get_X(MLMData), get_Y(MLMData), get_Z(MLMData),MatrixLM.coef(MLMEst)) == resid(MLMEst)    
 end
 
+###############################################
+# Test: predicted results with new predictors #
+###############################################
+
 #MLMData2 = MLMData
-# testing the model with intercept
-MLMest_Xinter = mlm(RawData(Response(Y), Predictors(X, Z)), addXIntercept = true, addZIntercept = false)
-pred_Xinter = MatrixLM.predict(MLMest_Xinter).Y
+# Testing new predicted estimation based on new predictors
+# MLMEst.data.predictors.hasXIntercept -> true
+# MLMEst.data.predictors.hasZIntercept -> true
 
-MLMest_Zinter = mlm(RawData(Response(Y), Predictors(X, Z)), addXIntercept = false, addZIntercept = true)
-pred_Zinter = MatrixLM.predict(MLMest_Zinter).Y
+# if previous X has X Intercept, and new X has not Intercept, it will add an intercept to new X
+# if previous Z has Z Intercept, and new Z has not Intercept, it will add an intercept to new Z
+Ŷpredict2 = MatrixLM.predict(MLMEst, Predictors(X,Z,false, false)).Y
 
-resid_1 = resid(MLMEst)
-MLMEst_inter = mlm(RawData(Response(Y), Predictors(X, Z)), addXIntercept = true, addZIntercept = true)
-resid_inter = MatrixLM.resid(MLMEst_inter)
+# Estimate Ŷpredict without X, Z intercept
+MLMEst = mlm(MLMData, addXIntercept = false, addZIntercept = false)
+Ŷpredict_b = MatrixLM.predict(MLMEst).Y
+# MLMEst.data.predictors.hasXIntercept -> false
+# MLMEst.data.predictors.hasZIntercept -> false
+
+# if previous X has no X Intercept, and new X has Intercept, it will remove intercept from new X
+# if previous Z has no Z Intercept, and new Z has Intercept, it will remove intercept from new Z
+Ŷpredict3 = MatrixLM.predict(MLMEst, Predictors(hcat(ones(size(X, 1)), X), hcat(ones(size(Z, 1)), Z),true, true)).Y
 
 @testset "resid_test" begin
-    @test size(resid_1) == size(resid_inter)
-    @test isapprox(mean(Y .- pred_Xinter), 0, atol = 0.1 )
-    @test isapprox(mean(Y .- pred_Zinter), 0, atol = 0.1 )
+    @test isapprox(sum(Ŷpredict_a - Ŷpredict2), 0, atol = 0.1 )
+    @test isapprox(sum(Ŷpredict_b - Ŷpredict3), 0, atol = 0.1 )
 end

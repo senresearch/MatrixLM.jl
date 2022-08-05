@@ -12,10 +12,10 @@ end
 
 """
     Predictors(X::AbstractArray{Float64,2}, Z::AbstractArray{Float64,2},
-               addXIntercept::Bool, addZIntercept::Bool)
+               hasXIntercept::Bool, hasZIntercept::Bool)
 
 Type for storing predictor (covariate) matrices. Also stores boolean 
-variables addXIntercept and addZIntercept (if they are not supplied, they 
+variables hasXIntercept and hasZIntercept (if they are not supplied, they 
 default to false). 
 
 """
@@ -28,15 +28,15 @@ mutable struct Predictors
     Z::AbstractArray{Float64,2} 
     
     # Boolean flag indicating whether X has an intercept
-    addXIntercept::Bool 
+    hasXIntercept::Bool 
     # Boolean flag indicating whether Z has an intercept
-    addZIntercept::Bool 
+    hasZIntercept::Bool 
     
     # Usual constructor
-    Predictors(X, Z, addXIntercept, addZIntercept) = 
-        new(X, Z, addXIntercept, addZIntercept)
+    Predictors(X, Z, hasXIntercept, hasZIntercept) = 
+        new(X, Z, hasXIntercept, hasZIntercept)
     
-    # Modified constructor that sets addXIntercept and addZIntercept to false 
+    # Modified constructor that sets hasXIntercept and hasZIntercept to false 
     # by default
     Predictors(X, Z) = new(X, Z, false, false)
 end

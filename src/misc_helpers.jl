@@ -42,7 +42,7 @@ function remove_intercept(A::AbstractArray{Float64,2})
     
     # Check that the first column is a column of ones
     if any(A[:,1].!=1)
-        print("The first column of this array does not look like an itercept 
+        print("The first column of this array does not look like an intercept 
                since it is not a column of ones. Are you sure you wanted to 
                remove it?")
     end

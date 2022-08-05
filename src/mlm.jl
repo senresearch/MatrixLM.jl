@@ -185,26 +185,26 @@ function mlm(data::RawData; addXIntercept::Bool=true, addZIntercept::Bool=true,
     #-----------------------------------------------------------------------------------------------
 
     # Add X and Z intercepts if necessary
-    if addXIntercept==true && data.predictors.addXIntercept==false
+    if addXIntercept==true && data.predictors.hasXIntercept==false
         data.predictors.X = add_intercept(data.predictors.X)
-        data.predictors.addXIntercept = true
+        data.predictors.hasXIntercept = true
         data.p = data.p + 1
     end
-    if addZIntercept==true && data.predictors.addZIntercept==false
+    if addZIntercept==true && data.predictors.hasZIntercept==false
         data.predictors.Z = add_intercept(data.predictors.Z)
-        data.predictors.addZIntercept = true
+        data.predictors.hasZIntercept = true
         data.q = data.q + 1
     end
     
     # Remove X and Z intercepts in new predictors if necessary
-    if addXIntercept==false && data.predictors.addXIntercept==true
+    if addXIntercept==false && data.predictors.hasXIntercept==true
         data.predictors.X = remove_intercept(data.predictors.X)
-        data.predictors.addXIntercept = false
+        data.predictors.hasXIntercept = false
         data.p = data.p - 1
     end
-    if addZIntercept==false && data.predictors.addZIntercept==true
+    if addZIntercept==false && data.predictors.hasZIntercept==true
         data.predictors.Z = remove_intercept(data.predictors.Z)
-        data.predictors.addZIntercept = false
+        data.predictors.hasZIntercept = false
         data.q = data.q - 1
     end
 
@@ -239,16 +239,16 @@ function t_stat(MLM::Mlm, isMainEff::Bool=false)
     # Cases when not including main effects
     if isMainEff== false 
         # If X and Z intercepts were both included
-        if (MLM.data.predictors.addXIntercept==true) && 
-           (MLM.data.predictors.addZIntercept==true) 
+        if (MLM.data.predictors.hasXIntercept==true) && 
+           (MLM.data.predictors.hasZIntercept==true) 
             return MLM.B[2:end, 2:end]./sqrt.(MLM.varB[2:end, 2:end])
             
         # If only X intercept was included
-        elseif MLM.data.predictors.addXIntercept==true 
+        elseif MLM.data.predictors.hasXIntercept==true 
             return MLM.B[2:end, :]./sqrt.(MLM.varB[2:end, :])
             
         # If only Z intercept was included
-        elseif  MLM.data.predictors.addZIntercept==true 
+        elseif  MLM.data.predictors.hasZIntercept==true 
             return MLM.B[:, 2:end]./sqrt.(MLM.varB[:, 2:end])
             
         end
