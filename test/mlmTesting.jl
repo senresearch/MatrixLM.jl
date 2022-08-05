@@ -44,8 +44,8 @@ GLMEst = lm(Matrix(GLMData[:,2:end]), Vector(GLMData[:,1]))
 MLMData = RawData(Response(Y), Predictors(X, Z))
 MLMData_w = RawData(Response(Yw), Predictors(X, Z))
 # mlm estimate
-# MLMEst = mlm(MLMData, hasXIntercept = false, hasZIntercept = false)
-MLMEst = mlm(MLMData, hasXIntercept = false, hasZIntercept = false)
+# MLMEst = mlm(MLMData, addXIntercept = false, addZIntercept = false)
+MLMEst = mlm(MLMData, addXIntercept = false, addZIntercept = false)
     
 @testset "testmlm" begin
     @test isapprox(GLM.coef(GLMEst), vec(MatrixLM.coef(MLMEst)), atol=tol)
@@ -54,7 +54,7 @@ MLMEst = mlm(MLMData, hasXIntercept = false, hasZIntercept = false)
 end
 
 
-MLMEst_w = mlm(MLMData_w, weights = w , hasXIntercept = true, hasZIntercept = false, targetType = 'E')
+MLMEst_w = mlm(MLMData_w, weights = w , addXIntercept = true, addZIntercept = false, targetType = 'E')
 GLMData_w = DataFrame(hcat(vec(Yw), kron(WZ,X)), :auto)
 GLMEst_w = lm(Matrix(GLMData_w[:,2:end]), Vector(GLMData_w[:,1]))
 

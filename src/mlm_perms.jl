@@ -1,7 +1,7 @@
 """
     mlm_perms(data::RawData, nPerms::Int64=1000; 
               permFun::Function=shuffle_rows, 
-              hasXIntercept::Bool=true, hasZIntercept::Bool=true, 
+              addXIntercept::Bool=true, addZIntercept::Bool=true, 
               weights=nothing, targetType=nothing, isMainEff::Bool=false)
 
 Obtains permutation p-values for MLM t-statistics. 
@@ -15,9 +15,9 @@ Obtains permutation p-values for MLM t-statistics.
 
 - permFun::Function: function used to permute `Y`. Defaults to `shuffle_rows` 
   (shuffles rows of `Y`). 
-- hasXIntercept::Bool=true: Boolean flag indicating whether or not to include an `X` 
+- addXIntercept::Bool=true: Boolean flag indicating whether or not to include an `X` 
   intercept (row main effects). Defaults to `true`. 
-- hasZIntercept::Bool=true: Boolean flag indicating whether or not to include a `Z` 
+- addZIntercept::Bool=true: Boolean flag indicating whether or not to include a `Z` 
   intercept (column main effects). Defaults to `true`. 
 - weights: 1d array of floats to use as column weights for `Y`, or `nothing`. 
   If the former, must be the same length as the number of columns of `Y`. 
@@ -45,13 +45,13 @@ Permutations are computed in parallel when possible.
 """
 function mlm_perms(data::RawData, nPerms::Int64=1000; 
                    permFun::Function=shuffle_rows, 
-                   hasXIntercept::Bool=true, hasZIntercept::Bool=true, 
+                   addXIntercept::Bool=true, addZIntercept::Bool=true, 
                    weights=nothing, targetType=nothing, isMainEff::Bool=false) 
     
     # Wrapper function that performs MLM and gets t-statistics
     function mlm_t_stat(data::RawData)
-        return t_stat(mlm(data; hasXIntercept=hasXIntercept, 
-                      hasZIntercept=hasZIntercept, weights=weights, 
+        return t_stat(mlm(data; addXIntercept=addXIntercept, 
+                      addZIntercept=addZIntercept, weights=weights, 
                       targetType=targetType), isMainEff)
     end
     

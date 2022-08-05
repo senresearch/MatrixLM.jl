@@ -61,7 +61,7 @@ dat = RawData(Response(Y), Predictors(X, Z))
 
 The matrix linear model could be build by using RawData object directly.
 
-Least-squares estimates for matrix linear models can be obtained by running `mlm()`. An object of type `Mlm` will be returned, with variables for the coefficient estimates (`B`), the coefficient variance estimates (`varB`), and the estimated variance of the errors (`𝜎`). By default, `mlm` estimates both row and column main effects (`X` and `Z` intercepts), but this behavior can be suppressed by setting `hasXIntercept=false` and/or `hasZIntercept=false`. Column weights for `Y` and the target type for variance shrinkage can be optionally supplied to weights and targetType, respectively.
+Least-squares estimates for matrix linear models can be obtained by running `mlm()`. An object of type `Mlm` will be returned, with variables for the coefficient estimates (`B`), the coefficient variance estimates (`varB`), and the estimated variance of the errors (`𝜎`). By default, `mlm` estimates both row and column main effects (`X` and `Z` intercepts), but this behavior can be suppressed by setting `addXIntercept=false` and/or `addZIntercept=false`. Column weights for `Y` and the target type for variance shrinkage can be optionally supplied to weights and targetType, respectively.
 
 
 ```julia

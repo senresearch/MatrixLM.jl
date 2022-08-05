@@ -39,8 +39,8 @@ GLMEst = lm(Matrix(GLMData[:,2:end]), Vector(GLMData[:,1]))
 # Put together RawData object for MLM
 MLMData = RawData(Response(Y), Predictors(X, Z))
 # mlm estimate
-# MLMEst = mlm(MLMData, hasXIntercept = false, hasZIntercept = false)
-MLMEst = mlm(MLMData, hasXIntercept = false, hasZIntercept = false)
+# MLMEst = mlm(MLMData, addXIntercept = false, addZIntercept = false)
+MLMEst = mlm(MLMData, addXIntercept = false, addZIntercept = false)
 
 nPerms = 5
 tStats, pVals = mlm_perms(MLMData, nPerms)

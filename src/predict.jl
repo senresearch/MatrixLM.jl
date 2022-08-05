@@ -37,30 +37,30 @@ Response object
 function predict(MLM::Mlm, newPredictors::Predictors=MLM.data.predictors)
     
   	# Include X and Z intercepts in new data if necessary
-  	if MLM.data.predictors.hasXIntercept==true && 
-       newPredictors.hasXIntercept==false
+  	if MLM.data.predictors.addXIntercept==true && 
+       newPredictors.addXIntercept==false
     	newPredictors.X = add_intercept(newPredictors.X)
-    	newPredictors.hasXIntercept = true
+    	newPredictors.addXIntercept = true
     	println("Adding X intercept to newPredictors.")
   	end
-  	if MLM.data.predictors.hasZIntercept==true && 
-       newPredictors.hasZIntercept==false
+  	if MLM.data.predictors.addZIntercept==true && 
+       newPredictors.addZIntercept==false
     	newPredictors.Z = add_intercept(newPredictors.Z)
-    	newPredictors.hasZIntercept = true
+    	newPredictors.addZIntercept = true
     	println("Adding Z intercept to newPredictors.")
   	end
     
   	# Remove X and Z intercepts in new data if necessary
-  	if MLM.data.predictors.hasXIntercept==false && 
-       newPredictors.hasXIntercept==true
+  	if MLM.data.predictors.addXIntercept==false && 
+       newPredictors.addXIntercept==true
     	newPredictors.X = remove_intercept(newPredictors.X)
-    	newPredictors.hasXIntercept = false
+    	newPredictors.addXIntercept = false
     	println("Removing X intercept from newPredictors.")
   	end
-  	if MLM.data.predictors.hasZIntercept==false && 
-       newPredictors.hasZIntercept==true
+  	if MLM.data.predictors.addZIntercept==false && 
+       newPredictors.addZIntercept==true
     	newPredictors.Z = remove_intercept(newPredictors.Z)
-    	newPredictors.hasZIntercept = false
+    	newPredictors.addZIntercept = false
     	println("Removing Z intercept from newPredictors.")
   	end
     
@@ -109,33 +109,33 @@ Calculates residuals of an Mlm object
 function resid(MLM::Mlm, newData::RawData=MLM.data)
     
     # Include X and Z intercepts in new data if necessary
-    if MLM.data.predictors.hasXIntercept==true && 
-       newData.predictors.hasXIntercept==false
+    if MLM.data.predictors.addXIntercept==true && 
+       newData.predictors.addXIntercept==false
         newData.predictors.X = add_intercept(newData.predictors.X)
-        newData.predictors.hasXIntercept = true
+        newData.predictors.addXIntercept = true
         newData.p = newData.p + 1
         println("Adding X intercept to newData.")
     end
-    if MLM.data.predictors.hasZIntercept==true && 
-       newData.predictors.hasZIntercept==false
+    if MLM.data.predictors.addZIntercept==true && 
+       newData.predictors.addZIntercept==false
         newData.predictors.Z = add_intercept(newData.predictors.Z)
-        newData.predictors.hasZIntercept = true
+        newData.predictors.addZIntercept = true
         newData.q = newData.q + 1
         println("Adding Z intercept to newData.")
     end
     
     # Remove X and Z intercepts in new data if necessary
-    if MLM.data.predictors.hasXIntercept==false && 
-       newData.predictors.hasXIntercept==true
+    if MLM.data.predictors.addXIntercept==false && 
+       newData.predictors.addXIntercept==true
         newData.predictors.X = remove_intercept(newData.predictors.X)
-        newData.predictors.hasXIntercept = false
+        newData.predictors.addXIntercept = false
         newData.p = newData.p - 1
         println("Removing X intercept from newData.")
     end
-    if MLM.data.predictors.hasZIntercept==false && 
-       newData.predictors.hasZIntercept==true
+    if MLM.data.predictors.addZIntercept==false && 
+       newData.predictors.addZIntercept==true
         newData.predictors.Z = remove_intercept(newData.predictors.Z)
-        newData.predictors.hasZIntercept = false
+        newData.predictors.addZIntercept = false
         newData.q = newData.q - 1
         println("Removing Z intercept from newData.")
     end

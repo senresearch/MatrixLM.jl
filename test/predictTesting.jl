@@ -29,8 +29,8 @@ Y = X*B*transpose(Z)+E
 # Put together RawData object for MLM
 MLMData = RawData(Response(Y), Predictors(X, Z))
 # mlm estimate
-# MLMEst = mlm(MLMData, hasXIntercept = false, hasZIntercept = false)
-MLMEst = mlm(MLMData, hasXIntercept = false, hasZIntercept = false)
+# MLMEst = mlm(MLMData, addXIntercept = false, addZIntercept = false)
+MLMEst = mlm(MLMData, addXIntercept = false, addZIntercept = false)
 
 fitted = MatrixLM.predict(MLMEst)
 fitted2 = MatrixLM.fitted(MLMEst)
@@ -49,14 +49,14 @@ end
 
 #MLMData2 = MLMData
 # testing the model with intercept
-MLMest_Xinter = mlm(RawData(Response(Y), Predictors(X, Z)), hasXIntercept = true, hasZIntercept = false)
+MLMest_Xinter = mlm(RawData(Response(Y), Predictors(X, Z)), addXIntercept = true, addZIntercept = false)
 pred_Xinter = MatrixLM.predict(MLMest_Xinter).Y
 
-MLMest_Zinter = mlm(RawData(Response(Y), Predictors(X, Z)), hasXIntercept = false, hasZIntercept = true)
+MLMest_Zinter = mlm(RawData(Response(Y), Predictors(X, Z)), addXIntercept = false, addZIntercept = true)
 pred_Zinter = MatrixLM.predict(MLMest_Zinter).Y
 
 resid_1 = resid(MLMEst)
-MLMEst_inter = mlm(MLMData, hasXIntercept = true, hasZIntercept = true)
+MLMEst_inter = mlm(RawData(Response(Y), Predictors(X, Z)), addXIntercept = true, addZIntercept = true)
 resid_inter = MatrixLM.resid(MLMEst_inter)
 
 @testset "resid_test" begin

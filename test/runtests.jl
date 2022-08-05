@@ -1,4 +1,4 @@
-using Test
+using Test , StatsBase
 using MatrixLM
 
 @testset "MatrixLM" begin 

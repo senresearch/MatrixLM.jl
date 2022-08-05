@@ -133,7 +133,7 @@ end
 
 
 """
-    mlm(data::RawData; hasXIntercept::Bool=true, hasZIntercept::Bool=true, weights=nothing, targetType=nothing)
+    mlm(data::RawData; addXIntercept::Bool=true, addZIntercept::Bool=true, weights=nothing, targetType=nothing)
 
 Matrix linear model using least squares method. Column weighted least squares 
 and shrinkage of the variance of the errors are options. 
@@ -144,9 +144,9 @@ and shrinkage of the variance of the errors are options.
 
 # Keyword arguments
 
-- hasXIntercept::Bool = boolean flag indicating whether or not to include an `X` 
+- addXIntercept::Bool = boolean flag indicating whether or not to include an `X` 
   intercept (row main effects). Defaults to `true`. 
-- hasZIntercept::Bool = boolean flag indicating whether or not to include a `Z` 
+- addZIntercept::Bool = boolean flag indicating whether or not to include a `Z` 
   intercept (column main effects). Defaults to `true`. 
 - weights = 1d array of floats to use as column weights for `Y`, or `nothing`. 
   If the former, must be the same length as the number of columns of `Y`. 
@@ -164,47 +164,47 @@ and shrinkage of the variance of the errors are options.
 An Mlm object
 
 """
-function mlm(data::RawData; hasXIntercept::Bool=true, hasZIntercept::Bool=true, 
+function mlm(data::RawData; addXIntercept::Bool=true, addZIntercept::Bool=true, 
              weights=nothing, targetType=nothing, kwargs...)
     
     #= Deprecation:check for previous version keyword arguments
     ---------------------------------------------------------------------------------------------=#
     if haskey(kwargs, :isXIntercept)
         @warn "Keyword arguments `isXIntercept` and `isZIntercept` are deprecated, use 
-                    `hasXIntercept` and `hasZIntercept` instead." 
+                    `addXIntercept` and `addZIntercept` instead." 
               
-        hasXIntercept = values(kwargs).isXIntercept
+        addXIntercept = values(kwargs).isXIntercept
     end
 
     if haskey(kwargs, :isZIntercept)
         @warn "Keyword arguments `isXIntercept` and `isZIntercept` are deprecated, use 
-                    `hasXIntercept` and `hasZIntercept` instead."
+                    `addXIntercept` and `addZIntercept` instead."
                     
-        hasZIntercept = values(kwargs).isZIntercept
+        addZIntercept = values(kwargs).isZIntercept
     end
     #-----------------------------------------------------------------------------------------------
 
     # Add X and Z intercepts if necessary
-    if hasXIntercept==true && data.predictors.hasXIntercept==false
+    if addXIntercept==true && data.predictors.addXIntercept==false
         data.predictors.X = add_intercept(data.predictors.X)
-        data.predictors.hasXIntercept = true
+        data.predictors.addXIntercept = true
         data.p = data.p + 1
     end
-    if hasZIntercept==true && data.predictors.hasZIntercept==false
+    if addZIntercept==true && data.predictors.addZIntercept==false
         data.predictors.Z = add_intercept(data.predictors.Z)
-        data.predictors.hasZIntercept = true
+        data.predictors.addZIntercept = true
         data.q = data.q + 1
     end
     
     # Remove X and Z intercepts in new predictors if necessary
-    if hasXIntercept==false && data.predictors.hasXIntercept==true
+    if addXIntercept==false && data.predictors.addXIntercept==true
         data.predictors.X = remove_intercept(data.predictors.X)
-        data.predictors.hasXIntercept = false
+        data.predictors.addXIntercept = false
         data.p = data.p - 1
     end
-    if hasZIntercept==false && data.predictors.hasZIntercept==true
+    if addZIntercept==false && data.predictors.addZIntercept==true
         data.predictors.Z = remove_intercept(data.predictors.Z)
-        data.predictors.hasZIntercept = false
+        data.predictors.addZIntercept = false
         data.q = data.q - 1
     end
 
@@ -239,16 +239,16 @@ function t_stat(MLM::Mlm, isMainEff::Bool=false)
     # Cases when not including main effects
     if isMainEff== false 
         # If X and Z intercepts were both included
-        if (MLM.data.predictors.hasXIntercept==true) && 
-           (MLM.data.predictors.hasZIntercept==true) 
+        if (MLM.data.predictors.addXIntercept==true) && 
+           (MLM.data.predictors.addZIntercept==true) 
             return MLM.B[2:end, 2:end]./sqrt.(MLM.varB[2:end, 2:end])
             
         # If only X intercept was included
-        elseif MLM.data.predictors.hasXIntercept==true 
+        elseif MLM.data.predictors.addXIntercept==true 
             return MLM.B[2:end, :]./sqrt.(MLM.varB[2:end, :])
             
         # If only Z intercept was included
-        elseif  MLM.data.predictors.hasZIntercept==true 
+        elseif  MLM.data.predictors.addZIntercept==true 
             return MLM.B[:, 2:end]./sqrt.(MLM.varB[:, 2:end])
             
         end
