@@ -43,9 +43,9 @@ Ŷfitted = MatrixLM.fitted(MLMEst).Y
 
 @testset "predictTesting" begin   
     # testing the dimension of fitted y with actual Y, to see their consistancy
-    @test sizeof(Ŷpredict) == sizeof(Y)
+    @test sizeof(Ŷpredict_a) == sizeof(Y)
     @test sizeof(Ŷfitted) == sizeof(Y)
-    @test isapprox(Ŷpredict, Ŷfitted, atol=tol)
+    @test isapprox(Ŷpredict_a, Ŷfitted, atol=tol)
     # testing the calc_preds function, too see if they are identical with the resid function
     @test MatrixLM.calc_resid(get_X(MLMData), get_Y(MLMData), get_Z(MLMData),MatrixLM.coef(MLMEst)) == resid(MLMEst)    
 end
