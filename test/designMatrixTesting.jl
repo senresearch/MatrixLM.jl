@@ -1,3 +1,6 @@
+###########
+# Library #
+###########
 using DataFrames, Random, MatrixLM, StatsModels
 n = 100
 # Generate data with two categorical variables and 4 numerical variables.
@@ -9,5 +12,6 @@ mat = MatrixLM.design_matrix(@mlmFormula(1 + catvar1 + catvar2 + catvar3 + x1 + 
 mat2 = MatrixLM.design_matrix(@mlmFormula(1 + catvar1 + catvar2 + catvar3 + x1 + x2 + x3 + x4), X_df, methods)
 
 @testset "designMatrixTesting" begin
+    # test the dimension of the matrix after the design_matrix transformation with the one from StatsModels
     @test size(mat) == size(mat2) == (100,12)
 end 

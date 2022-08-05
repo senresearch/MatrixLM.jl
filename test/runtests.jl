@@ -2,7 +2,7 @@ using Test
 using MatrixLM
 
 @testset "MatrixLM" begin 
-    include("testMlm.jl")
+    include("mlmTesting.jl")
     include("miscHelperTesting.jl")
     include("shrinkSigmaTesting.jl")
     include("mlmPermsTesting.jl")

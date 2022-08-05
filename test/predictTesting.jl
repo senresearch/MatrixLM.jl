@@ -47,12 +47,20 @@ fitted2 = MatrixLM.fitted(MLMEst)
     @test MatrixLM.calc_resid(get_X(MLMData), get_Y(MLMData), get_Z(MLMData),MatrixLM.coef(MLMEst)) == resid(MLMEst)    
 end
 
-
+#MLMData2 = MLMData
 # testing the model with intercept
+MLMest_Xinter = mlm(RawData(Response(Y), Predictors(X, Z)), hasXIntercept = true, hasZIntercept = false)
+pred_Xinter = MatrixLM.predict(MLMest_Xinter).Y
+
+MLMest_Zinter = mlm(RawData(Response(Y), Predictors(X, Z)), hasXIntercept = false, hasZIntercept = true)
+pred_Zinter = MatrixLM.predict(MLMest_Zinter).Y
+
 resid_1 = resid(MLMEst)
 MLMEst_inter = mlm(MLMData, hasXIntercept = true, hasZIntercept = true)
 resid_inter = MatrixLM.resid(MLMEst_inter)
 
 @testset "resid_test" begin
     @test size(resid_1) == size(resid_inter)
+    @test isapprox(mean(Y .- pred_Xinter), 0, atol = 0.1 )
+    @test isapprox(mean(Y .- pred_Zinter), 0, atol = 0.1 )
 end
