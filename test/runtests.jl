@@ -9,6 +9,7 @@ using MatrixLM
     include("predictTesting.jl")
     include("kronDiagTesting.jl")
     include("designMatrixTesting.jl")
+    include("contrTesting.jl")
 end
 
 
