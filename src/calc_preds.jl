@@ -7,11 +7,11 @@ Predict values
 
 # Arguments 
 
-- X::AbstractArray{Float64,2} = The row covariates, standardized as 
+- `X::AbstractArray{Float64,2}`: The row covariates, standardized as 
   necessary
-- Z::AbstractArray{Float64,2} = The column covariates, standardized 
+- `Z::AbstractArray{Float64,2}`: The column covariates, standardized 
   as necessary
-- B::AbstractArray{Float64,2} = Coefficient estimates
+- `B::AbstractArray{Float64,2}`: Coefficient estimates
 
 # Value 
 
@@ -37,13 +37,13 @@ Predict values in place
 
 # Arguments 
 
-- preds::AbstractArray{Float64,2}: The predicted values, to be 
+- `preds::AbstractArray{Float64,2}`: The predicted values, to be 
   updated in place
-- X::AbstractArray{Float64,2}: The row covariates, standardized as 
+- `X::AbstractArray{Float64,2}`: The row covariates, standardized as 
   necessary
-- Z::AbstractArray{Float64,2}: The column covariates, standardized 
+- `Z::AbstractArray{Float64,2}`: The column covariates, standardized 
   as necessary
-- B::AbstractArray{Float64,2}: Coefficient estimates
+- `B::AbstractArray{Float64,2}`: Coefficient estimates
 
 # Value 
 

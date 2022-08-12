@@ -8,8 +8,8 @@ Obtains permutation p-values for MLM t-statistics.
 
 # Arguments
 
-- data::RawData: RawData object
-- nPerms::Int64=1000: Number of permutations. Defaults to `1000`.
+- `data::RawData`: RawData object
+- `nPerms::Int64=1000`: Number of permutations. Defaults to `1000`.
 
 # Keyword arguments
 
@@ -35,8 +35,8 @@ Obtains permutation p-values for MLM t-statistics.
 # Value
 
 Tuple
-- tStats: 2d array of floats; t-statistics
-- pvals: 2d array of floats; permutation p-values
+- `tStats`: 2d array of floats; t-statistics
+- `pvals`: 2d array of floats; permutation p-values
 
 # Some notes
 

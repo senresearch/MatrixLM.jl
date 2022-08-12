@@ -6,11 +6,11 @@ Calculate residuals
 
 # Arguments 
 
-- X::AbstractArray{Float64,2}: The row covariates, standardized as 
+- `X::AbstractArray{Float64,2}`: The row covariates, standardized as 
   necessary
-- Y::AbstractArray{Float64,2}: The multivariate response observations, standardized as necessary
-- Z::AbstractArray{Float64,2}: The column covariates, standardized as necessary
-- B::AbstractArray{Float64,2}: The coefficient estimates
+- `Y::AbstractArray{Float64,2}`: The multivariate response observations, standardized as necessary
+- `Z::AbstractArray{Float64,2}`: The column covariates, standardized as necessary
+- `B::AbstractArray{Float64,2}`: The coefficient estimates
 
 # Value 
 
@@ -41,15 +41,15 @@ Calculate residuals in place
 
 # Arguments 
 
-- resid = 2d array of floats consisting of the residuals, to be updated in 
+- `resid`: 2d array of floats consisting of the residuals, to be updated in 
   place
-- X = 2d array of floats consisting of the row covariates, standardized as 
+- `X`: 2d array of floats consisting of the row covariates, standardized as 
   necessary
-- Y = 2d array of floats consisting of the multivariate response 
+- `Y`: 2d array of floats consisting of the multivariate response 
   observations, standardized as necessary
-- Z = 2d array of floats consisting of the column covariates, standardized 
+- `Z`: 2d array of floats consisting of the column covariates, standardized 
   as necessary
-- B = 2d array of floats consisting of coefficient estimates
+- `B`: 2d array of floats consisting of coefficient estimates
 
 # Value 
 

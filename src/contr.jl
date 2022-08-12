@@ -8,10 +8,10 @@ reference level.
 
 # Arguments 
 
-- df::DataFrames.DataFrame = DataFrame of variables
-- cVar::Symbol = symbol for the categorical variable in df to be converted
-- cType::String = character string indicating the type of contrast to use for `cVar`
-- trtRef::Nothing = nothing
+- `df::DataFrames.DataFrame`: DataFrame of variables
+- `cVar::Symbol`: symbol for the categorical variable in df to be converted
+- `cType::String`: character string indicating the type of contrast to use for `cVar`
+- `trtRef::Nothing`: nothing
 
 # Value
 
@@ -67,10 +67,10 @@ reference level.
 
 # Arguments 
 
-- df::DataFrames.DataFrame = DataFrame of variables
-- cVar::Symbol = symbol for the categorical variable in df to be converted
-- cType::String = character string indicating the type of contrast to use for `cVar`
-- trtRef::String = character string specifying the level in cVar to use as the reference 
+- `df::DataFrames.DataFrame`: DataFrame of variables
+- `cVar::Symbol`: symbol for the categorical variable in df to be converted
+- `cType::String`: character string indicating the type of contrast to use for `cVar`
+- `trtRef::String`: character string specifying the level in cVar to use as the reference 
 
 # Value
 
@@ -114,15 +114,15 @@ All other variables are left as-is.
 
 # Arguments 
 
-- df::DataFrames.DataFrame: DataFrame of variables
-- cVar::Symbol: symbol for the categorical variable in df to be converted
-- cTypes::AbstractArray{String,1}: 1d array of character strings of the same length as `cVars`, 
+- `df::DataFrames.DataFrame`: DataFrame of variables
+- `cVar::Symbol`: symbol for the categorical variable in df to be converted
+- `cTypes::AbstractArray{String,1}`: 1d array of character strings of the same length as `cVars`, 
   indicating the types of contrasts to use. Defaults to treatment contrasts 
   ("treat") for all variables in `cVars`. Other options include "sum" for sum 
   contrasts, "noint" for treatment contrasts with no intercept, and 
   "sumnoint" for sum contrasts with no intercept. For "treat" `cTypes`, you 
   can also specify the level to use as the reference treatment using `trtRefs`. 
-- trtRefs::AbstractArray: optional 1d array of character strings of the same length as 
+- `trtRefs::AbstractArray`: optional 1d array of character strings of the same length as 
   `cVars`, specifying the level to use as the references for treatment 
   contrasts. Defaults to nothing for all variables in `cVars`.
 	

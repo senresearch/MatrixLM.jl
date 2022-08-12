@@ -8,12 +8,12 @@ Calculates the the coefficient estimates
 
 # Arguments
 
-- X::AbstractArray{Float64,2}: The row covariates, with all 
+- `X::AbstractArray{Float64,2}`: The row covariates, with all 
   categorical variables coded in appropriate contrasts
-- Y::AbstractArray{Float64,2}: The multivariate response
-- Z::AbstractArray{Float64,2}: The column covariates, with all categorical variables coded in appropriate contrasts
-- XTX::AbstractArray{Float64,2}: X*transpose(X) product as a 2d array of floats 
-- ZTZ::AbstractArray{Float64,2}: Z*transpose(Z) product as a 2d array of floats 
+- `Y::AbstractArray{Float64,2}`: The multivariate response
+- `Z::AbstractArray{Float64,2}`: The column covariates, with all categorical variables coded in appropriate contrasts
+- `XTX::AbstractArray{Float64,2}`: X*transpose(X) product as a 2d array of floats 
+- `ZTZ::AbstractArray{Float64,2}`: Z*transpose(Z) product as a 2d array of floats 
 
 # Value
 
@@ -37,14 +37,14 @@ shrinkage.
 
 # Arguments
 
-- resid::AbstractArray{Float64,2}: 2d array of floats consisting of the residuals
-- targetType =`nothing`
+- `resid::AbstractArray{Float64,2}:` 2d array of floats consisting of the residuals
+- `targetType` : `nothing`
 
 # Value
 
 Tuple
-- sigma: 2d array of floats; estimated variance of errors
-- lambda: 0.0
+- `sigma`: 2d array of floats; estimated variance of errors
+- `lambda`: 0.0
 
 # Some notes
 
@@ -71,8 +71,8 @@ shrinkage.
 
 # Arguments
 
-- resid::AbstractArray{Float64,2}: 2d array of floats consisting of the residuals
-- targetType::AbstractString: Indicating the target type toward which to shrink the 
+- `resid::AbstractArray{Float64,2}`: 2d array of floats consisting of the residuals
+- `targetType::AbstractString`: Indicating the target type toward which to shrink the 
   variance. Acceptable inputs are "A", "B", "C", and "D". 
     - "A": Target is identity matrix
     - "B": Target is diagonal matrix with constant diagonal
@@ -82,8 +82,8 @@ shrinkage.
 # Value
 
 Tuple
-- sigma: 2d array of floats; shrunk estimated variance of errors
-- lambda: floating scalar; estimated shrinkage coefficient 
+- `sigma`: 2d array of floats; shrunk estimated variance of errors
+- `lambda`: floating scalar; estimated shrinkage coefficient 
   (0 = no shrinkage, 1 = complete shrinkage)
 
 """
@@ -104,13 +104,13 @@ estimates.
 
 # Arguments
 
-- X::AbstractArray{Float64,2}: The row covariates, with all 
+- `X::AbstractArray{Float64,2}`: The row covariates, with all 
   categorical variables coded in appropriate contrasts
-- Z::AbstractArray{Float64,2}: The column covariates, with all 
+- `Z::AbstractArray{Float64,2}`: The column covariates, with all 
   categorical variables coded in appropriate contrasts
-- XTX::AbstractArray{Float64,2}: X*transpose(X) product as a 2d array of floats 
-- ZTZ::AbstractArray{Float64,2}: Z*transpose(Z) product as a 2d array of floats 
-- sigma::AbstractArray{Float64,2}: 2d array of floats consisting of the estimated sigma
+- `XTX::AbstractArray{Float64,2}`: X*transpose(X) product as a 2d array of floats 
+- `ZTZ::AbstractArray{Float64,2}`: Z*transpose(Z) product as a 2d array of floats 
+- `sigma::AbstractArray{Float64,2}`: 2d array of floats consisting of the estimated sigma
 
 # Value
 
