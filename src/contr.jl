@@ -98,7 +98,7 @@ function get_dummy(df::DataFrames.DataFrame, cVar::Symbol, cType::String,
     end
     
     # Convert results to a DataFrame and rename columns 
-    newDf = convert(DataFrame, dummies)
+    newDf = DataFrame(dummies ,:auto)
     rename!(newDf, [Symbol("$(cVar)_$k") for k in levs])
     return newDf
 end
