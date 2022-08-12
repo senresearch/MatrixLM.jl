@@ -10,8 +10,9 @@ methods = Dict(:catvar1 => DummyCoding(), :catvar2 => EffectsCoding(base = "A"),
 mat = MatrixLM.design_matrix(@mlmFormula(1 + catvar1 + catvar2 + catvar3 + x1 + x2 + x3 + x4 ),X_df,
                [(:catvar1, :catvar3, DummyCoding()) , (:catvar2, EffectsCoding()) ]  )
 mat2 = MatrixLM.design_matrix(@mlmFormula(1 + catvar1 + catvar2 + catvar3 + x1 + x2 + x3 + x4), X_df, methods)
-
+mat3 = MatrixLM.design_matrix(@mlmFormula(1 + catvar1 + catvar2), X_df)
 @testset "designMatrixTesting" begin
     # test the dimension of the matrix after the design_matrix transformation with the one from StatsModels
     @test size(mat) == size(mat2) == (100,12)
+    @test size(mat3) == (100,4)
 end 

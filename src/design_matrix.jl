@@ -25,7 +25,6 @@ function design_matrix(f, df::DataFrame,cntrst::Dict{Symbol, AbstractContrasts})
 end
 
 """
-
     design_matrix(f, df::DataFrame, cntrst::Vector)
 
 Build design matrix.
@@ -45,4 +44,18 @@ function design_matrix(f, df::DataFrame, cntrst::Vector)
         end
     end    
     return modelmatrix(f, df, hints= cntrsts)
+end
+
+"""
+    design_matrix(f, df::DataFrame)
+
+Default design matrix, all the categorical variables would be dummy coded.
+# Arguments 
+
+- f = formula for matrixLM, use @mlmFormula
+- df::DataFrames.DataFrame = DataFrame of variables
+
+"""
+function design_matrix(f, df::DataFrame)
+    return modelmatrix(f, df)
 end
