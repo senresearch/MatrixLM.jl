@@ -90,3 +90,15 @@ function shuffle_cols(A::AbstractArray{Float64,2})
     
     return A[:,Random.shuffle(1:size(A,2))]
 end
+
+
+function is_full_rank(A::AbstractArray{Float64,2})
+
+    return rank(A) == size(A)[2]
+end
+
+function check_Z_rank(A::AbstractArray{Float64,2})
+    if !is_full_rank(A)
+        @warn "The rank of Z matrix is not full, and this may generate errores."
+    end
+end
