@@ -6,7 +6,7 @@ function.
 
 # Arguments
 
-- A::AbstractArray{Float64,2}: 2d array of floats
+- `A::AbstractArray{Float64,2}`: 2d array of floats
 
 # Value 
 
@@ -27,7 +27,7 @@ Get the diagonal of a 1d array of floats. Behaves like an identity function
 
 # Arguments
 
-- A::AbstractArray{Float64,1}: 1d array of floats
+- `A::AbstractArray{Float64,1}`: 1d array of floats
 
 # Value 
 
@@ -53,7 +53,7 @@ function (returns itself).
 
 # Arguments
 
-- A::Float64: floating scalar
+- `A::Float64`: floating scalar
 
 # Value 
 
@@ -73,8 +73,8 @@ Compute the diagonal of the Kronecker product of arrays or scalars
 
 # Arguments
 
-- A = square 2d array of floats, a 1d array of floats, or a scalar
-- B = square 2d array of floats, a 1d array of floats, or a scalar
+- `A`: square 2d array of floats, a 1d array of floats, or a scalar
+- `B`: square 2d array of floats, a 1d array of floats, or a scalar
 
 # Value 
 

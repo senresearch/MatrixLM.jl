@@ -16,7 +16,7 @@ using StatsModels
 export Response, Predictors, RawData, get_X, get_Z, get_Y, contr, 
     kron_diag, add_intercept, remove_intercept, shuffle_rows, shuffle_cols, 
     Mlm, mlm, t_stat, coef, predict, fitted, resid, 
-    perm_pvals, mlm_perms, design_matrix, @mlmFormula
+    perm_pvals, mlm_perms, design_matrix, @mlmFormula, is_full_rank, check_Z_rank
 
 
 # Data object types

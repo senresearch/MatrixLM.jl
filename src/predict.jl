@@ -5,7 +5,7 @@ Extracts coefficients from Mlm object
 
 # Arguments 
 
-- MLM::Mlm = Mlm object
+- `MLM::Mlm`: Mlm object
 
 # Value
 
@@ -25,8 +25,8 @@ Calculates new predictions based on Mlm object
 
 # Arguments 
 
-- MLM::Mlm = Mlm object
-- newPredictors::Predictors = Predictors object. Defaults to the `data.predictors` field 
+- `MLM::Mlm`: Mlm object
+- `newPredictors::Predictors`: Predictors object. Defaults to the `data.predictors` field 
   in the Mlm object used to fit the model. 
 
 # Value
@@ -76,7 +76,7 @@ Calculate fitted values of an Mlm object
 
 # Arguments 
 
-- MLM::Mlm = Mlm object
+- `MLM::Mlm`: Mlm object
 
 # Value
 
@@ -97,8 +97,8 @@ Calculates residuals of an Mlm object
 
 # Arguments 
 
-- MLM::Mlm = Mlm object
-- newData::RawData = RawData object. Defaults to the `data` field in the Mlm object 
+- `MLM::Mlm`: Mlm object
+- `newData::RawData`: RawData object. Defaults to the `data` field in the Mlm object 
   used to fit the model. 
 
 # Value
