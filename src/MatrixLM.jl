@@ -11,6 +11,7 @@ import LinearAlgebra.I, LinearAlgebra.mul!,
 using DataFrames
 using Random
 using StatsModels
+using RecipesBase
 
 
 export Response, Predictors, RawData, get_X, get_Z, get_Y, contr, 
