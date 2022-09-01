@@ -1,4 +1,4 @@
-using Random, MatrixLM, DataFrames, Test
+using Random, MatrixLM, DataFrames, Test, RecipesBase
 
 Random.seed!(1)
 
