@@ -10,7 +10,7 @@ import LinearAlgebra.I, LinearAlgebra.mul!,
     LinearAlgebra.diag, LinearAlgebra.diagm
 using DataFrames
 using Random
-using StatsModels
+using StatsModels, Plots
 
 
 export Response, Predictors, RawData, get_X, get_Z, get_Y, contr, 
