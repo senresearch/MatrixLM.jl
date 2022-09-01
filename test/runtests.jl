@@ -10,6 +10,7 @@ using MatrixLM
     include("kronDiagTesting.jl")
     include("designMatrixTesting.jl")
     include("contrTesting.jl")
+    include("PlotsTesting.jl")
 end
 
 
