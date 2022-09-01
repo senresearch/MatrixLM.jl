@@ -10,7 +10,7 @@ using MatrixLM
     include("kron_diag_test.jl")
     include("design_matrix_test.jl")
     include("contr_test.jl")
-    include("plots_test.jl")
+    include("recipes_plot_test.jl")
 end
 
 

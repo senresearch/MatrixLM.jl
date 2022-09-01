@@ -1,4 +1,4 @@
-using Plots, Random, MatrixLM, DataFrames, Test
+using Random, MatrixLM, DataFrames, Test
 
 Random.seed!(1)
 
@@ -28,10 +28,10 @@ tStats = t_stat(est);
 rec = RecipesBase.apply_recipe(Dict{Symbol, Any}(), (tStats, 2 ,["a" "aa" "d" "s" "sv" "zx" "eq" "j" "m" "o" ]))
 
 # Plot the t-statistics of the coefficients
-@testset "plot testings" begin
+@testset "recipe plot test" begin
     @test rec[1].args[1][1][1] == tStats
     @test rec[1].args[1][1][2] == 2
     @test rec[1].args[1][1][3] == ["a" "aa" "d" "s" "sv" "zx" "eq" "j" "m" "o"]
 end
 
-# Other testing can be added by using Picture.jl
+# Notes: Alternative testing could compare plot images by using Image.jl.
