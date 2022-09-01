@@ -48,7 +48,7 @@ default_resids = resid(MLMEst)
     @test sizeof(Ŷfitted) == sizeof(Y)
     @test isapprox(Ŷpredict_a, Ŷfitted, atol=tol)
     # testing the calc_preds function, too see if they are identical with the resid function
-    # @test MatrixLM.calc_resid(get_X(MLMData), get_Y(MLMData), get_Z(MLMData),MatrixLM.coef(MLMEst)) == resid(MLMEst)
+    @test MatrixLM.calc_resid(get_X(MLMData), get_Y(MLMData), get_Z(MLMData),MatrixLM.coef(MLMEst)) == resid(MLMEst)
     @test default_resids == residuals    
 end
 
