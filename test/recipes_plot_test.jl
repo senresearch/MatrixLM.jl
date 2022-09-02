@@ -25,7 +25,7 @@ est = mlm(dat);
 
 tStats = t_stat(est);
 
-rec = RecipesBase.apply_recipe(Dict{Symbol, Any}(), (tStats, 2 ,["a" "aa" "d" "s" "sv" "zx" "eq" "j" "m" "o" ]))
+rec = RecipesBase.apply_recipe(Dict{Symbol, Any}(), MLMplots(tStats, 2 ,["a" "aa" "d" "s" "sv" "zx" "eq" "j" "m" "o" ]))
 
 # Plot the t-statistics of the coefficients
 @testset "recipe plot test" begin
