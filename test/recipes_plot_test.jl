@@ -29,9 +29,8 @@ rec = RecipesBase.apply_recipe(Dict{Symbol, Any}(), MLMplots(tStats, 2 ,["a" "aa
 
 # Plot the t-statistics of the coefficients
 @testset "recipe plot test" begin
-    @test rec[1].args[1][1][1] == tStats
-    @test rec[1].args[1][1][2] == 2
-    @test rec[1].args[1][1][3] == ["a" "aa" "d" "s" "sv" "zx" "eq" "j" "m" "o"]
+    @test rec[1].args[1] == tStats[:,2]
+    @test rec[1].plotattributes[:xticks][2] == ["a" "aa" "d" "s" "sv" "zx" "eq" "j" "m" "o"]
 end
 
 # Notes: Alternative testing could compare plot images by using Image.jl.
