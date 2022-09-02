@@ -12,8 +12,6 @@ struct MLMplots
     data::Matrix{Real}
     nrow::Int
     xticks::Matrix{String}
-    
-    new(data, nrow, xticks)
 end
 
 @recipe function f(x::MLMplots)
