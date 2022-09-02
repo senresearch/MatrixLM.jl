@@ -15,9 +15,9 @@ struct MLMplots
 end
 
 @recipe function f(x::MLMplots)
-    mB = x.args[1]
-    nrow = x.args[2]
-    mticks = x.args[3]
+    mB = x.data
+    nrow = x.nrow
+    mticks = x.xticks
     V = mB[:,nrow]
     
     # return error message if the input arugment is different from `AbstractMatrix`
@@ -35,7 +35,7 @@ end
     legend --> false
     label --> "y1"
     
-    xticks := (collect(1:length(ticks)), mticks)
+    xticks := (collect(1:length(mticks)), mticks)
     # add a series for an error band
     @series begin
         seriestype := :path
