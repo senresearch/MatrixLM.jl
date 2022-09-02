@@ -9,9 +9,9 @@ colNames::Matrix{string}: the column names of the columns in the t-statistics ma
 
 """
 struct MLMplots
-    data::Matrix{::Real}
+    data::Matrix{Real}
     nrow::Int
-    xticks::Matrix{::String}
+    xticks::Matrix{String}
     
     new(data, nrow, xticks)
 end
