@@ -8,12 +8,18 @@ n::Int64: the number of rows in the t-statistics MatrixLM
 colNames::Matrix{string}: the column names of the columns in the t-statistics matrix.
 
 """
-@userplot Mlm_plots
+struct MLMplots
+    data::Matrix{::Real}
+    nrow::Int
+    xticks::Matrix{::String}
+    
+    new(data, nrow, xticks)
+end
 
-@recipe function f(x::Mlm_plots)
+@recipe function f(x::MLMplots)
     mB = x.args[1]
     nrow = x.args[2]
-    ticks = x.args[3]
+    mticks = x.args[3]
     V = mB[:,nrow]
     
     # return error message if the input arugment is different from `AbstractMatrix`
@@ -31,7 +37,7 @@ colNames::Matrix{string}: the column names of the columns in the t-statistics ma
     legend --> false
     label --> "y1"
     
-    xticks := (collect(1:length(ticks)), ticks)
+    xticks := (collect(1:length(ticks)), mticks)
     # add a series for an error band
     @series begin
         seriestype := :path
