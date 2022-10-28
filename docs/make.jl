@@ -1,7 +1,7 @@
-using Documenter
-using MatrixLM
+push!(LOAD_PATH,"../src/")
 
-const src = "https://github.com/senresearch/MatrixLM.jl"
+using MatrixLM
+using Documenter
 
 makedocs(
         modules = [MatrixLM],
