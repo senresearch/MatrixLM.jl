@@ -1,5 +1,6 @@
 """
-    Mlm(B, varB, sigma, data, weights, targetType, lambda)
+    Mlm(B::Array{Float64,2}, varB::Array{Float64,2}, sigma::Array{Float64,2},    
+        data::RawData, weights, targetType, lambda::Float64)
 
 Type for storing the results of an mlm model fit. 
 
@@ -26,16 +27,16 @@ end
 
 
 """
-    mlm_fit(data, weights, targetType)
+    mlm_fit(data::RawData, weights::Nothing, targetType)
 
 Matrix linear model using least squares method. Optionally incorporates 
 shrinkage of the variance of the errors. 
 
 # Arguments
 
-- data = RawData object
-- weights = `nothing`
-- targetType = string indicating the target type toward which to shrink the 
+- `data::RawData`: RawData object
+- `weights::Nothing`: `nothing`
+- `targetType`: string indicating the target type toward which to shrink the 
   error variance, or `nothing`. If the former, acceptable inputs are "A", "B", 
   "C", and "D". 
     - "A": Target is identity matrix
@@ -73,17 +74,17 @@ end
 
 
 """
-    mlm_fit(data, weights, targetType)
+    mlm_fit(data::RawData, weights::Array{Float64,1}, targetType)
 
 Matrix linear model using column weighted least squares method. Optionally 
 incorporates shrinkage of the variance of the errors. 
 
 # Arguments
 
-- data = RawData object
-- weights = 1d array of floats to use as column weights for `Y`. Must be the 
+- `data`::RawData : RawData object
+- `weights`::Array{Float64,1} : 1d array of floats to use as column weights for `Y`. Must be the 
   same length as the number of columns of `Y`. 
-- targetType = string indicating the target type toward which to shrink the 
+- `targetType` : string indicating the target type toward which to shrink the 
   error variance, or `nothing`. If the former, acceptable inputs are "A", "B", 
   "C", and "D". 
     - "A": Target is identity matrix
@@ -110,12 +111,12 @@ function mlm_fit(data::RawData, weights::Array{Float64,1}, targetType)
     WZ = W*get_Z(data)
     
     # Calculate and store transpose(X)*X
-    XTX = transpose(get_X(data))*get_X(data)
+    XᵀX = transpose(get_X(data))*get_X(data)
     # Calculate and store transpose(Z)*W*Z
-    ZTWZ = transpose(get_Z(data))*WZ
+    ZᵀWᵀWZ = transpose(get_Z(data))*W*WZ
     
     # Estimate MLM coefficients
-    B = calc_coeffs(get_X(data), get_Y(data), WZ, XTX, ZTWZ)
+    B = calc_coeffs(get_X(data), get_Y(data), WZ, XᵀX, ZᵀWᵀWZ)
     
     # Calculate residuals 
     resid = calc_resid(get_X(data), get_Y(data), get_Z(data), B)
@@ -124,7 +125,7 @@ function mlm_fit(data::RawData, weights::Array{Float64,1}, targetType)
     sigma, lambda = calc_sigma(resid, targetType)
     
     # Estimate variance of coefficient estimates
-    varB = calc_var(get_X(data), WZ, XTX, ZTWZ, sigma)
+    varB = calc_var(get_X(data), WZ, XᵀX, ZᵀWᵀWZ, sigma)
     
     # Return Mlm object with estimates for coefficients, variances, and sigma
     return Mlm(B, varB, sigma, data, weights, targetType, lambda)
@@ -132,25 +133,25 @@ end
 
 
 """
-    mlm(data; hasXIntercept, hasZIntercept, weights, targetType)
+    mlm(data::RawData; addXIntercept::Bool=true, addZIntercept::Bool=true, weights=nothing, targetType=nothing)
 
 Matrix linear model using least squares method. Column weighted least squares 
 and shrinkage of the variance of the errors are options. 
 
 # Arguments
 
-- data = RawData object
+- `data::RawData`: RawData object
 
 # Keyword arguments
 
-- hasXIntercept = boolean flag indicating whether or not to include an `X` 
+- `addXIntercept::Bool` : boolean flag indicating whether or not to include an `X` 
   intercept (row main effects). Defaults to `true`. 
-- hasZIntercept = boolean flag indicating whether or not to include a `Z` 
+- `addZIntercept::Bool` : boolean flag indicating whether or not to include a `Z` 
   intercept (column main effects). Defaults to `true`. 
-- weights = 1d array of floats to use as column weights for `Y`, or `nothing`. 
+- `weights` : 1d array of floats to use as column weights for `Y`, or `nothing`. 
   If the former, must be the same length as the number of columns of `Y`. 
   Defaults to `nothing`. 
-- targetType = string indicating the target type toward which to shrink the 
+- `targetType` : string indicating the target type toward which to shrink the 
   error variance, or `nothing`. If the former, acceptable inputs are "A", "B", 
   "C", and "D". Defaults to `nothing`. 
     - "A": Target is identity matrix
@@ -163,45 +164,47 @@ and shrinkage of the variance of the errors are options.
 An Mlm object
 
 """
-function mlm(data::RawData; hasXIntercept::Bool=true, hasZIntercept::Bool=true, 
+function mlm(data::RawData; addXIntercept::Bool=true, addZIntercept::Bool=true, 
              weights=nothing, targetType=nothing, kwargs...)
     
     #= Deprecation:check for previous version keyword arguments
     ---------------------------------------------------------------------------------------------=#
     if haskey(kwargs, :isXIntercept)
         @warn "Keyword arguments `isXIntercept` and `isZIntercept` are deprecated, use 
-                    `hasXIntercept` and `hasZIntercept` instead." 
+                    `addXIntercept` and `addZIntercept` instead." 
               
-        hasXIntercept = values(kwargs).isXIntercept
+        addXIntercept = values(kwargs).isXIntercept
     end
 
     if haskey(kwargs, :isZIntercept)
         @warn "Keyword arguments `isXIntercept` and `isZIntercept` are deprecated, use 
-                    `hasXIntercept` and `hasZIntercept` instead."
+                    `addXIntercept` and `addZIntercept` instead."
                     
-        hasZIntercept = values(kwargs).isZIntercept
+        addZIntercept = values(kwargs).isZIntercept
     end
     #-----------------------------------------------------------------------------------------------
 
+    data = RawData(Response(data.response.Y),Predictors(data.predictors.X, data.predictors.Z))
+    check_Z_rank(data.predictors.Z)
     # Add X and Z intercepts if necessary
-    if hasXIntercept==true && data.predictors.hasXIntercept==false
+    if addXIntercept==true && data.predictors.hasXIntercept==false
         data.predictors.X = add_intercept(data.predictors.X)
         data.predictors.hasXIntercept = true
         data.p = data.p + 1
     end
-    if hasZIntercept==true && data.predictors.hasZIntercept==false
+    if addZIntercept==true && data.predictors.hasZIntercept==false
         data.predictors.Z = add_intercept(data.predictors.Z)
         data.predictors.hasZIntercept = true
         data.q = data.q + 1
     end
     
     # Remove X and Z intercepts in new predictors if necessary
-    if hasXIntercept==false && data.predictors.hasXIntercept==true
+    if addXIntercept==false && data.predictors.hasXIntercept==true
         data.predictors.X = remove_intercept(data.predictors.X)
         data.predictors.hasXIntercept = false
         data.p = data.p - 1
     end
-    if hasZIntercept==false && data.predictors.hasZIntercept==true
+    if addZIntercept==false && data.predictors.hasZIntercept==true
         data.predictors.Z = remove_intercept(data.predictors.Z)
         data.predictors.hasZIntercept = false
         data.q = data.q - 1
@@ -218,14 +221,14 @@ end
 
 
 """
-    t_stat(MLM, isMainEff)
+    t_stat(MLM::Mlm, isMainEff::Bool=false)
 
 Calculates t-statistics of an Mlm object
 
 # Arguments 
 
-- MLM = Mlm object
-- isMainEff = boolean flag indicating whether or not to include t-statistics 
+- `MLM::Mlm `: Mlm object
+- `isMainEff::Bool` : boolean flag indicating whether or not to include t-statistics 
   for the main effects
 
 # Value

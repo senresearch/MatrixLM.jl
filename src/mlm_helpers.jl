@@ -1,18 +1,19 @@
 """
 
-    calc_coeffs(X, Y, Z, XTX, ZTZ)
+    calc_coeffs(X::AbstractArray{Float64,2}, Y::AbstractArray{Float64,2}, 
+                Z::AbstractArray{Float64,2}, XTX::AbstractArray{Float64,2}, 
+                ZTZ::AbstractArray{Float64,2})
 
 Calculates the the coefficient estimates
 
 # Arguments
 
-- X = 2d array of floats consisting of the row covariates, with all 
+- `X::AbstractArray{Float64,2}`: The row covariates, with all 
   categorical variables coded in appropriate contrasts
-- Y = 2d array of floats consisting of the multivariate response
-- Z = 2d array of floats consisting of the column covariates, with all 
-  categorical variables coded in appropriate contrasts
-- XTX = X*transpose(X) product as a 2d array of floats 
-- ZTZ = Z*transpose(Z) product as a 2d array of floats 
+- `Y::AbstractArray{Float64,2}`: The multivariate response
+- `Z::AbstractArray{Float64,2}`: The column covariates, with all categorical variables coded in appropriate contrasts
+- `XTX::AbstractArray{Float64,2}`: X*transpose(X) product as a 2d array of floats 
+- `ZTZ::AbstractArray{Float64,2}`: Z*transpose(Z) product as a 2d array of floats 
 
 # Value
 
@@ -29,21 +30,21 @@ end
 
 
 """
-    calc_sigma(resid, targetType)
+    calc_sigma(resid::AbstractArray{Float64,2}, targetType::Nothing)
 
 Estimates variance of errors and the shrinkage coefficient, without variance 
 shrinkage. 
 
 # Arguments
 
-- resid = 2d array of floats consisting of the residuals
-- targetType =`nothing`
+- `resid::AbstractArray{Float64,2}:` 2d array of floats consisting of the residuals
+- `targetType` : `nothing`
 
 # Value
 
 Tuple
-- sigma: 2d array of floats; estimated variance of errors
-- lambda: 0.0
+- `sigma`: 2d array of floats; estimated variance of errors
+- `lambda`: 0.0
 
 # Some notes
 
@@ -63,15 +64,15 @@ end
 
 
 """
-    calc_sigma(resid, targetType)
+    calc_sigma(resid::AbstractArray{Float64,2}, targetType::AbstractString)
 
 Estimates variance of errors and the shrinkage coefficient, with variance 
 shrinkage. 
 
 # Arguments
 
-- resid = 2d array of floats consisting of the residuals
-- targetType = string indicating the target type toward which to shrink the 
+- `resid::AbstractArray{Float64,2}`: 2d array of floats consisting of the residuals
+- `targetType::AbstractString`: Indicating the target type toward which to shrink the 
   variance. Acceptable inputs are "A", "B", "C", and "D". 
     - "A": Target is identity matrix
     - "B": Target is diagonal matrix with constant diagonal
@@ -81,8 +82,8 @@ shrinkage.
 # Value
 
 Tuple
-- sigma: 2d array of floats; shrunk estimated variance of errors
-- lambda: floating scalar; estimated shrinkage coefficient 
+- `sigma`: 2d array of floats; shrunk estimated variance of errors
+- `lambda`: floating scalar; estimated shrinkage coefficient 
   (0 = no shrinkage, 1 = complete shrinkage)
 
 """
@@ -94,20 +95,22 @@ end
 
 
 """
-    calc_var(X, Z, XTX, ZTZ, sigma)
+    calc_var(X::AbstractArray{Float64,2}, Z::AbstractArray{Float64,2},
+             XTX::AbstractArray{Float64,2}, ZTZ::AbstractArray{Float64,2}, 
+             sigma::AbstractArray{Float64,2})
 
 Calculate the variance (diagonal of the covariance matrix) of the coefficient 
 estimates. 
 
 # Arguments
 
-- X = 2d array of floats consisting of the row covariates, with all 
+- `X::AbstractArray{Float64,2}`: The row covariates, with all 
   categorical variables coded in appropriate contrasts
-- Z = 2d array of floats consisting of the column covariates, with all 
+- `Z::AbstractArray{Float64,2}`: The column covariates, with all 
   categorical variables coded in appropriate contrasts
-- XTX = X*transpose(X) product as a 2d array of floats 
-- ZTZ = Z*transpose(Z) product as a 2d array of floats 
-- sigma = 2d array of floats consisting of the estimated sigma
+- `XTX::AbstractArray{Float64,2}`: X*transpose(X) product as a 2d array of floats 
+- `ZTZ::AbstractArray{Float64,2}`: Z*transpose(Z) product as a 2d array of floats 
+- `sigma::AbstractArray{Float64,2}`: 2d array of floats consisting of the estimated sigma
 
 # Value
 

@@ -1,5 +1,5 @@
 """
-    Response(Y)
+    Response(Y::AbstractArray{Float64,2})
 
 Type for storing response matrix
 
@@ -11,7 +11,8 @@ end
 
 
 """
-    Predictors(X, Z, hasXIntercept, hasZIntercept)
+    Predictors(X::AbstractArray{Float64,2}, Z::AbstractArray{Float64,2},
+               hasXIntercept::Bool, hasZIntercept::Bool)
 
 Type for storing predictor (covariate) matrices. Also stores boolean 
 variables hasXIntercept and hasZIntercept (if they are not supplied, they 
@@ -42,15 +43,15 @@ end
 
 
 """
-    RawData(response, predictors)
+    RawData(response::Response, predictors::Predictors)
 
 Type for storing response and predictor matrices
 
 Also stores dimensions of matrices as n, m, p, and q. 
-- n = number of rows of X = number of rows of Y
-- m = number of rows of Z = number of columns of Y
-- p = number of columns of X
-- q = number of columns of Z
+- `n` : number of rows of X = number of rows of Y
+- `m` : number of rows of Z = number of columns of Y
+- `p` : number of columns of X
+- `q` : number of columns of Z
 
 The constructor will compute n, m, p, and q based on the response and 
 predictor matrices and assert that they are consistent. 
@@ -83,13 +84,13 @@ end
 
 
 """
-    get_X(data)
+    get_X(data::RawData)
 
 Extract X matrix from RawData object 
 
 # Arguments
 
-- data = RawData object
+- `data::RawData`: RawData object
 
 # Value
 
@@ -103,13 +104,13 @@ end
 
 
 """
-    get_Z(data)
+    get_Z(data::RawData)
 
 Extract Z matrix from RawData object
 
 # Arguments
 
-- data = RawData object
+- `data::RawData`: RawData object
 
 # Value
 
@@ -123,13 +124,13 @@ end
 
 
 """
-    get_Y(data)
+    get_Y(data::RawData)
 
 Extract Y matrix from RawData object
 
 # Arguments
 
-- data = RawData object
+- `data::RawData`: RawData object
 
 # Value
 
