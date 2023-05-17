@@ -6,7 +6,7 @@ For matrix linear model, let $Y$ be a $n \times m$ response matrix, the model ca
 
 $$Y = XBZ^T+E$$
 
-Where $X_{n \times p}$ is the matrix for main predictor,
+Where $X_{n \times p}$ is the matrix for main predictors,
 $Z_{m \times q}$ denote the matrix from extra knowledge,
 $E_{n \times m}$ is the error term, 
 $B_{p \times q}$ is the matrix for main and interaction effects.
