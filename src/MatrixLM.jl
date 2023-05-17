@@ -4,8 +4,9 @@ module MatrixLM
     using Random, Statistics, StatsModels
     using LinearAlgebra, LinearAlgebra.BLAS
     import LinearAlgebra.I, LinearAlgebra.mul!, 
-        LinearAlgebra.diag, LinearAlgebra.diagm
+           LinearAlgebra.diag, LinearAlgebra.diagm
     using DataFrames
+    using RecipesBase
 
     # Data object types
     include("data_types.jl")
@@ -56,6 +57,5 @@ module MatrixLM
     # Plotting functions
     include("mlm_plots.jl")
     export MLMplots
-
 
 end 
