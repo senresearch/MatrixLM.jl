@@ -29,7 +29,7 @@ mat = my_contrasts = Dict(
     :catvar2 => EffectsCoding(base = "A"),
     :catvar3 =>DummyCoding()
     )
-      )
+    
 mat2 = MatrixLM.design_matrix(
         @mlmformula(1 + catvar1 + catvar2 + catvar3 + x1 + x2 + x3 + x4), 
         X_df, 
