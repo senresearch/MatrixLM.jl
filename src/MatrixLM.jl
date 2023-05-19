@@ -17,7 +17,7 @@ module MatrixLM
     export contr
 
     include("design_matrix.jl")
-    export  @mlmFormula, design_matrix
+    export  @mlmformula, design_matrix
 
     # Predicted values
     include("calc_preds.jl")
