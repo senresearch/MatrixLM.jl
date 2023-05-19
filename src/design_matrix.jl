@@ -74,7 +74,7 @@ function design_matrix(frml, df::DataFrame, cntrst::Vector)
     for cntrstTuple in cntrst
         fun = cntrstTuple[length(cntrstTuple)]
         for i in 1:length(cntrstTuple)-1
-            cntrstDict[cntrsTuple[i]] = fun
+            cntrstDict[cntrstTuple[i]] = fun
         end
     end    
     return design_matrix(frml, df, cntrstDict)
@@ -134,7 +134,7 @@ function design_matrix_names(frml, df::DataFrame, cntrst::Vector)
     for cntrstTuple in cntrst
         fun = cntrstTuple[length(cntrstTuple)]
         for i in 1:length(cntrstTuple)-1
-            cntrstDict[cntrsTuple[i]] = fun
+            cntrstDict[cntrstTuple[i]] = fun
         end
     end    
     return design_matrix_names(frml, df, cntrstDict)
