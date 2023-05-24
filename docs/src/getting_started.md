@@ -1,24 +1,22 @@
 ## Overview
 
-The Matrix Linear Model serves as a simple yet robust multivariate framework for encoding relationships and groupings within high-throughput data. Its flexibility allows it to encode both categorical and continuous relationships, thereby enhancing the detection of associations between responses and predictors.
+In this section, we demonstrate how to utilize `MatrixLM.jl` via a simple example that involves simulated data.    
+   
+Matrix Linear Models (MLM) serve as a simple yet robust multivariate framework for encoding relationships and groupings within high-throughput data. MLM's flexibility allows it to encode both categorical and continuous relationships, thereby enhancing the detection of associations between responses and predictors.
 
 Within the scope of the matrix linear model framework, the model is articulated as follows:
 
 $$Y = XBZ^T+E$$
 
 Where 
-- $Y_{n \times m}$ is the response matrix
-- $X_{n \times p}$ is the matrix for main predictors,
-- $Z_{m \times q}$ denote the response attributes matrix based on a supervised knowledge,
-- $E_{n \times m}$ is the error term, 
-- $B_{p \times q}$ is the matrix for main and interaction effects.
+- ``Y_{n \times m}`` is the response matrix
+- ``X_{n \times p}`` is the matrix for main predictors,
+- ``Z_{m \times q}`` denote the response attributes matrix based on a supervised knowledge,
+- ``E_{n \times m}`` is the error term, 
+- ``B_{p \times q}`` is the matrix for main and interaction effects.
 
 
-## Basic Usage
-
-In this section, we demonstrate how to utilize `MatrixLM.jl` via a simple example that involves simulated data. 
-
-### Data Generation
+## Data Generation
 
 To enhance the practibality of this example, we assume that both the responses and the predictors are presented as dataframes. 
 Our dataset consists of a dataframe `X`, which includes `p = 5` predictors. Among these predictors, two are categorical variables and three are numerical, spread across `n = 100` samples. We then consider a response dataframe `Y` composed of `m = 250` responses. To simulate the `Y` data, we need to generate the matrices `Z`,`B`, and `E`. 
@@ -108,7 +106,7 @@ Now, construct the `RawData` object consisting of the response variable `Y` and 
 dat = RawData(Response(Y), Predictors(X, Z));
 ```
 
-### Model estimation
+## Model estimation
 
 Least-squares estimates for matrix linear models can be obtained by running `mlm`. An object of type `Mlm` will be returned, with variables for the coefficient estimates (`B`), the coefficient variance estimates (`varB`), and the estimated variance of the errors (`sigma`). By default, `mlm` estimates both row and column main effects (X and Z intercepts), but this behavior can be suppressed by setting `addXIntercept=false` and/or `addZIntercept=false`. Column weights for `Y` and the target type for variance shrinkage<sup>[1](#myfootnote1)</sup> can be optionally supplied to `weights` and `targetType`, respectively. 
 
@@ -117,7 +115,7 @@ Least-squares estimates for matrix linear models can be obtained by running `mlm
 est = mlm(dat; addXIntercept=false, addZIntercept=false); # Model estimation
 ```
 
-### Model predictions and residuals
+## Model predictions and residuals
 
 The coefficient estimates can be accessed using `coef(est)`. Predicted values and residuals can be obtained by calling `predict()` and `resid()`. By default, both of these functions use the same data used to fit the model. However, a new `Predictors` object can be passed into `predict()` as the `newPredictors` argument and a new `RawData` object can be passed into `resid()` as the newData argument. For convenience, `fitted(est)` will return the fitted values by calling predict with the default arguments.
 
@@ -191,7 +189,7 @@ plot(
 ![svg](../images/output_28_0_getting_started.svg)
 
 
-### T-statistics and permutation test
+## T-statistics and permutation test
 
 The t-statistics for an `Mlm` object (defined as `est.B ./ sqrt.(est.varB)`) can be obtained by running `t_stat`. By default, `t_stat` does not return the corresponding t-statistics for any main effects that were estimated by `mlm`, but they will be returned if `isMainEff=true`.
 
@@ -223,8 +221,3 @@ plot(
 ```
 
 ![svg](../images/output_34_0_getting_started.svg)
-
-
----
-
-<a name="myfootnote1">1</a>. Ledoit, O., & Wolf, M. (2003). Improved estimation of the covariance matrix of stock returns with an application to portfolio selection. Journal of empirical finance, 10(5), 603-621. 

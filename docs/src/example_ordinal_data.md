@@ -1,4 +1,4 @@
-## Example: MLM for ordinal data
+## Overview
 
 In this example, we'll showcase the use of Matrix Linear Models (MLM) when dealing with ordinal data as predictors, specifically when the differences between sequential levels of the variable are of interest. To illustrate this, we'll create a simulated dataset where our X matrix comprises a single ordinal variable, 'catvar'. This variable ranges from 1 to 5. This simple setup will provide a clear demonstration of how MLM can handle ordinal data.
 
@@ -8,16 +8,16 @@ $$Y = XBZ^T+E$$
 
 In this equation:
 
-- $Y_{n \times m}$ is the response matrix
-- $X_{n \times p}$ is the matrix for main predictors,
-- $Z_{m \times q}$ denote the response attributes matrix based on a supervised knowledge,
-- $E_{n \times m}$ is the error term, 
-- $B_{p \times q}$ is the matrix for main and interaction effects.
+- ``Y_{n \times m}`` is the response matrix
+- ``X_{n \times p}`` is the matrix for main predictors,
+- ``Z_{m \times q}`` denote the response attributes matrix based on a supervised knowledge,
+- ``E_{n \times m}`` is the error term, 
+- ``B_{p \times q}`` is the matrix for main and interaction effects.
 
 This model formulation concisely summarizes the interactions between various elements in the matrix linear model framework.
 
 
-### Data Generation
+## Data Generation
 
 Our dataset is made up of a dataframe `X` that includes a single predictor. This predictor is ordinal data with `5 levels`, distributed over `n = 100` samples. Next, we define a response dataframe `Y` that consists of `m = 250` responses. 
 In order to simulate the `Y` data, we need to construct the matrices `Z`, `B`, and `E`.
@@ -143,7 +143,7 @@ Now, construct the `RawData` object consisting of the response variable `Y` and 
 dat = RawData(Response(Y), Predictors(X, Z, true, false));
 ```
 
-### Model estimation
+## Model estimation
 
 Least-squares estimates for matrix linear models can be obtained by running `mlm`. An object of type `Mlm` will be returned, with variables for the coefficient estimates (`B`), the coefficient variance estimates (`varB`), and the estimated variance of the errors (`sigma`). By default, `mlm` estimates both row and column main effects (X and Z intercepts), but this behavior can be suppressed by setting `addXIntercept=false` and/or `addZIntercept=false`. Column weights for `Y` and the target type for variance shrinkage<sup>[1](#myfootnote1)</sup> can be optionally supplied to `weights` and `targetType`, respectively. 
 
@@ -152,7 +152,7 @@ Least-squares estimates for matrix linear models can be obtained by running `mlm
 est = mlm(dat; addXIntercept=false, addZIntercept=false); # Model estimation
 ```
 
-### Model predictions and residuals
+## Model predictions and residuals
 
 The coefficient estimates can be accessed using `coef(est)`. Predicted values and residuals can be obtained by calling `predict()` and `resid()`. By default, both of these functions use the same data used to fit the model. However, a new `Predictors` object can be passed into `predict()` as the `newPredictors` argument and a new `RawData` object can be passed into `resid()` as the newData argument. For convenience, `fitted(est)` will return the fitted values by calling predict with the default arguments.
 
@@ -244,7 +244,7 @@ plot(
 
 
 
-### T-statistics and permutation test
+## T-statistics and permutation test
 
 The t-statistics for an `Mlm` object (defined as `est.B ./ sqrt.(est.varB)`) can be obtained by running `t_stat`. By default, `t_stat` does not return the corresponding t-statistics for any main effects that were estimated by `mlm`, but they will be returned if `isMainEff=true`.
 
@@ -297,7 +297,3 @@ In this example, our interpretation of the results can be as follows:
 - the responses $y_{i \in [1, 250]}$ that exhibit the "A" attribute in `Z` show significant differences between level 3 and level 2 of the predictor `catvar` in `X`.
 - the responses $y_{i \in [1, 250]}$ that exhibit the "B" attribute in `Z` show significant differences between level 4 and level 3, as well as between level 2 and level 1 of the predictor `catvar` in `X`.
 - the responses $y_{i \in [1, 250]}$ that exhibit the "C" attribute in `Z` show significant differences between level 5 and level 4 of the predictor `catvar` in `X`.
-
----
-
-<a name="myfootnote1">1</a>. Ledoit, O., & Wolf, M. (2003). Improved estimation of the covariance matrix of stock returns with an application to portfolio selection. Journal of empirical finance, 10(5), 603-621. 
