@@ -1,14 +1,3 @@
-###########
-# Library #
-###########
-using Test
-using MatrixLM
-
-using DataFrames
-using Random
-using LinearAlgebra
-using GLM
-
 
 ###########################
 # Generate Simulated Data #

@@ -1,7 +1,3 @@
-###########
-# Library #
-###########
-using DataFrames, Random, MatrixLM, StatsModels
 
 ###########################
 # Generate Simulated Data #

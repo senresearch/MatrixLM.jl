@@ -1,13 +1,3 @@
-###########
-# Library #
-###########
-using Test
-using MatrixLM
-using Statistics
-
-using Random
-using LinearAlgebra
-
 
 ###########################
 # Generate Simulated Data #
