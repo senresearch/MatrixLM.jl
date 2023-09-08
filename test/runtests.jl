@@ -7,9 +7,6 @@ using DataFrames
 using Random, StatsModels, Statistics
 using Test
 
-using RecipesBase
-
-
 
 ########
 # Test #

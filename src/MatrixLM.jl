@@ -6,7 +6,7 @@ module MatrixLM
     import LinearAlgebra.I, LinearAlgebra.mul!, 
            LinearAlgebra.diag, LinearAlgebra.diagm
     using DataFrames
-    using RecipesBase
+    
 
     # Data object types
     include("data_types.jl")
@@ -53,9 +53,5 @@ module MatrixLM
 
     include("mlm_perms.jl")
     export mlm_perms
-
-    # Plotting functions
-    include("mlm_plots.jl")
-    export MLMplots
 
 end 
