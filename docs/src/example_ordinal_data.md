@@ -1,6 +1,6 @@
 ## Overview
 
-In this example, we'll showcase the use of Matrix Linear Models (MLM) when dealing with ordinal data as predictors, specifically when the differences between sequential levels of the variable are of interest. To illustrate this, we'll create a simulated dataset where our X matrix comprises a single ordinal variable, 'catvar'. This variable ranges from 1 to 5. This simple setup will provide a clear demonstration of how MLM can handle ordinal data.
+In this example, we'll showcase the use of Matrix Linear Models (MLM) when dealing with ordinal data as predictors, specifically when the differences between sequential levels of the variable are of interest. To illustrate this, we'll create a simulated dataset where our X matrix comprises a single ordinal variable, 'catvar'. This variable ranges from 1 to 5. This simple setup will clearly demonstrate how MLM can handle ordinal data.
 
 Just as a quick recap, our model formula is:
 
@@ -10,7 +10,7 @@ In this equation:
 
 - ``Y_{n \times m}`` is the response matrix
 - ``X_{n \times p}`` is the matrix for main predictors,
-- ``Z_{m \times q}`` denote the response attributes matrix based on a supervised knowledge,
+- ``Z_{m \times q}`` denote the response attributes matrix based on supervised knowledge,
 - ``E_{n \times m}`` is the error term, 
 - ``B_{p \times q}`` is the matrix for main and interaction effects.
 
@@ -25,7 +25,7 @@ The `Z` matrix imparts information about the response population, represented by
 
 In accordance with this configuration, our coefficient matrix `B` is set to have dimensions of `4x5`, aligning with the number of predictors in the design matrix `X` and the number of information categories in `Z`.
 
-Lastly, we formulate the noise matrix E that accommodates the error terms. This matrix is produced as a normally-distributed matrix ($N, 0, 1$), introducing a degree of variability into our simulation.
+Lastly, we formulate the noise matrix E that accommodates the error terms. This matrix is produced as a normally distributed matrix ($N, 0, 1$), introducing a degree of variability into our simulation.
 
 
 ```julia
@@ -44,7 +44,7 @@ dfX = DataFrame(catvar=rand(1:5, n));
 levels_catvar = sort(unique(dfX.catvar));
 ```
 
-To derive the predictor design matrix, we employ the `design_matrix()` function and apply contrast coding using the `SeqDiffCoding()` system. This particular coding system codes  is particularly useful for testing hypotheses related to "sequential differences" between the levels of our ordinal predictor.
+We employ the `design_matrix()` function to derive the predictor design matrix and apply contrast coding using the `SeqDiffCoding()` system. This coding system is particularly useful for testing hypotheses related to "sequential differences" between the levels of our ordinal predictor.
 
 
 ```julia
@@ -75,7 +75,7 @@ X_names = MatrixLM.design_matrix_names(@mlmformula(1 + catvar), dfX, X_ctrst)
 
 
 
-We randomly generate a dataframe `Z` that provides information about whether a response $y_{i \in [1, 250]}$, i.e. column of `Y`, exhibits one of the four mutually exclusive attributes `{"A", "B", "C", "D"}`. To extract the design matrix of this "column predictor", we use the `design_matrix()` function and implement contrast coding with the `FullDummyCoding()` system.
+We randomly generate a dataframe `Z` that provides information about whether a response $y_{i \in [1, 250]}$, i.e., a column of `Y`, exhibits one of the four mutually exclusive attributes `{"A", "B", "C", "D"}`. To extract the design matrix of this "column predictor," we use the `design_matrix()` function and implement contrast coding with the `FullDummyCoding()` system.
 
 The `FullDummyCoding` system generates one indicator (1 or 0) column for each level, including the base level. This technique is sometimes referred to as one-hot encoding, which is widely used for categorical variables.
 
