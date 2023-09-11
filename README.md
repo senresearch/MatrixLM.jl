@@ -3,7 +3,7 @@
 [![CI](https://github.com/senresearch/MatrixLM.jl/actions/workflows/ci.yml/badge.svg?branch=testing)](https://github.com/senresearch/MatrixLM.jl/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/senresearch/MatrixLM.jl/branch/testing/graph/badge.svg?token=uHM6utUQoi)](https://codecov.io/gh/senresearch/MatrixLM.jl)
 [![MIT license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/senresearch/MatrixLM.jl/blob/main/LICENSE.md)
-[![Documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://senresearch.github.io/MatrixLM.jl/dev/)
+[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://senresearch.github.io/MatrixLM.jl/stable)
 [![Pkg Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 ## Description
