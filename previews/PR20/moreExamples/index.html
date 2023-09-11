@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>More examples · MatrixLM.jl</title><script data-outdated-warner src="../assets/warner.js"></script><link rel="canonical" href="https://senresearch.github.io/MatrixLM.jl/moreExamples/"/><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.045/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.24/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">MatrixLM.jl</a></span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><a class="tocitem" href="../getting_started/">Getting Started</a></li><li class="is-active"><a class="tocitem" href>More examples</a><ul class="internal"><li><a class="tocitem" href="#Modelling-ordinal-data"><span>Modelling ordinal data</span></a></li><li><a class="tocitem" href="#Case-study:-metabolomics-analysis"><span>Case study: metabolomics analysis</span></a></li><li class="toplevel"><a class="tocitem" href="#Metabolomic-signatures-of-NAFLD"><span>Metabolomic signatures of NAFLD</span></a></li><li><a class="tocitem" href="#Background"><span>Background</span></a></li><li><a class="tocitem" href="#Libraries"><span>Libraries</span></a></li><li><a class="tocitem" href="#Data-description"><span>Data description</span></a></li><li><a class="tocitem" href="#Input-dataset"><span>Input dataset</span></a></li><li><a class="tocitem" href="#Model-Decision"><span>Model Decision</span></a></li></ul></li><li><a class="tocitem" href="../functions/">Types and Functions</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>More examples</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>More examples</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/senresearch/MatrixLM.jl/blob/main/docs/src/moreExamples.md#" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h2 id="Modelling-ordinal-data"><a class="docs-heading-anchor" href="#Modelling-ordinal-data">Modelling ordinal data</a><a id="Modelling-ordinal-data-1"></a><a class="docs-heading-anchor-permalink" href="#Modelling-ordinal-data" title="Permalink"></a></h2><p>For this part our X matrix has only one ordinal variable(catvar1) from 1 to 5. The encoding method for ordinal variable is <code>SeqDiffCoding()</code> from package <code>StatsModels</code></p><pre><code class="language-julia hljs">using StatsModels</code></pre><pre><code class="language-julia hljs">levels = unique(X_df.catvar1)
+encoding = StatsModels.ContrastsMatrix(SeqDiffCoding(), levels).matrix
+encoding_intercept = inv(hcat(ones(5,1),encoding))
+X2 = reduce(vcat,transpose.(map(x -&gt; encoding_intercept[x,:], X_df.catvar1)))</code></pre><pre><code class="language-julia hljs">p = size(X2)[2]
+n = 100
+m = 250
+q = 20</code></pre><pre><code class="language-julia hljs"># Number of column covariates
+Z2 = rand(m,q)
+B2 = rand(-5:5,p,q)
+E2 = randn(n,m)
+Y2 = X2*B2*transpose(Z2)+E2</code></pre><pre><code class="language-julia hljs">dat2 = RawData(Response(Y2), Predictors(X2, Z2))</code></pre><pre><code class="language-julia hljs">est2 = mlm(dat2)</code></pre><pre><code class="language-julia hljs">heatmap(coef(est2))</code></pre><p><img src="../../images/heatmap_esti_coef2.svg" alt="svg"/></p><pre><code class="language-julia hljs">heatmap(B2)</code></pre><p><img src="../../images/heatmap_B2.svg" alt="svg"/></p><h2 id="Case-study:-metabolomics-analysis"><a class="docs-heading-anchor" href="#Case-study:-metabolomics-analysis">Case study: metabolomics analysis</a><a id="Case-study:-metabolomics-analysis-1"></a><a class="docs-heading-anchor-permalink" href="#Case-study:-metabolomics-analysis" title="Permalink"></a></h2><h1 id="Metabolomic-signatures-of-NAFLD"><a class="docs-heading-anchor" href="#Metabolomic-signatures-of-NAFLD">Metabolomic signatures of NAFLD</a><a id="Metabolomic-signatures-of-NAFLD-1"></a><a class="docs-heading-anchor-permalink" href="#Metabolomic-signatures-of-NAFLD" title="Permalink"></a></h1><p><em>Reference:</em> Study ID ST001710</p><h2 id="Background"><a class="docs-heading-anchor" href="#Background">Background</a><a id="Background-1"></a><a class="docs-heading-anchor-permalink" href="#Background" title="Permalink"></a></h2><p>Nonalcoholic fatty liver disease (NAFLD) is a progressive liver disease that is strongly associated with type 2 diabetes.  In this demo, we will apply matrix linear models to this study.</p><h2 id="Libraries"><a class="docs-heading-anchor" href="#Libraries">Libraries</a><a id="Libraries-1"></a><a class="docs-heading-anchor-permalink" href="#Libraries" title="Permalink"></a></h2><pre><code class="language-julia hljs">using LinearAlgebra,StatsModels
+using MatrixLM
+using CSV, DataFrames
+using StatsBase
+using Random
+using Plots, FreqTables</code></pre><h2 id="Data-description"><a class="docs-heading-anchor" href="#Data-description">Data description</a><a id="Data-description-1"></a><a class="docs-heading-anchor-permalink" href="#Data-description" title="Permalink"></a></h2><p>The data was collected from <a href="https://www.metabolomicsworkbench.org/data/DRCCMetadata.php?Mode=Study&amp;DataMode=TreatmentData&amp;StudyID=ST001710&amp;StudyType=MS&amp;ResultType=1#DataTabs">workbench</a>. After we performed <a href="https://github.com/GregFa/LIVERstudyST001710/blob/main/notebooks/preprocessing/WranglingST001710.ipynb">data wrangling</a> to extract the necessary information: clinical information, metabolites profiles and metabilites attributes, three data files would be involved in this Demonstration.</p><p>For the metabolomic data(<code>Y</code>), we have totally 68 different triglycerides for totally 473 subjects. </p><p>For each triglyceride(<code>Z</code>), we have the number of carbon atom number and total double bound number.</p><p>For each subject(<code>X</code>), we have following 7 clinical variables. </p><p><strong>Variables for each subject:</strong>    </p><p>-<code>T2DM</code> =&gt; type 2 diabetes mellitus (DummyCoding) </p><p>-<code>Kleiner_Steatosis</code> =&gt; Stage of Non-Alcoholic Fatty Liver Disease (NAFLD)  (EffectsCoding)</p><p>-<code>Inflammation</code> =&gt; Inflammation status. (From 1 to 3)</p><p>-<code>NAS</code> =&gt; NAS score (NAFLD Activity Score) represents the sum of scores for steatosis, lobular -inflammation, and ballooning, and ranges from 0-8.   </p><p>-<code>Platelets_E10_9_per_L</code> =&gt; platelets count (10⁹/L)   </p><p>-<code>Liver_ALT</code> =&gt; alanine aminotransferase test (ALT) level   </p><p>-<code>Liver_AST</code> =&gt; aspartate aminotransferase test (AST) level   </p><p>-<code>AST_ALT_Ratio</code> =&gt; AST/ALT ratio  useful in medical diagnosis   </p><h2 id="Input-dataset"><a class="docs-heading-anchor" href="#Input-dataset">Input dataset</a><a id="Input-dataset-1"></a><a class="docs-heading-anchor-permalink" href="#Input-dataset" title="Permalink"></a></h2><pre><code class="language-julia hljs"># loading the data
+clinicalDF = CSV.read(&quot;../../data/processed/ST001710_ClinicalCovariates.csv&quot;, DataFrame)
+metabolitesTG = CSV.read(&quot;../../data/processed/MetaboTG.csv&quot;, DataFrame)
+refTG = CSV.read(&quot;../../data/processed/refTriglycerides.csv&quot;, DataFrame);</code></pre><pre><code class="language-julia hljs">print(describe(clinicalDF))</code></pre><pre><code class="language-julia hljs">print(describe(refTG)) # Total carbon number and total double bound</code></pre><pre><code class="language-julia hljs">freqtable(refTG.Total_DB)</code></pre><pre><code class="nohighlight hljs">10-element Named Vector{Int64}
+Dim1  │ 
+──────┼───
+0     │  9
+1     │  9
+2     │ 13
+3     │ 11
+4     │  9
+5     │  8
+6     │  6
+7     │  2
+8     │  2
+9     │  2</code></pre><pre><code class="language-julia hljs">freqtable(refTG.Total_C)</code></pre><pre><code class="nohighlight hljs">12-element Named Vector{Int64}
+Dim1  │ 
+──────┼───
+45    │  1
+47    │  3
+48    │  6
+49    │  4
+50    │ 10
+51    │  5
+52    │ 12
+53    │  4
+54    │ 12
+55    │  1
+56    │ 10
+58    │  3</code></pre><p>From the frequency table above, the distribution of Z is inbalanced and we need to transform them.</p><pre><code class="language-julia hljs"># Transformation
+refTG2 = copy(refTG)
+refTG2.Total_DB[findall(refTG.Total_DB.&gt;=6)] .=6;
+refTG2.Total_C[findall(refTG.Total_C.&lt;=50)] .=1;
+refTG2.Total_C[findall(refTG.Total_C.&gt;50 .&amp;&amp; refTG.Total_C.&lt;=55)] .=2;
+refTG2.Total_C[findall(refTG.Total_C.&gt;55)] .=3;</code></pre><pre><code class="language-julia hljs">freqtable(refTG2.Total_DB)</code></pre><pre><code class="nohighlight hljs">7-element Named Vector{Int64}
+Dim1  │ 
+──────┼───
+0     │  9
+1     │  9
+2     │ 13
+3     │ 11
+4     │  9
+5     │  8
+6     │ 12</code></pre><pre><code class="language-julia hljs">freqtable(refTG2.Total_C)</code></pre><pre><code class="nohighlight hljs">3-element Named Vector{Int64}
+Dim1  │ 
+──────┼───
+1     │ 24
+2     │ 34
+3     │ 13</code></pre><h2 id="Model-Decision"><a class="docs-heading-anchor" href="#Model-Decision">Model Decision</a><a id="Model-Decision-1"></a><a class="docs-heading-anchor-permalink" href="#Model-Decision" title="Permalink"></a></h2><p>Our first model would be simple, with only one variable(<code>T2DM</code>) are included into the design matrix.</p><h3 id="Model:-T2DM"><a class="docs-heading-anchor" href="#Model:-T2DM">Model: T2DM</a><a id="Model:-T2DM-1"></a><a class="docs-heading-anchor-permalink" href="#Model:-T2DM" title="Permalink"></a></h3><pre><code class="language-julia hljs"># Generate X matrix
+contrasts = Dict(:T2DM =&gt; EffectsCoding(base = &quot;N&quot;))
+frml = @formula(0 ~  T2DM).rhs
+# mf = ModelFrame(@formula(y ~ 1 + Sex).rhs, dfInd)
+X_1 = modelmatrix(frml, clinicalDF, hints = contrasts);</code></pre><pre><code class="language-julia hljs"># Generate Z matrix
+contrasts = Dict(:Total_C =&gt; StatsModels.FullDummyCoding())
+frml = @formula(0 ~ Total_C).rhs
+# mf = ModelFrame(@formula(y ~ 1 + Sex).rhs, dfInd)
+Z = modelmatrix(frml, refTG2, hints = contrasts);</code></pre><pre><code class="language-julia hljs"># Y matrix
+Y = Matrix(metabolitesTG)[:, 2:end]; # Remove first column</code></pre><p><code>@mlmFormula</code> are similar with the <code>@formula</code> from the package <code>StatsModels</code>. The <code>mlmFormula</code> macro takes expression like <code>1 + a*b</code> to construct design matrix.</p><p>Operators that have special interpretations in this syntax are:</p><ul><li><code>+</code> concatenates variables as columns when generating a model matrix.</li><li><code>&amp;</code> representes an interaction between two or more variables, which corresponds to a row-wise kronecker product of the individual terms (or element-wise product if all terms involved are continuous/scalar).</li><li><code>*</code> expands to all main effects and interactions: <code>a*b</code> is equivalent to <code>a+b+a&amp;b</code>, <code>a*b*c</code> to <code>a+b+c+a&amp;b+a&amp;c+b&amp;c+a&amp;b&amp;c</code>, etc.</li><li><code>1</code>, <code>0</code>, and <code>-1</code> indicate the presence (for <code>1</code>) or absence (for <code>0</code> and <code>-1</code>) of an intercept column.</li></ul><pre><code class="language-julia hljs">dat = RawData(Response(Y), Predictors(X_1, Z, false,  false)) # Build raw data object
+# Matrix linear model estimation, we already add an intercept when building design matrix
+est = mlm(dat, addXIntercept=false, addZIntercept=false) 
+esti_coef = MatrixLM.coef(est);</code></pre><p>After the model estimation, we will use permutation test to calculate t statistics and p value.</p><pre><code class="language-julia hljs">nPerms = 5
+# confusing about specifying again intercept boolean
+tStats, pVals = mlm_perms(dat, nPerms, addXIntercept=false, addZIntercept=false);</code></pre><pre><code class="language-julia hljs">znames = [&quot;Total_C:1&quot; &quot;Total_C:2&quot; &quot;Total_C:3&quot;]
+plot(permutedims(tStats)[:,1], markershape = :circle, legend = false, title = &quot;T-statistics of coefficient estimation&quot;, 
+    xticks = (collect(1:length(znames)), znames))</code></pre><p><img src="../../images/lineplot.svg" alt="svg"/></p><p>From the model above, the triglycerides of all carbon numbers are significantly different between the people without diabeties and with diabeties.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../getting_started/">« Getting Started</a><a class="docs-footer-nextpage" href="../functions/">Types and Functions »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.25 on <span class="colophon-date" title="Monday 11 September 2023 16:48">Monday 11 September 2023</span>. Using Julia version 1.9.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
