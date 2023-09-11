@@ -1,12 +1,12 @@
 """
-    diagonal(A)
+    diagonal(A::AbstractArray{Float64,2})
 
 Get the diagonal of a 2d array of floats. This just calls the base diag 
 function.
 
 # Arguments
 
-- A = 2d array of floats
+- `A::AbstractArray{Float64,2}`: 2d array of floats
 
 # Value 
 
@@ -20,14 +20,14 @@ end
 
 
 """
-    diagonal(A)
+    diagonal(A::AbstractArray{Float64,1})
 
 Get the diagonal of a 1d array of floats. Behaves like an identity function 
 (returns itself). 
 
 # Arguments
 
-- A = 1d array of floats
+- `A::AbstractArray{Float64,1}`: 1d array of floats
 
 # Value 
 
@@ -46,14 +46,14 @@ end
 
 
 """
-    diagonal(A)
+    diagonal(A::Float64)
 
 Get the diagonal of a single scalar (float) value. Behaves like an identity 
 function (returns itself). 
 
 # Arguments
 
-- A = floating scalar
+- `A::Float64`: floating scalar
 
 # Value 
 
@@ -73,8 +73,8 @@ Compute the diagonal of the Kronecker product of arrays or scalars
 
 # Arguments
 
-- A = square 2d array of floats, a 1d array of floats, or a scalar
-- B = square 2d array of floats, a 1d array of floats, or a scalar
+- `A`: square 2d array of floats, a 1d array of floats, or a scalar
+- `B`: square 2d array of floats, a 1d array of floats, or a scalar
 
 # Value 
 

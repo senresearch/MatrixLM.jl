@@ -1,11 +1,11 @@
 """
-    add_intercept(A)
+    add_intercept(A::AbstractArray{Float64,2})
 
 Insert an intercept column (column of ones) at the beginning of a 2d array. 
 
 # Arguments 
 
-- A = 2d array of floats
+- `A::AbstractArray{Float64,2}`: 2d array of floats
 
 # Value 
 
@@ -25,13 +25,13 @@ end
 
 
 """
-    remove_intercept(A)
+    remove_intercept(A::AbstractArray{Float64,2})
 
 Remove the intercept column, assumed to be the first column of a 2d array. 
 
 # Arguments 
 
-- A = 2d array of floats
+- `A::AbstractArray{Float64,2}`: 2d array of floats
 
 # Value 
 
@@ -42,7 +42,7 @@ function remove_intercept(A::AbstractArray{Float64,2})
     
     # Check that the first column is a column of ones
     if any(A[:,1].!=1)
-        print("The first column of this array does not look like an itercept 
+        print("The first column of this array does not look like an intercept 
                since it is not a column of ones. Are you sure you wanted to 
                remove it?")
     end
@@ -53,13 +53,13 @@ end
 
 
 """
-    shuffle_rows(A)
+    shuffle_rows(A::AbstractArray{Float64,2})
 
 Shuffles rows of a 2d array 
 
 # Arguments 
 
-- A = 2d array of floats
+- `A::AbstractArray{Float64,2}`: 2d array of floats
 
 # Value
 
@@ -73,13 +73,13 @@ end
 
 
 """
-    shuffle_cols(A)
+    shuffle_cols(A::AbstractArray{Float64,2})
 
 Shuffles columns of a 2d array 
 
 # Arguments 
 
-- A = 2d array of floats
+- `A::AbstractArray{Float64,2}`: 2d array of floats
 
 # Value
 
@@ -89,4 +89,16 @@ Returns A with columns shuffled
 function shuffle_cols(A::AbstractArray{Float64,2})
     
     return A[:,Random.shuffle(1:size(A,2))]
+end
+
+
+function is_full_rank(A::AbstractArray{Float64,2})
+
+    return rank(A) == size(A)[2]
+end
+
+function check_Z_rank(A::AbstractArray{Float64,2})
+    if !is_full_rank(A)
+        @warn "The rank of Z matrix is not full, and this may generate errores."
+    end
 end

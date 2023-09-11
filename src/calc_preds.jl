@@ -1,15 +1,17 @@
 """
-    calc_preds(X, Z, B)
+    calc_preds(X::AbstractArray{Float64,2}, 
+               Z::AbstractArray{Float64,2}, 
+               B::AbstractArray{Float64,2})
 
 Predict values
 
 # Arguments 
 
-- X = 2d array of floats consisting of the row covariates, standardized as 
+- `X::AbstractArray{Float64,2}`: The row covariates, standardized as 
   necessary
-- Z = 2d array of floats consisting of the column covariates, standardized 
+- `Z::AbstractArray{Float64,2}`: The column covariates, standardized 
   as necessary
-- B = 2d array of floats consisting of coefficient estimates
+- `B::AbstractArray{Float64,2}`: Coefficient estimates
 
 # Value 
 
@@ -26,19 +28,22 @@ end
 
 
 """
-    calc_preds(preds, X, Z, B)
+    calc_preds!(preds::AbstractArray{Float64,2}, 
+                X::AbstractArray{Float64,2}, 
+                Z::AbstractArray{Float64,2}, 
+                B::AbstractArray{Float64,2})
 
 Predict values in place
 
 # Arguments 
 
-- preds = 2d array of floats consisting of the predicted values, to be 
+- `preds::AbstractArray{Float64,2}`: The predicted values, to be 
   updated in place
-- X = 2d array of floats consisting of the row covariates, standardized as 
+- `X::AbstractArray{Float64,2}`: The row covariates, standardized as 
   necessary
-- Z = 2d array of floats consisting of the column covariates, standardized 
+- `Z::AbstractArray{Float64,2}`: The column covariates, standardized 
   as necessary
-- B = 2d array of floats consisting of coefficient estimates
+- `B::AbstractArray{Float64,2}`: Coefficient estimates
 
 # Value 
 
