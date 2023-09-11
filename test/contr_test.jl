@@ -1,7 +1,7 @@
-###########
-# Library #
-###########
-using DataFrames, Random, MatrixLM, StatsModels
+
+###########################
+# Generate Simulated Data #
+###########################
 n = 100
 # Generate data with two categorical variables and 4 numerical variables.
 X_df = hcat(DataFrame(catvar1=rand(1:5, n), catvar2=rand(["A", "B", "C"], n),catvar3=rand(["D", "E"], n)), DataFrame(rand(n,4),:auto))

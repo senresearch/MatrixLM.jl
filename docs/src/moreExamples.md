@@ -275,7 +275,7 @@ Z = modelmatrix(frml, refTG2, hints = contrasts);
 Y = Matrix(metabolitesTG)[:, 2:end]; # Remove first column
 ```
 
-`@mlmFormula` are similar with the `@formula` from the package `StatsModels`. The `mlmFormula` macro takes expression like `1 + a*b` to construct design matrix.
+`@mlmformula` are similar with the `@formula` from the package `StatsModels`. The `mlmformula` macro takes expression like `1 + a*b` to construct design matrix.
 
 Operators that have special interpretations in this syntax are:
 

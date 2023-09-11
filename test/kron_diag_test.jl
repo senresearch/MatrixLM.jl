@@ -1,7 +1,3 @@
-###########
-# Library #
-###########
-using MatrixLM, Random, Test
 
 ###########################
 # Generate Simulated Data #

@@ -8,7 +8,7 @@
 
 ## Description
 
-This package can estimates matrix linear models. The core functions to obtain closed-form least squares estimates for matrix linear models. Variance shrinkage is adapted from [Ledoit & Wolf (2003)](https://www.sciencedirect.com/science/article/pii/S0927539803000070).
+Core functions to obtain closed-form least squares estimates for matrix linear models. Variance shrinkage is adapted from [Ledoit & Wolf (2003)](https://www.sciencedirect.com/science/article/pii/S0927539803000070)[¹](#myfootnote1).
 
 
 An extension of `MatrixLM` for applications in high-throughput genetic screens is the [`GeneticScreens`](https://github.com/senresearch/GeneticScreens.jl) package. See the associated paper, ["Matrix linear models for high-throughput chemical genetic screens"](http://dx.doi.org/10.1534/genetics.119.302299), and its [reproducible code](https://github.com/senresearch/mlm_gs_supplement) for more details. 
@@ -17,7 +17,7 @@ An extension of `MatrixLM` for applications in high-throughput genetic screens i
 
 ## Installation 
 
-The `MatrixLM` package can be installed by running: 
+The `MatrixLM` package can be installed using the Julia package manager by running: 
 
 ```
 using Pkg
@@ -27,13 +27,14 @@ Pkg.add("MatrixLM")
 For the most recent version, use:
 ```
 using Pkg
-Pkg.add(url = "https://github.com/senresearch/MatrixLM.jl", rev="main")
+Pkg.add(url = "https://github.com/senresearch/MatrixLM.jl", rev="develop")
 ```
-Alternatively, you can also install `MatrixLM` from the julia REPL. Press `]` to enter pkg mode again, and enter the following:
 
+You can also install `MatrixLM` using the Pkg REPL mode from the Julia REPL. Enter the Pkg REPLS mode by pressing `]`. Once you're in Pkg mode, type the following command and hit enter:
 ```
 add MatrixLM
 ```
+Once the process is complete, you can exit the Pkg REPL mode by pressing backspace or ctrl+C, returning you to the standard Julia REPL.
 
 ## Contributing
 
@@ -43,7 +44,7 @@ issues, improving performance and adding new features.
 
 ## Questions
 
-If you have questions about contributing or using `MatrixLM` package, please communicate with authors form github.
+If you have questions about contributing or using `MatrixLM` package, please communicate with authors from github.
 
 ## Citing `MatrixLM`
 
@@ -66,4 +67,10 @@ Jane W Liang, Robert J Nichols, Śaunak Sen, Matrix Linear Models for High-Throu
     url = {https://doi.org/10.1534/genetics.119.302299},
     eprint = {https://academic.oup.com/genetics/article-pdf/212/4/1063/42105135/genetics1063.pdf},
 }
+```
+
+---
+
+```@raw html
+<a name="myfootnote1">1</a>. Ledoit, O., & Wolf, M. (2003). Improved estimation of the covariance matrix of stock returns with an application to portfolio selection. Journal of empirical finance, 10(5), 603-621. 
 ```
