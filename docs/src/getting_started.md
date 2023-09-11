@@ -139,7 +139,7 @@ plot(
 
 ```
 
-![svg](../images/output_22_0_getting_started.svg)
+![SVG](./../images/output_22_0_getting_started.svg)
 
 
 Let's employ the same visualization method to compare the predicted values with the original `Y` response matrix. This allows us to gauge the accuracy of our model predictions.
