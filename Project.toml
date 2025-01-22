@@ -1,7 +1,7 @@
 name = "MatrixLM"
 uuid = "37290134-6146-11e9-0c71-a5c489be1f53"
 authors = ["Jane Liang, Saunak Sen"]
-version = "0.2.0"
+version = "0.2.1"
 
 [deps]
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
@@ -14,7 +14,8 @@ StatsModels = "3eaba693-59b7-5ba5-a881-562e759f1c8d"
 
 [compat]
 DataFrames = "0.22, 1"
-StatsModels = "0.6 - 0"
+Statistics = "1"
+StatsModels = "0.6, 0.7, 1"
 julia = "1"
 
 [extras]
