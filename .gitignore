@@ -4,3 +4,7 @@
 *.jl.*.cov
 *.jl.cov
 *.jl.mem
+
+# manifests
+docs/Manifest.toml
+Manifest.toml

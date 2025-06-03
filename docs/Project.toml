@@ -1,5 +1,9 @@
 [deps]
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+MatrixLM = "37290134-6146-11e9-0c71-a5c489be1f53"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+StatsModels = "3eaba693-59b7-5ba5-a881-562e759f1c8d"
 
 [compat]
-Documenter = "0.27"
+Documenter = "1"
