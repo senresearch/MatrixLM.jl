@@ -113,10 +113,10 @@ function mlm_fit(data::RawData, weights::Array{Float64,1}, targetType)
     # Calculate and store transpose(X)*X
     XᵀX = transpose(get_X(data))*get_X(data)
     # Calculate and store transpose(Z)*W*Z
-    ZᵀWᵀWZ = transpose(get_Z(data))*W*WZ
+    ZᵀWZ = transpose(get_Z(data))*WZ
     
     # Estimate MLM coefficients
-    B = calc_coeffs(get_X(data), get_Y(data), WZ, XᵀX, ZᵀWᵀWZ)
+    B = calc_coeffs(get_X(data), get_Y(data), WZ, XᵀX, ZᵀWZ)
     
     # Calculate residuals 
     resid = calc_resid(get_X(data), get_Y(data), get_Z(data), B)
@@ -125,7 +125,7 @@ function mlm_fit(data::RawData, weights::Array{Float64,1}, targetType)
     sigma, lambda = calc_sigma(resid, targetType)
     
     # Estimate variance of coefficient estimates
-    varB = calc_var(get_X(data), WZ, XᵀX, ZᵀWᵀWZ, sigma)
+    varB = calc_var(get_X(data), WZ, XᵀX, ZᵀWZ, sigma)
     
     # Return Mlm object with estimates for coefficients, variances, and sigma
     return Mlm(B, varB, sigma, data, weights, targetType, lambda)
