@@ -184,7 +184,10 @@ function mlm(data::RawData; addXIntercept::Bool=true, addZIntercept::Bool=true,
     end
     #-----------------------------------------------------------------------------------------------
 
-    data = RawData(Response(data.response.Y),Predictors(data.predictors.X, data.predictors.Z))
+    data = RawData(
+        Response(data.response.Y),
+        Predictors(data.predictors.X, data.predictors.Z, data.predictors.hasXIntercept, data.predictors.hasZIntercept)
+    )
     check_Z_rank(data.predictors.Z)
     # Add X and Z intercepts if necessary
     if addXIntercept==true && data.predictors.hasXIntercept==false
