@@ -27,6 +27,18 @@ mat_1 = MatrixLM.design_matrix(
 	my_contrasts,
 )
 
+my_contrasts_vec = [
+	(:catvar1, DummyCoding()),
+	(:catvar2, EffectsCoding(base = "A")),
+	(:catvar3, DummyCoding(base = "E")),
+]
+
+mat_1_vec = MatrixLM.design_matrix(
+	@mlmformula(1 + catvar1 + catvar2 + catvar3 + var1 + var2 + var3 + var4),
+	X_df,
+	my_contrasts_vec,
+)
+
 # design matrix including only categorical without spcifying my_contrasts
 # default is dummy coded
 mat_2 = MatrixLM.design_matrix(
@@ -61,6 +73,9 @@ mat_2_terms = MatrixLM.design_matrix_names(
 	# test the dimension of the matrix after the design_matrix transformation with the one from StatsModels
 	@test size(mat_1) == (100, 10)
 	@test size(mat_2) == (100, 5)
+
+	# test the vector-based contrast specification matches the dictionary version
+	@test mat_1_vec == mat_1
 
 	# test the names of the columns of the design matrix
 	@test mat_1_terms == ["(Intercept)",

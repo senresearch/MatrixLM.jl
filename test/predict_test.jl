@@ -16,7 +16,7 @@ q = 20
 Random.seed!(4)
 X = rand(n,p)
 Z = rand(m,q)
-B = rand(1:20,p,q)
+B = rand(1:20,p,q)*1.0
 E = randn(n,m)
 Y = X*B*transpose(Z)+E
 
@@ -75,4 +75,40 @@ Ŷpredict3 = MatrixLM.predict(MLMEst, Predictors(hcat(ones(size(X, 1)), X), hca
     @test isapprox(sum(Ŷpredict_a - Ŷpredict2), 0, atol = 0.1 )
     @test isapprox(sum(Ŷpredict_b - Ŷpredict3), 0, atol = 0.1 )
     @test default_resids == residuals2
+end
+
+#########################################
+# Test: calc_preds! (in-place predictions)
+#########################################
+
+@testset "calc_preds!" begin
+    expected_preds = MatrixLM.calc_preds(X, Z, B)
+    preds = similar(expected_preds)
+    fill!(preds, NaN)
+
+    returned = MatrixLM.calc_preds!(preds, X, Z, B)
+
+    @test returned === preds
+    @test preds ≈ expected_preds atol = tol
+
+    wrong_shape = Array{Float64}(undef, size(preds, 1) + 1, size(preds, 2))
+    @test_throws DimensionMismatch MatrixLM.calc_preds!(wrong_shape, X, Z, B)
+end
+
+#########################################
+# Test: calc_resid! (in-place residuals) #
+#########################################
+
+@testset "calc_resid!" begin
+    expected_resid = MatrixLM.calc_resid(X, Y, Z, B)
+    resid = similar(expected_resid)
+    fill!(resid, NaN)
+
+    returned = MatrixLM.calc_resid!(resid, X, Y, Z, B)
+
+    @test returned === resid
+    @test resid ≈ expected_resid atol = tol
+
+    wrong_shape = Array{Float64}(undef, size(resid, 1) + 1, size(resid, 2))
+    @test_throws DimensionMismatch MatrixLM.calc_resid!(wrong_shape, X, Y, Z, B)
 end

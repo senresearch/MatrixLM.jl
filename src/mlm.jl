@@ -113,10 +113,10 @@ function mlm_fit(data::RawData, weights::Array{Float64,1}, targetType)
     # Calculate and store transpose(X)*X
     XᵀX = transpose(get_X(data))*get_X(data)
     # Calculate and store transpose(Z)*W*Z
-    ZᵀWᵀWZ = transpose(get_Z(data))*W*WZ
+    ZᵀWZ = transpose(get_Z(data))*WZ
     
     # Estimate MLM coefficients
-    B = calc_coeffs(get_X(data), get_Y(data), WZ, XᵀX, ZᵀWᵀWZ)
+    B = calc_coeffs(get_X(data), get_Y(data), WZ, XᵀX, ZᵀWZ)
     
     # Calculate residuals 
     resid = calc_resid(get_X(data), get_Y(data), get_Z(data), B)
@@ -125,7 +125,7 @@ function mlm_fit(data::RawData, weights::Array{Float64,1}, targetType)
     sigma, lambda = calc_sigma(resid, targetType)
     
     # Estimate variance of coefficient estimates
-    varB = calc_var(get_X(data), WZ, XᵀX, ZᵀWᵀWZ, sigma)
+    varB = calc_var(get_X(data), WZ, XᵀX, ZᵀWZ, sigma)
     
     # Return Mlm object with estimates for coefficients, variances, and sigma
     return Mlm(B, varB, sigma, data, weights, targetType, lambda)
@@ -167,23 +167,7 @@ An Mlm object
 function mlm(data::RawData; addXIntercept::Bool=true, addZIntercept::Bool=true, 
              weights=nothing, targetType=nothing, kwargs...)
     
-    #= Deprecation:check for previous version keyword arguments
-    ---------------------------------------------------------------------------------------------=#
-    if haskey(kwargs, :isXIntercept)
-        @warn "Keyword arguments `isXIntercept` and `isZIntercept` are deprecated, use 
-                    `addXIntercept` and `addZIntercept` instead." 
-              
-        addXIntercept = values(kwargs).isXIntercept
-    end
-
-    if haskey(kwargs, :isZIntercept)
-        @warn "Keyword arguments `isXIntercept` and `isZIntercept` are deprecated, use 
-                    `addXIntercept` and `addZIntercept` instead."
-                    
-        addZIntercept = values(kwargs).isZIntercept
-    end
-    #-----------------------------------------------------------------------------------------------
-
+    # Make a copy of data so as not to modify the original
     data = RawData(
         Response(data.response.Y),
         Predictors(data.predictors.X, data.predictors.Z, data.predictors.hasXIntercept, data.predictors.hasZIntercept)
@@ -201,18 +185,6 @@ function mlm(data::RawData; addXIntercept::Bool=true, addZIntercept::Bool=true,
         data.q = data.q + 1
     end
     
-    # Remove X and Z intercepts in new predictors if necessary
-    if addXIntercept==false && data.predictors.hasXIntercept==true
-        data.predictors.X = remove_intercept(data.predictors.X)
-        data.predictors.hasXIntercept = false
-        data.p = data.p - 1
-    end
-    if addZIntercept==false && data.predictors.hasZIntercept==true
-        data.predictors.Z = remove_intercept(data.predictors.Z)
-        data.predictors.hasZIntercept = false
-        data.q = data.q - 1
-    end
-
     if (typeof(targetType) != Nothing) & !(targetType in ["A", "B", "C", "D"])
         println("Unrecognizable targetType will be ignored and no variance shrinkage will be performed.")
         targetType = nothing
@@ -221,7 +193,6 @@ function mlm(data::RawData; addXIntercept::Bool=true, addZIntercept::Bool=true,
     # Run matrix linear models
     return mlm_fit(data, weights, targetType)
 end
-
 
 """
     t_stat(MLM::Mlm, isMainEff::Bool=false)
