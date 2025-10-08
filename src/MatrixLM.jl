@@ -34,7 +34,7 @@ module MatrixLM
 
     # Miscellenous helper functions
     include("misc_helpers.jl")
-    export add_intercept, remove_intercept, shuffle_rows, shuffle_cols, is_full_rank, check_Z_rank
+    export add_intercept, remove_intercept,shuffle_rows, shuffle_cols, is_full_rank, check_Z_rank
 
     # Matrix linear model helper functions
     include("mlm_helpers.jl")
