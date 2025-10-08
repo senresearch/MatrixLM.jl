@@ -1,7 +1,7 @@
 name = "MatrixLM"
 uuid = "37290134-6146-11e9-0c71-a5c489be1f53"
-authors = ["Jane Liang, Saunak Sen"]
-version = "0.2.3"
+authors = ["Jane Liang, Gregory Farage, Chenhao Zhao, Saunak Sen"]
+version = "0.3.0"
 
 [deps]
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
