@@ -1,105 +1,87 @@
 """
     get_dummy(df::DataFrames.DataFrame, cVar::Symbol, 
-              cType::String, trtRef::Nothing)
+              cType::String, trtRef::Union{Nothing,String}=nothing)
 
-Convert categorical variable to dummy indicators using specified contrast 
-type. This covers all cases except for treatment contrasts with a specified 
-reference level. 
+Convert a categorical variable to dummy indicators using the specified
+contrast type.
 
-# Arguments 
+# Arguments
 
-- `df::DataFrames.DataFrame`: DataFrame of variables
-- `cVar::Symbol`: symbol for the categorical variable in df to be converted
-- `cType::String`: character string indicating the type of contrast to use for `cVar`
-- `trtRef::Nothing`: nothing
-
-# Value
-
-DataFrame of dummy variables for the specified categorical variable
-
-"""
-function get_dummy(df::DataFrames.DataFrame, cVar::Symbol, cType::String, 
-                   trtRef::Nothing)
-    # Obtain the levels to use for the dummy indicators, depending on 
-    # contrast type
-    thisVar = string.(df[:,cVar])
-    if cType=="treat"
-        levs = unique(thisVar)[2:end]
-    elseif (cType=="sum")
-        levs = unique(thisVar)[(2:end).-1]
-    elseif cType=="noint" || (cType=="sumnoint")
-        levs = unique(thisVar)
-    else
-        error(string("Did not recognize contrast type for ", cVar))
-    end
-    
-    # Iterate through levels to make dummy indicators
-    namedict = Dict(zip(levs, 1:length(levs)))
-    dummies = zeros(length(thisVar), length(namedict))
-    for i=1:length(thisVar)
-        if haskey(namedict, thisVar[i])
-            dummies[i, namedict[thisVar[i]]] = 1
-        end
-    end
-    
-    # Some additional modifications for sum contrasts
-    if (cType=="sum")
-        dummies[thisVar.==(unique(thisVar)[end]),:] .= -1
-    end
-    if cType=="sumnoint"
-        dummies = dummies - (1/length(unique(thisVar)))
-    end
-    
-    # Convert results to a DataFrame and rename columns 
-    # newDf = convert(DataFrame, dummies)
-    newDf = DataFrame(dummies ,:auto)
-    rename!(newDf, [Symbol("$(cVar)_$k") for k in levs])
-    return newDf
-end
-
-
-"""
-    get_dummy(df::DataFrames.DataFrame, cVar::Symbol, 
-              cType::String, trtRef::String)
-
-Convert categorical variables to for treatment contrasts with a specified 
-reference level. 
-
-# Arguments 
-
-- `df::DataFrames.DataFrame`: DataFrame of variables
-- `cVar::Symbol`: symbol for the categorical variable in df to be converted
-- `cType::String`: character string indicating the type of contrast to use for `cVar`
-- `trtRef::String`: character string specifying the level in cVar to use as the reference 
+- `df::DataFrames.DataFrame`: DataFrame containing the variables.
+- `cVar::Symbol`: column name in `df` for the categorical variable.
+- `cType::String`: contrast type to use. Supported values are
+  "treat", "sum", "noint", and "sumnoint".
+- `trtRef::Union{Nothing,String}`: optional reference level for "treat"
+  or "sum" contrasts. When omitted (`nothing` or an empty string),
+  the reference defaults to the last sorted level for "treat" contrasts
+  and the first sorted level for "sum" contrasts.
 
 # Value
 
-DataFrame of dummy variables for the specified categorical variable
+DataFrame containing the dummy variables for the specified categorical
+variable.
 
 """
-function get_dummy(df::DataFrames.DataFrame, cVar::Symbol, cType::String, 
-                   trtRef::String)
-    
-    # Obtain the levels to use for the dummy indicators.
-    thisVar = string.(df[:,cVar])
-    if cType=="treat"
-        levs = unique(thisVar)[unique(thisVar) .!= trtRef]
-    else
-        error("Can only specify trtRef for treatment contrasts.")
+function get_dummy(df::DataFrames.DataFrame, cVar::Symbol, cType::String,
+                   trtRef::Union{Nothing,String}=nothing)
+
+    # Convert levels to strings and compute sorted unique values once
+    thisVar = string.(df[:, cVar])
+    sortedLevs = sort(unique(thisVar))
+
+    isempty(sortedLevs) && return DataFrame()
+
+    # Normalise the optional reference argument
+    refProvided = !(trtRef === nothing || (isa(trtRef, String) && isempty(trtRef)))
+    reference = nothing
+
+    if cType == "treat" || cType == "sum"
+        if refProvided
+            reference = trtRef::String
+            if !(reference in sortedLevs)
+                error("Reference level '" * reference * "' not found in variable " * string(cVar) *
+                      ". Available levels: " * join(sortedLevs, ", "))
+            end
+        else
+            reference = cType == "treat" ? sortedLevs[end] : sortedLevs[1]
+        end
+    elseif refProvided
+        error("A reference level can only be provided for \"treat\" or \"sum\" contrasts.")
     end
-    
-    # Iterate through levels to make dummy indicators
+
+    # Determine levels used to create indicator columns
+    levs = if cType == "treat"
+        filter(x -> x != reference, sortedLevs)
+    elseif cType == "sum"
+        filter(x -> x != reference, sortedLevs)
+    elseif cType == "noint" || cType == "sumnoint"
+        sortedLevs
+    else
+        error("Did not recognize contrast type '" * cType * "' for " * string(cVar) *
+              ". Valid options: \"treat\", \"sum\", \"noint\", \"sumnoint\"")
+    end
+
     namedict = Dict(zip(levs, 1:length(levs)))
-    dummies = zeros(length(thisVar), length(namedict))
-    for i=1:length(thisVar)
+    dummies = zeros(Float64, length(thisVar), length(namedict))
+
+    for i in 1:length(thisVar)
         if haskey(namedict, thisVar[i])
-            dummies[i, namedict[thisVar[i]]] = 1
+            dummies[i, namedict[thisVar[i]]] = 1.0
         end
     end
-    
-    # Convert results to a DataFrame and rename columns 
-    newDf = DataFrame(dummies ,:auto)
+
+    if cType == "sum" && reference !== nothing
+        refMask = thisVar .== reference
+        if any(refMask) && !isempty(levs)
+            dummies[refMask, :] .= -1.0
+        end
+    elseif cType == "sumnoint"
+        dummies .= dummies .- (1.0 / length(sortedLevs))
+    end
+
+    newDf = DataFrame(dummies, :auto)
     rename!(newDf, [Symbol("$(cVar)_$k") for k in levs])
+
     return newDf
 end
 
