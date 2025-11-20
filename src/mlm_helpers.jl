@@ -126,7 +126,7 @@ function calc_var(X::AbstractArray{Float64,2}, Z::AbstractArray{Float64,2},
     varLeft = inv(XTX) 
     # RHS of covariance matrix
     A =  ZTZ\Z';
-    varRight = A*I*transpose(A); 
+    varRight = A*sigma*transpose(A); 
     
     # Diagonal of covariance matrix, aka the variance
     varDiag = transpose(kron_diag(varLeft, varRight)) 
