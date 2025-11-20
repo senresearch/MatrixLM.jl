@@ -99,6 +99,6 @@ end
 
 function check_Z_rank(A::AbstractArray{Float64,2})
     if !is_full_rank(A)
-        @warn "The rank of Z matrix is not full, and this may generate errores."
+        @warn "The rank of Z matrix is not full, and this may generate errors."
     end
 end
