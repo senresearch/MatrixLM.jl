@@ -11,7 +11,8 @@ m = 3
 resid = randn(n,m)
 
 @testset "calcSigmaBasic" begin
-    # targetType = nothing: manual RSS/(n-1)
+    # When targetType is nothing, should compute sample covariance
+    # Sigma = RSS / (n - 1)
     RSS = transpose(resid) * resid
     expected_sigma = RSS ./ (n - 1)
 
@@ -23,7 +24,7 @@ resid = randn(n,m)
 end
 
 @testset "calcSigmaDelegation" begin
-    # when targetType is a string, calc_sigma should delegate to shrink_sigma
+    # When targetType is a string, calc_sigma should delegate to shrink_sigma
     s1, l1 = MatrixLM.calc_sigma(resid, "A")
     s2, l2 = MatrixLM.shrink_sigma(resid, "A")
 
