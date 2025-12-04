@@ -43,7 +43,7 @@ function get_dummy(df::DataFrames.DataFrame, cVar::Symbol, cType::String,
                       ". Available levels: " * join(sortedLevs, ", "))
             end
         else
-            reference = cType == "treat" ? sortedLevs[end] : sortedLevs[1]
+            reference = cType == "treat" ? sortedLevs[1] : sortedLevs[end]
         end
     elseif refProvided
         error("A reference level can only be provided for \"treat\" or \"sum\" contrasts.")
@@ -157,3 +157,4 @@ function contr(df::DataFrames.DataFrame, cVars::AbstractArray{Symbol,1},
     
     return newDf
 end
+
