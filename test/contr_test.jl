@@ -184,6 +184,9 @@ X_df = hcat(DataFrame(catvar1=rand(1:5, n), catvar2=rand(["A", "B", "C"], n),cat
         
         # trtRef with not existing level
         @test_throws ErrorException contr(df, [:cat], ["sum"], ["D"])
+
+        # trtRef with not "sum" or "treat" conrast
+        @test_throws ErrorException contr(df, [:cat], ["noint"], ["A"])
     end
     
     ############################################
