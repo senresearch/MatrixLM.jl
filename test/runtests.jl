@@ -22,5 +22,6 @@ using Test
     include("kron_diag_test.jl")
     include("design_matrix_test.jl")
     include("contr_test.jl")
+    include("calc_sigma_test.jl")
 end
 
