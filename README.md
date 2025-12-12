@@ -8,7 +8,15 @@
 
 ## Description
 
-This package can estimates matrix linear models. The core functions to obtain closed-form least squares estimates for matrix linear models. Variance shrinkage is adapted from Ledoit & Wolf (2003)[^1].
+This package provides functions for estimating matrix linear models
+which are bilinear models of the form $$Y = X B Z^\prime + E,$$ where
+$Y$ is the response matrix, $X$ and $Z$ are design matrices
+contributing information on the rows and columns of the response
+matrix, $B$ is a matrix of coefficients to be estimated and $E$ is
+random errors.  The core functions obtain closed-form least squares
+estimates for matrix linear models, and a sandwich estimator for the
+variance.  Variance shrinkage is adapted from Ledoit & Wolf
+(2003)[^1].
 
 An extension of `MatrixLM` for applications in high-throughput genetic screens is the [`GeneticScreens`](https://github.com/senresearch/GeneticScreens.jl) package. See the associated paper, ["Matrix linear models for high-throughput chemical genetic screens"](http://dx.doi.org/10.1534/genetics.119.302299), and its [reproducible code](https://github.com/senresearch/mlm_gs_supplement) for more details. 
 
