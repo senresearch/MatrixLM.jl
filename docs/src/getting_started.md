@@ -21,7 +21,7 @@ Where
 
 ## Data Generation
 
-To enhance the practibality of this example, we assume that both the responses and the predictors are presented as dataframes.
+For simplicity, we assume that both the responses and the predictors are presented as dataframes.
 
 Our dataset consists of a dataframe `X`, which includes `p = 5` predictors. Among these predictors, two are categorical variables and three are numerical, spread across `n = 100` samples. We then consider a response dataframe `Y` composed of `m = 250` responses. To simulate the `Y` data, we need to generate the matrices `Z`,`B`, and `E`.
 
