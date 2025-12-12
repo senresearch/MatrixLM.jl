@@ -24,7 +24,7 @@ W = diagm(w)
 WZ = W * Z
 Yw = X*B*transpose(WZ)+E
     
-# Data frame to be passed into lm
+# Dataframe to be passed into lm
 GLMData = DataFrame(hcat(vec(Y), kron(Z,X)), :auto)
 # lm estimate
 GLMEst = lm(Matrix(GLMData[:,2:end]), Vector(GLMData[:,1]))

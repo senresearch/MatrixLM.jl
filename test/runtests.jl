@@ -23,5 +23,6 @@ using Test
     include("design_matrix_test.jl")
     include("contr_test.jl")
     include("calc_sigma_test.jl")
+    include("estimates_test.jl")
 end
 
