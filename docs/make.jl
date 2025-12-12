@@ -9,7 +9,7 @@ end
 makedocs(; modules=[MatrixLM], sitename="MatrixLM.jl", pages=[
         "Home" => "index.md",
         "Getting Started" => "getting_started.md",
-        "Example: MLM for ordinal data" => "example_ordinal_data.md",
+        "Example: MLM for ordinal predictors" => "example_ordinal_data.md",
         "Types and Functions" => "functions.md",
     ]
 )
