@@ -18,9 +18,36 @@ estimates for matrix linear models, and a sandwich estimator for the
 variance.  Variance shrinkage is adapted from Ledoit & Wolf
 (2003)[^1].
 
-An extension of `MatrixLM` for applications in high-throughput genetic screens is the [`GeneticScreens`](https://github.com/senresearch/GeneticScreens.jl) package. See the associated paper, ["Matrix linear models for high-throughput chemical genetic screens"](http://dx.doi.org/10.1534/genetics.119.302299), and its [reproducible code](https://github.com/senresearch/mlm_gs_supplement) for more details. 
+The package is intended for high-dimensional applications such as
+high-throughput biological data.  The core functions are very fast as
+they use matrix operations.  The package provides flexibility in
+modeling via the use of model formulas for both row covariates ($X$)
+and column covariates ($Z$).
 
-[`MatrixLMnet`](https://github.com/senresearch/MatrixLMnet.jl) is a related package that implements algorithms for  L1-penalized estimates for matrix linear models. See the associated paper, ["Sparse matrix linear models for structured high-throughput data"](https://arxiv.org/abs/1712.05767), and its [reproducible code](https://github.com/senresearch/mlm_l1_supplement) for more details. 
+The first application of `MatrixLM` was for high-throughput genetic
+screens; some additional specialized functions are available in the
+package
+[`GeneticScreens`](https://github.com/senresearch/GeneticScreens.jl)
+package. See the associated paper, ["Matrix linear models for
+high-throughput chemical genetic
+screens"](http://dx.doi.org/10.1534/genetics.119.302299), and its
+[reproducible code](https://github.com/senresearch/mlm_gs_supplement)
+for more details.
+
+A second application is metabolomics.  See the associated paper,
+["Matrix Linear Models for connecting metabolite composition to
+individual characteristics"](https://www.mdpi.com/2218-1989/15/2/140)
+and its associated [reproducible
+code](https://github.com/senresearch/mlm-metabolomics-supplement) for
+more details.
+
+[`MatrixLMnet`](https://github.com/senresearch/MatrixLMnet.jl) is a
+related package that provides sparse estimates of $B$ using L$_1$ and
+L$_2$-penalized estimates. See the associated paper, ["Sparse matrix
+linear models for structured high-throughput
+data"](https://arxiv.org/abs/1712.05767), and its [reproducible
+code](https://github.com/senresearch/mlm_l1_supplement) for more
+details.
 
 ## Installation 
 
