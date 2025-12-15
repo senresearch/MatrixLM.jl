@@ -4,7 +4,7 @@
 
 using MatrixLM, LinearAlgebra, GLM
 using DataFrames 
-using Random, StatsModels, Statistics
+using Random, StatsModels, Statistics, Distributions
 using Test
 
 
@@ -23,6 +23,6 @@ using Test
     include("design_matrix_test.jl")
     include("contr_test.jl")
     include("calc_sigma_test.jl")
-    include("estimates_test.jl")
+    include("summary_test.jl")
 end
 
