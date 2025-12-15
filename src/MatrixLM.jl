@@ -1,7 +1,7 @@
 module MatrixLM
 
     using Distributed, SharedArrays
-    using Random, Statistics, StatsModels
+    using Random, Statistics, StatsModels, Distributions
     using LinearAlgebra, LinearAlgebra.BLAS
     import LinearAlgebra.I, LinearAlgebra.mul!, 
            LinearAlgebra.diag, LinearAlgebra.diagm
@@ -38,10 +38,14 @@ module MatrixLM
 
     # Matrix linear model helper functions
     include("mlm_helpers.jl")
-
+    
     # Matrix linear models
     include("mlm.jl")
     export Mlm, mlm, t_stat
+
+    # # Estimate extraction
+    include("summary.jl")
+    export confint,summary
 
     # Predictions and residuals
     include("predict.jl")

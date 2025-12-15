@@ -95,7 +95,7 @@ end
 
 
 """
-    calc_var(X::AbstractArray{Float64,2}, Z::AbstractArray{Float64,2},
+    calc_var(Z::AbstractArray{Float64,2},
              XTX::AbstractArray{Float64,2}, ZTZ::AbstractArray{Float64,2}, 
              sigma::AbstractArray{Float64,2})
 
@@ -104,8 +104,7 @@ estimates.
 
 # Arguments
 
-- `X::AbstractArray{Float64,2}`: The row covariates, with all 
-  categorical variables coded in appropriate contrasts
+
 - `Z::AbstractArray{Float64,2}`: The column covariates, with all 
   categorical variables coded in appropriate contrasts
 - `XTX::AbstractArray{Float64,2}`: X*transpose(X) product as a 2d array of floats 
@@ -117,15 +116,15 @@ estimates.
 2d array of floats
 
 """
-function calc_var(X::AbstractArray{Float64,2}, Z::AbstractArray{Float64,2}, 
-                  XTX::AbstractArray{Float64,2}, 
-                  ZTZ::AbstractArray{Float64,2}, 
+function calc_var(Z::AbstractArray{Float64,2}, 
+                  XᵀX::AbstractArray{Float64,2}, 
+                  ZᵀZ::AbstractArray{Float64,2}, 
                   sigma::AbstractArray{Float64,2})
     
     # LHS of covariance matrix 
-    varLeft = inv(XTX) 
+    varLeft = inv(XᵀX) 
     # RHS of covariance matrix
-    A =  ZTZ\Z';
+    A =  ZᵀZ\Z';
     varRight = A*sigma*transpose(A); 
     
     # Diagonal of covariance matrix, aka the variance
