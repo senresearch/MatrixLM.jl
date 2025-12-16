@@ -56,8 +56,8 @@ errors, two-sided confidence intervals, t-statistics, and p-values.
 - `nPerms::Int`: number of permutations when `permutation_test` is `true`.
 
 # Returns
-DataFrame with columns `coef`, `std_error`, `t_stat`, `p_value`, `ci_lower`,
-and `ci_upper`.
+DataFrame with columns `row_term`, `col_term`, `coef`, `std_error`, `t_stat`, 
+`p_value`, `ci_lower`, and `ci_upper`.
 """
 function summary(mlm_est::Mlm; 
     alpha::Float64 = 0.05, permutation_test::Bool = false, nPerms::Int = 500)
@@ -67,6 +67,10 @@ function summary(mlm_est::Mlm;
     var_est = mlm_est.varB  |> vec
     se = sqrt.(var_est)
 
+    # Build row/col term labels using indices (column-major order)
+    row_term = ["row_" * string(i) for j in 1:mlm_est.data.q for i in 1:mlm_est.data.p]
+    col_term = ["col_" * string(j) for j in 1:mlm_est.data.q for i in 1:mlm_est.data.p]
+    
     # Get confidence intervals
     confint = MatrixLM.confint(mlm_est; alpha = alpha)
 
@@ -79,6 +83,8 @@ function summary(mlm_est::Mlm;
     end
 
     return DataFrame(
+        row_term = row_term,
+        col_term = col_term,
         coef = est_coef,
         std_error = se,
         t_stat = tStatsOut |> vec,
