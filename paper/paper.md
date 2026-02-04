@@ -8,32 +8,30 @@ tags:
   - Bilinear
 authors:
   - name: Gregory Farage
-      orcid: 0000-0003-4268-9507
-      equal-contrib: true
-      affiliation: "1" # (Multiple affiliations must be quoted)
+    orcid: 0000-0003-4268-9507
+    equal-contrib: true
+    affiliation: "1" # (Multiple affiliations must be quoted)
   - name: Jane W Liang
-      orcid: 0000-0002-2302-3809
-      equal-contrib: true
-      affiliation: "2" # (Multiple affiliations must be quoted)
+    orcid: 0000-0002-2302-3809
+    equal-contrib: true
+    affiliation: "2" # (Multiple affiliations must be quoted)
   - name: Chenhao Zhao
-      orcid: 0000-0001-5607-7443
-      equal-contrib: false
-      affiliation: "1" # (Multiple affiliations must be quoted)
+    orcid: 0000-0001-5607-7443
+    equal-contrib: false
+    affiliation: "1" # (Multiple affiliations must be quoted)
   - name: Śaunak Sen
-      orcid: 0000-0003-4519-6361
-      equal-contrib: false
-      affiliation: "1" # (Multiple affiliations must be quoted)
+    orcid: 0000-0003-4519-6361
+    equal-contrib: false
+    affiliation: "1" # (Multiple affiliations must be quoted)
 affiliations:
  - name: Division of Biostatistics, Department of Preventive Medicine, University of Tennessee Health Science Center, United States
-     index: 1
-     ror: 0011qv509
+   index: 1
+   ror: 0011qv509
  - name: Division of Research, Kaiser Permanente Northern California, United States
-     index: 2
-     ror: 00t60zh31
-date: 12 December 2025
+   index: 2
+   ror: 00t60zh31
+date: 3 February 2025
 bibliography: paper.bib
-
-
 ---
 
 # Summary
