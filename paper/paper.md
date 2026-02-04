@@ -169,13 +169,7 @@ outcomes with structured annotations on both rows and columns.
 
 # Figures
 
-<img src="mlmdiagram2.svg" alt="A visualization of the response ($Y:n
-\times m$), sample covariates ($X:n \times p$), feature covariates ($Z:m
-\times q$), and coefficients ($B:p \times q$) matrices for a matrix
-linear model. The dimensions in the model correspond to $n$
-samples, $m$ features, $p$ sample covariates, and $q$ feature covariates; the
-matrix $B$ is to be estimated."  width="75%" style="display: block;
-margin: 0 auto" />
+![Alt text](mlmdiagram2.svg)
 
 A visualization of the response ($\mathbf{Y}:n \times m$), sample covariates
 ($\mathbf{X}:n \times p$), feature covariates ($\mathbf{Z}:m
