@@ -156,7 +156,7 @@ $$
 \hat B = (X^T X)^{-1} X^T Y Z \,(Z^T Z)^{-1},
 $$
 when $X^T X$ and $Z^T Z$ are invertible. From $\hat B$, the software
-can construct fitted values $ \hat Y = X \hat B Z^T $ and standard
+can construct fitted values $\hat Y = X \hat B Z^T$ and standard
 errors and test statistics for entries of $\hat B$ or for
 user-specified linear contrasts, directly analogous to classical
 linear models.
