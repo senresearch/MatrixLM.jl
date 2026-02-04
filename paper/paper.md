@@ -174,7 +174,7 @@ outcomes with structured annotations on both rows and columns.
 \times q$), and coefficients ($\mathbf{B}:p \times q$) matrices for a
 matrix linear model. The dimensions in the model correspond to $n$
 samples/individuals, $m$ features/measurements, $p$ sample covariates, and $q$ feature covariates; the
-matrix $\mathbf{B}$ is to be estimated.](mlmdiagram2.svg){height="9pt"}
+matrix $\mathbf{B}$ is to be estimated.](mlmdiagram2.svg){height="900pt"}
 
 
 
