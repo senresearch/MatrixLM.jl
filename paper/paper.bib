@@ -1,0 +1,33 @@
+
+@article{liang_matrix_2019,
+	title = {Matrix {Linear} {Models} for {High}-{Throughput} {Chemical} {Genetic} {Screens}},
+	volume = {4},
+	url = {https://academic.oup.com/genetics/article/212/4/1063/5931246},
+	doi = {10.1534/genetics.119.302299},
+	abstract = {We develop a ﬂexible and computationally efﬁcient approach for analyzing high-throughput chemical genetic screens. In such screens, a library of genetic mutants is phenotyped in a large number of stresses. Typically, interactions between genes and stresses are detected by grouping the mutants and stresses into categories, and performing modiﬁed t-tests for each combination. This approach does not have a natural extension if mutants or stresses have quantitative or nonoverlapping annotations (e.g., if conditions have doses or a mutant falls into more than one category simultaneously). We develop a matrix linear model (MLM) framework that allows us to model relationships between mutants and conditions in a simple, yet ﬂexible, multivariate framework. It encodes both categorical and continuous relationships to enhance detection of associations. We develop a fast estimation algorithm that takes advantage of the structure of MLMs. We evaluate our method’s performance in simulations and in an Escherichia coli chemical genetic screen, comparing it with an existing univariate approach based on modiﬁed t-tests. We show that MLMs perform slightly better than the univariate approach when mutants and conditions are classiﬁed in nonoverlapping categories, and substantially better when conditions can be ordered in dosage categories. Therefore, it is an attractive alternative to current methods, and provides a computationally scalable framework for larger and complex chemical genetic screens. A Julia language implementation of MLMs and the code used for this paper are available at https://github.com/janewliang/GeneticScreen.jl and https:// bitbucket.org/jwliang/mlm\_gs\_supplement, respectively.},
+	language = {en},
+	number = {212},
+	journal = {Genetics},
+	author = {Liang, Jane W and Nichols, Robert J and Sen, \'Saunak},
+	month = {aug},
+	year = {2019},
+	pages = {1063--1073},
+}
+
+@Article{farage_metabolomics_2025,
+    title = {Matrix Linear Models for Connecting Metabolite Composition to Individual Characteristics},
+    volume = {15},
+    issn = {2218-1989},
+    url = {https://www.mdpi.com/2218-1989/15/2/140},
+    doi = {10.3390/metabo15020140},
+    language = {en},
+    number = {2},
+    article-number = {140},
+    journal = {Metabolites},
+    volume = {15},
+    year = {2025},
+    author = {Farage, Gregory and Zhao, Chenhao and Choi, Hyo Young and Garrett, Timothy J. and Elam, Marshall B. and Kechris, Katerina and Sen, Śaunak},
+    pubmedid = {39997765},
+    abstract = {Background/Objectives: High-throughput metabolomics data provide a detailed molecular window into biological processes. We consider the problem of assessing how association of metabolite levels with individual (sample) characteristics, such as sex or treatment, depend on metabolite characteristics such as pathways. Typically, this is done using a two-step process. In the first step, we assess the association of each metabolite with individual characteristics. In the second step, an enrichment analysis is performed by metabolite characteristics. Methods: We combine the two steps using a bilinear model based on the matrix linear model (MLM) framework previously developed for high-throughput genetic screens. Our method can estimate relationships in metabolites sharing known characteristics, whether categorical (such as type of lipid or pathway) or numerical (such as number of double bonds in triglycerides). Results: We demonstrate the flexibility and interoperability of MLMs by applying them to three metabolomic studies. We show that our approach can separate the contribution of the overlapping triglyceride characteristics, such as the number of double bonds and the number of carbon atoms. Conclusion: The matrix linear model offers a flexible, efficient, and interpretable framework for integrating external information and examining complex relationships in metabolomics data. Our method has been implemented in the open-source Julia package, MatrixLM. Data analysis scripts with example data analyses are also available.},
+}
+
