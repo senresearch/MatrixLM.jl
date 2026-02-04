@@ -1,5 +1,5 @@
 ---
-title: 'MatrixLM: A Julia package to obtain closed-form least squares estimates for matrix linear models.'
+title: "MatrixLM: A Julia package to obtain closed-form least squares estimates for matrix linear models."
 tags:
   - Julia
   - Metabolomics
