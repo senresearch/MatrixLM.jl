@@ -194,6 +194,11 @@ package, `MatrixLMnet`, that implements elastic-net and related
 penalties on the coefficient matrix to enable variable selection and
 regularization in matrix linear models.
 
+# AI usage disclosure
+The authors used GitHub Copilot to assist in coding testing functions. 
+All Copilot-suggested code was reviewed, 
+tested, and validated by the human authors to ensure correctness. 
+The authors take full responsibility for the content of this manuscript. 
 
 # Acknowledgements
 
