@@ -105,22 +105,80 @@ fast, open-source Julia implementation with a user-friendly formula
 interface, making it easier for applied researchers to fit, interpret,
 and extend these models in large-scale studies.
 
-# Key Features
+# Statement of the field
 
-`MatrixLM` leverages the speed and expressiveness of the Julia
-programming language to provide:
+High-throughput biological and biomedical studies are frequently analyzed using
+feature-wise statistical workflows, in which a separate model is fit for each 
+metabolite, gene, or other molecular measurement. These analyses are typically 
+followed by enrichment or grouping procedures to discover patterns across 
+feature sets [@huang_systematic_2022; @chen_guide_2022]. Such strategies are 
+supported by existing statistical software and remain widely used in practice. 
+However, they do not readily incorporate structured feature annotations, such as 
+quantitative characteristics, overlapping categories, or hierarchical groupings, 
+directly into the primary model. Feature annotations are usually incorporated 
+only after model fitting rather than as part of the primary model specification.
 
-* **Closed-form Estimation:** Uses efficient matrix operations to
-solve least squares problems without the need for iterative solvers or
-massive Kronecker products in memory.
-* **Formula Interface:** Includes a `@formula` macro that allows users
-to specify models for both row ($X$) and column ($Z$) covariates using
-standard statistical model formula syntax (e.g., `~ Treatment + Age`).
-* **Statistical Inference:** Provides standard errors, t-statistics,
-and p-values for estimated coefficients.
-* **Permutation Testing:** Built-in support for permutation tests to
-control false positive rates making minimal assumptions about the
-error distribution.
+Multivariate analysis methods, including factor analysis, principal component 
+analysis, partial least squares discriminant analysis, and cluster analysis, 
+have been used to capture correlation structures across features 
+[@eriksson_chemometrics_2004; @chen_guide_2022; @lee_plsda_2018]. However, these 
+approaches may reduce interpretability and complicate the extraction of familiar 
+statistical quantities such as effect estimates, confidence intervals, and 
+hypothesis tests.
+
+Matrix linear models (MLMs) are conceptually related to established linear 
+modeling methods, such as those implemented in the LIMMA ecosystem 
+[@ritchie_limma_2015], which fit separate linear models for each feature and 
+subsequently borrow information across features using empirical Bayes methods. 
+In contrast, MLMs incorporate feature-level information directly into the 
+regression model through a bilinear formulation, enabling examination of how 
+sample characteristics relate to feature annotations.
+
+General-purpose tools for fitting matrix linear models in applied
+workflows remain limited. Consequently, researchers interested in MLMs
+usually rely on custom implementations or study-specific scripts,
+which can reduce reproducibility and limit method reuse or
+extension. MatrixLM fills this gap by providing an open-source Julia
+package specifically designed for matrix linear models. The package
+provides a dedicated interface for specifying row and column
+covariates using the model formula notation, efficiently computing
+least-squares estimates, and obtaining interpretable statistical
+summaries. MatrixLM supports a broad range of structured hypotheses
+while preserving consistency with established regression workflows.
+
+
+# Software design
+
+`MatrixLM` is designed around two main goals: preserving
+interpretability and making matrix linear models practical and fast
+for use on high-throughput data.
+
+In addition to leveraging the speed of the Julia programming language,
+a central design choice in `MatrixLM` is to exploit the algebraic
+structure of matrix linear models to compute least-squares estimates
+directly, rather than relying on a generic regression engine built on
+an explicit Kronecker-product design matrix. This reduces memory load and
+improves computational speed. The implementation leverages Julia’s
+`LinearAlgebra.jl` and its integration with OpenBLAS. This allows
+MatrixLM to offload heavy matrix multiplications to highly optimized
+routines.
+
+In addition to estimation, the package provides standard errors, 
+t-statistics, and p-values for the estimated coefficients. For 
+high-throughput data where standard assumptions such as normality 
+may not hold, or for small sample sizes, `MatrixLM` also supports 
+permutation testing, offering a flexible alternative to traditional 
+parametric tests.
+
+The package additionally emphasizes usability through a model formula
+specification for constructing the row and column design
+matrices. This lowers the barrier for researchers who are already
+familiar with standard regression workflow syntax, while still
+allowing flexible encodings of both categorical and continuous
+annotations.
+
+Together, these design choices favor clarity, extensibility, and 
+domain-oriented model specification.
 
 
 # Mathematical framework
@@ -176,25 +234,37 @@ matrix linear model. The dimensions in the model correspond to $n$
 samples/individuals, $m$ features/measurements, $p$ sample covariates, and $q$ feature covariates; the
 matrix $\mathbf{B}$ is to be estimated.](mlmdiagram2.png){height="150pt"}
 
+A visualization of the response ($\mathbf{Y}:n \times m$), sample
+covariates ($\mathbf{X}:n \times p$), feature covariates
+($\mathbf{Z}:m \times q$), and coefficients ($\mathbf{B}:p \times q$)
+matrices for a matrix linear model. The dimensions in the model
+correspond to $n$ samples/individuals, $m$ features/measurements, $p$
+sample covariates, and $q$ feature covariates; the matrix $\mathbf{B}$
+is to be estimated.
 
-
-# Conclusion and future directions
+# Research impact statement
 
 `MatrixLM` provides a practical implementation of matrix linear models
-for encoding relationships and groupings high-throughput,
+for encoding relationships and groupings high-throughput 
 matrix-shaped data with annotations on both samples and features. By
 combining a flexible formula interface with fast, closed-form
 least-squares estimation, the package makes it straightforward for
 applied researchers to encode biological or experimental structure
-directly into their models.
+directly into their models and apply matrix linear models in 
+reproducible workflows.
+
+# Conclusion and future directions
 
 In ongoing work, we are extending this framework to penalized matrix
-linear models for high-dimensional settings: a companion Julia
-package, `MatrixLMnet`, that implements elastic-net and related
-penalties on the coefficient matrix to enable variable selection and
-regularization in matrix linear models.
+linear models for high-dimensional settings. In particular, we are
+developing a companion Julia package, `MatrixLMnet`, which implements
+elastic-net and related penalties on the coefficient matrix to support
+variable selection and regularization in matrix linear models.
 
 # AI usage disclosure
+
+Grammarly was used during the drafting of this manuscript to assist 
+with linguistic polishing.
 The authors used GitHub Copilot to assist in coding testing functions. 
 All Copilot-suggested code was reviewed, 
 tested, and validated by the human authors to ensure correctness. 
