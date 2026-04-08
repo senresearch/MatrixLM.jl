@@ -105,7 +105,7 @@ fast, open-source Julia implementation with a user-friendly formula
 interface, making it easier for applied researchers to fit, interpret,
 and extend these models in large-scale studies.
 
-# Statement of the field
+# State of the field
 
 High-throughput biological and biomedical studies are frequently analyzed using
 feature-wise statistical workflows, in which a separate model is fit for each 
