@@ -107,45 +107,40 @@ and extend these models in large-scale studies.
 
 # State of the field
 
-High-throughput biological and biomedical studies are frequently analyzed using
-feature-wise statistical workflows, in which a separate model is fit for each 
-metabolite, gene, or other molecular measurement. These analyses are typically 
-followed by enrichment or grouping procedures to discover patterns across 
-feature sets [@huang_systematic_2022; @chen_guide_2022]. Such strategies are 
-supported by existing statistical software and remain widely used in practice. 
-However, they do not readily incorporate structured feature annotations, such as 
-quantitative characteristics, overlapping categories, or hierarchical groupings, 
-directly into the primary model. Feature annotations are usually incorporated 
-only after model fitting rather than as part of the primary model specification.
+Multivariate methods such as factor analysis, principal component 
+analysis, partial least squares discriminant analysis, and clustering 
+are commonly used to capture correlation structure across features.
+[@eriksson_chemometrics_2004; @chen_guide_2022; @lee_plsda_2018]. While 
+useful for summarizing high-dimensional data, these approaches may 
+reduce interpretability and make it harder to obtain familiar 
+statistical quantities such as effect estimates, confidence 
+intervals, and hypothesis tests.
 
-Multivariate analysis methods, including factor analysis, principal component 
-analysis, partial least squares discriminant analysis, and cluster analysis, 
-have been used to capture correlation structures across features 
-[@eriksson_chemometrics_2004; @chen_guide_2022; @lee_plsda_2018]. However, these 
-approaches may reduce interpretability and complicate the extraction of familiar 
-statistical quantities such as effect estimates, confidence intervals, and 
-hypothesis tests.
+Matrix linear models (MLMs) provide a complementary framework that 
+jointly models sample-level and feature-level covariates within a 
+bilinear regression model. MLMs are related to linear modeling 
+approaches such as those in the LIMMA ecosystem [@ritchie_limma_2015], 
+which fit separate models for each feature and borrow information 
+across features using empirical Bayes methods. In contrast, MLMs
+incorporate feature-level information directly into the 
+regression model, allowing researchers to examine how sample 
+characteristics relate to structured feature annotations within a 
+single analysis.
 
-Matrix linear models (MLMs) are conceptually related to established linear 
-modeling methods, such as those implemented in the LIMMA ecosystem 
-[@ritchie_limma_2015], which fit separate linear models for each feature and 
-subsequently borrow information across features using empirical Bayes methods. 
-In contrast, MLMs incorporate feature-level information directly into the 
-regression model through a bilinear formulation, enabling examination of how 
-sample characteristics relate to feature annotations.
+General-purpose software for fitting matrix linear models remains 
+limited. Ecosystems such as `BioConductor`[@huber_bioconductor_2015] 
+and tools like `GLM.jl` [@glmjl] support high-throughput data 
+analysis and regression modeling and can, in principle, be used 
+to fit MLMs via vectorized  formulations based on Kronecker 
+products. However, in practice,this approach is often impractical 
+for large datasets due to computational and memory requirements 
+and does not preserve the data's natural structure.
 
-General-purpose tools for fitting matrix linear models in applied
-workflows remain limited. Consequently, researchers interested in MLMs
-usually rely on custom implementations or study-specific scripts,
-which can reduce reproducibility and limit method reuse or
-extension. MatrixLM fills this gap by providing an open-source Julia
-package specifically designed for matrix linear models. The package
-provides a dedicated interface for specifying row and column
-covariates using the model formula notation, efficiently computing
-least-squares estimates, and obtaining interpretable statistical
-summaries. MatrixLM supports a broad range of structured hypotheses
-while preserving consistency with established regression workflows.
-
+MatrixLM addresses this gap by providing a dedicated Julia 
+implementation that avoids explicit Kronecker-product 
+formulations. It also offers a clear interface for specifying 
+row and column covariates, efficient estimation, and interpretable 
+statistical summaries.
 
 # Software design
 
