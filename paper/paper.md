@@ -107,40 +107,31 @@ and extend these models in large-scale studies.
 
 # State of the field
 
-Multivariate methods such as factor analysis, principal component 
-analysis, partial least squares discriminant analysis, and clustering 
-are commonly used to capture correlation structure across features.
-[@eriksson_chemometrics_2004; @chen_guide_2022; @lee_plsda_2018]. While 
-useful for summarizing high-dimensional data, these approaches may 
-reduce interpretability and make it harder to obtain familiar 
-statistical quantities such as effect estimates, confidence 
-intervals, and hypothesis tests.
+The best-known software ecosystem for high-throughput biological data
+analysis is Bioconductor [@huber_bioconductor_2015].  We are not aware
+of any package that provides the ability for large scale bilinear
+models in this ecosystem.  The LIMMA family of packages
+[@ritchie_limma_2015], fits separate linear models for each feature
+and borrws information across features using empirical Bayes methods.
+While they use sample or individual level information, they do not use
+feature annotations in their modeling, that is central to MLMs.  In
+the plant breeding literature, bilinear models are often used for
+assessing gene-environment interactions.  The best known packages are
+`metan` [olivoto_metan_2020] and `Bilinear`
+[santantonio_blinear_2022], but neither are suited for high-throughput
+phenotypes, although they provide other more specialzed features such
+as missing data imputation using the EM algorithm. In principle,
+general-purpose packages such as `GLM.jl` [glmjl] and `MixedModels.jl`
+[alday_mixedmodelsjl_2026] could be used to fit bilinear models using
+the Kronecker product formulation of MLMs.  In practice, this is
+impractical because the Kronecker product approach has memory
+requirements beyond standard workstation hardware.
 
-Matrix linear models (MLMs) provide a complementary framework that 
-jointly models sample-level and feature-level covariates within a 
-bilinear regression model. MLMs are related to linear modeling 
-approaches such as those in the LIMMA ecosystem [@ritchie_limma_2015], 
-which fit separate models for each feature and borrow information 
-across features using empirical Bayes methods. In contrast, MLMs
-incorporate feature-level information directly into the 
-regression model, allowing researchers to examine how sample 
-characteristics relate to structured feature annotations within a 
-single analysis.
-
-General-purpose software for fitting matrix linear models remains 
-limited. Ecosystems such as `BioConductor`[@huber_bioconductor_2015] 
-and tools like `GLM.jl` [@glmjl] support high-throughput data 
-analysis and regression modeling and can, in principle, be used 
-to fit MLMs via vectorized  formulations based on Kronecker 
-products. However, in practice,this approach is often impractical 
-for large datasets due to computational and memory requirements 
-and does not preserve the data's natural structure.
-
-MatrixLM addresses this gap by providing a dedicated Julia 
-implementation that avoids explicit Kronecker-product 
-formulations. It also offers a clear interface for specifying 
-row and column covariates, efficient estimation, and interpretable 
-statistical summaries.
+MatrixLM addresses these gaps by providing a dedicated Julia
+implementation for high-throughput biological data that avoids
+explicit Kronecker-product formulations. It also offers a clear
+interface for specifying row and column covariates, efficient
+estimation, and interpretable statistical summaries.
 
 # Software design
 
