@@ -107,31 +107,28 @@ and extend these models in large-scale studies.
 
 # State of the field
 
-The best-known software ecosystem for high-throughput biological data
-analysis is Bioconductor [@huber_bioconductor_2015].  We are not aware
-of any package that provides the ability for large scale bilinear
-models in this ecosystem.  The LIMMA family of packages
-[@ritchie_limma_2015], fits separate linear models for each feature
-and borrws information across features using empirical Bayes methods.
-While they use sample or individual level information, they do not use
-feature annotations in their modeling, that is central to MLMs.  In
-the plant breeding literature, bilinear models are often used for
-assessing gene-environment interactions.  The best known packages are
-`metan` [olivoto_metan_2020] and `Bilinear`
-[santantonio_blinear_2022], but neither are suited for high-throughput
-phenotypes, although they provide other more specialzed features such
-as missing data imputation using the EM algorithm. In principle,
-general-purpose packages such as `GLM.jl` [glmjl] and `MixedModels.jl`
-[alday_mixedmodelsjl_2026] could be used to fit bilinear models using
-the Kronecker product formulation of MLMs.  In practice, this is
-impractical because the Kronecker product approach has memory
+The best-known software ecosystem for high-throughput biological data 
+analysis is Bioconductor [@huber_bioconductor_2015]. We are not aware 
+of any package that provides the ability for large-scale bilinear models 
+in this ecosystem. The LIMMA family of packages [@ritchie_limma_2015], 
+fits separate linear models for each feature and borrows information 
+across features using empirical Bayes methods. While they use sample or 
+individual-level information, they do not use feature annotations in 
+their modeling, which is central to MLMs. In the plant breeding literature, 
+bilinear models are often used for assessing gene-environment interactions. 
+The best known packages are metan [@olivoto_metan_2020] and Bilinear [@santantonio_blinear_2022], 
+but neither is suited for high-throughput phenotypes, although they provide 
+other more specialized features such as missing data imputation using the 
+EM algorithm. In principle, general-purpose packages such as GLM.jl [@glmjl] 
+and MixedModels.jl [@alday_mixedmodelsjl_2026] could be used to fit bilinear 
+models using the Kronecker product formulation of MLMs. In practice, 
+this is impractical because the Kronecker product approach has memory 
 requirements beyond standard workstation hardware.
 
-MatrixLM addresses these gaps by providing a dedicated Julia
-implementation for high-throughput biological data that avoids
-explicit Kronecker-product formulations. It also offers a clear
-interface for specifying row and column covariates, efficient
-estimation, and interpretable statistical summaries.
+MatrixLM addresses these gaps by providing a dedicated Julia implementation 
+for high-throughput biological data that avoids explicit Kronecker-product 
+formulations. It also offers a clear interface for specifying row and column 
+covariates, efficient estimation, and interpretable statistical summaries.
 
 # Software design
 
