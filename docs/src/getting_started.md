@@ -25,11 +25,18 @@ Where
 
 For simplicity, we assume that both the responses and the predictors are presented as dataframes.
 
-Our dataset consists of a dataframe `X`, which includes `p = 5` predictors. Among these predictors, two are categorical, and three are numerical, spread across `n = 100` samples. We then consider a response dataframe `Y` composed of `m = 250` responses. To simulate the `Y` data, we need to generate the matrices `Z`,`B`, and `E`.
+Our dataset consists of a dataframe `dfX`, which includes `5` predictors
+(but will require `p=7` coefficients, as we will see later).
+Among these predictors, two are categorical, and three are numerical, spread across `n = 100` samples. We then consider a response dataframe `Y` composed of `m = 250` responses. To simulate the `Y` data, we need to generate the matrices `Z`,`B`, and `E`.
 
 The matrix `Z` provides information about the response population, which corresponds to the `Y`'s columns $y_{i \in [1, 250]}$. The dimensions of this matrix are set at `250x10`.
 
-Given this setup, the coefficient matrix `B` is designed to have dimensions of `5x10`. This matches the number of predictors in `X` with the number of information categories in `Z`. Finally, we construct the noise matrix `E` containing the error terms. We generate this matrix as a normally distributed matrix ($N (0, 4) $), adding a layer of randomness to our simulation.
+Given this setup, the coefficient matrix `B` is designed to have
+dimensions of `7×10`. This matches the number of columns in `X`
+(the matrix coding the 5 predictors in the data frame)
+with the number of information categories in `Z`. Finally, we construct the noise matrix `E` containing the error terms.
+We generate this matrix as a normally distributed matrix
+(all values from N(0,σ=4)), adding a layer of randomness to our simulation.
 
 
 ```@example
@@ -58,7 +65,7 @@ Let's use the function `design_matrix()` to get the predictor model matrix based
 # Convert dataframe to prediction matrix
 X = design_matrix(@mlmformula(catvar1 + catvar2 + var3 + var4 + var5), dfX)
 
-p = size(X)[2];
+p = size(X)[2]; # 5 columns in dfX, but p=7 coefs bc catvar2 has 4 levels
 
 nothing #hide
 ```
