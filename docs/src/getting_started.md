@@ -63,7 +63,10 @@ p = size(X)[2];
 nothing #hide
 ```
 
-We also have the option to specify contrast coding in your model. For a detailed understanding of how to implement contrast coding, please refer to the documentation for [contrast coding with StatsModels.jl](https://juliastats.org/StatsModels.jl/stable/contrasts/#How-to-specify-contrast-coding). This will provide you with comprehensive instructions and examples.
+We also have the option to specify contrast coding in our model.
+For a detailed understanding of how to implement contrast coding,
+please refer to the documentation for [contrast coding with StatsModels.jl](https://juliastats.org/StatsModels.jl/stable/contrasts/#How-to-specify-contrast-coding).
+This provides comprehensive instructions and examples.
 
 ```@example
 # Convert dataframe to predicton matrix
@@ -168,7 +171,9 @@ plot(
 )
 ```
 
-The `resid()` function, available in `MatrixLM.jl`, computes residuals for each observation, helping you evaluate the discrepancy between the model's predictions and the observed data.
+The `resid()` function, available in `MatrixLM.jl`, computes residuals
+for each observation, helping us evaluate the discrepancy between
+the model's predictions and the observed data.
 
 ```@example
 resids = resid(est);
@@ -196,7 +201,11 @@ tStats = t_stat(est);
 nothing #hide
 ```
 
-Permutation p-values for the t-statistics can be computed by the `mlm_perms` function. `mlm_perms` calls the more general function `perm_pvals` and will run the permutations in parallel when possible. The illustrative example below runs only 5 permutations; a different number can be specified as the second argument. By default, the function used to permute `Y` is `shuffle_rows`, which shuffles the rows for `Y`. Alternative functions for permuting `Y`, such as `shuffle_cols`, can be passed into the argument `permFun`. `mlm_perms` calls `mlm` and `t_stat`, so the user is free to specify keyword arguments for `mlm` or `t_stat`; by default, `mlm_perms` will call both functions using their default behavior.
+Permutation p-values for the t-statistics can be computed by the `mlm_perms` function. `mlm_perms` calls the more general function `perm_pvals` and will run the permutations in parallel when possible.
+The illustrative example below runs only 500 permutations;
+a different number can be specified as the second argument
+(by modifying the `nPerms` value).
+By default, the function used to permute `Y` is `shuffle_rows`, which shuffles the rows for `Y`. Alternative functions for permuting `Y`, such as `shuffle_cols`, can be passed into the argument `permFun`. `mlm_perms` calls `mlm` and `t_stat`, so the user is free to specify keyword arguments for `mlm` or `t_stat`; by default, `mlm_perms` will call both functions using their default behavior.
 
 ```@example
 nPerms = 500
@@ -212,6 +221,14 @@ plot(
             size = (800, 300)),       
     title = ["T Statistics" "- Log(P-values)"]
 )
+```
+
+White cells represent p-values of 0, not missing. These p-values should be
+reported as `< 1/500` when using 500 permutations here, and more
+permutations would give more precision about how small these p-values are.
+
+```@repl
+pVals
 ```
 
 ## Summary
