@@ -59,7 +59,7 @@ function mlm_fit(data::RawData, weights::Nothing, targetType)
     # Estimate MLM coefficients
     B = calc_coeffs(get_X(data), get_Y(data), get_Z(data), XᵀX, ZᵀZ) 
     
-    # Calculate residuals 
+    # Calculate resid 
     resid = calc_resid(get_X(data), get_Y(data), get_Z(data), B)
     
     # Estimate variance of errors, optionally with variance shrinkage
@@ -118,7 +118,7 @@ function mlm_fit(data::RawData, weights::Array{Float64,1}, targetType)
     # Estimate MLM coefficients
     B = calc_coeffs(get_X(data), get_Y(data), WZ, XᵀX, ZᵀWZ)
     
-    # Calculate residuals 
+    # Calculate resid 
     resid = calc_resid(get_X(data), get_Y(data), get_Z(data), B)
     
     # Estimate variance of errors, optionally with variance shrinkage

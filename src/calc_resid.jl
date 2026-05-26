@@ -2,7 +2,7 @@
     calc_resid(X::AbstractArray{Float64,2}, Y::AbstractArray{Float64,2}, 
            Z::AbstractArray{Float64,2}, B::AbstractArray{Float64,2})
 
-Calculate residuals
+Calculate resid
 
 # Arguments 
 
@@ -23,7 +23,7 @@ function calc_resid(X::AbstractArray{Float64,2}, Y::AbstractArray{Float64,2},
     # Obtain fitted values
     resid = calc_preds(X, Z, B) 
     
-    # Compute residuals over fitted values
+    # Compute resid over fitted values
     resid .= Y .- resid
     
     return resid
@@ -37,11 +37,11 @@ end
                      Z::AbstractArray{Float64,2}, 
                      B::AbstractArray{Float64,2})
 
-Calculate residuals in place
+Calculate resid in place
 
 # Arguments 
 
-- `resid`: 2d array of floats consisting of the residuals, to be updated in 
+- `resid`: 2d array of floats consisting of the resid, to be updated in 
   place
 - `X`: 2d array of floats consisting of the row covariates, standardized as 
   necessary

@@ -12,7 +12,7 @@ Extracts coefficients from Mlm object
 2d array of floats
 
 """
-function coef(MLM::Mlm)
+function StatsAPI.coef(MLM::Mlm)
     
     return MLM.B
 end
@@ -34,7 +34,7 @@ Calculates new predictions based on Mlm object
 Response object
 
 """
-function predict(MLM::Mlm, newPredictors::Predictors=MLM.data.predictors)
+function StatsAPI.predict(MLM::Mlm, newPredictors::Predictors=MLM.data.predictors)
     
   	# Include X and Z intercepts in new data if necessary
   	if MLM.data.predictors.hasXIntercept==true && 
@@ -83,7 +83,7 @@ Calculate fitted values of an Mlm object
 Response object
 
 """
-function fitted(MLM::Mlm)
+function StatsAPI.fitted(MLM::Mlm)
     
     # Call the predict function with default newPredictors
     return predict(MLM)
@@ -91,7 +91,7 @@ end
 
 
 """
-    resid(MLM::Mlm, newData::RawData=MLM.data)
+    residuals(MLM::Mlm, newData::RawData=MLM.data)
 
 Calculates residuals of an Mlm object
 
@@ -106,7 +106,7 @@ Calculates residuals of an Mlm object
 2d array of floats
 
 """
-function resid(MLM::Mlm, newData::RawData=MLM.data)
+function StatsAPI.residuals(MLM::Mlm, newData::RawData=MLM.data)
     
     # Include X and Z intercepts in new data if necessary
     if MLM.data.predictors.hasXIntercept==true && 

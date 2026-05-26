@@ -109,7 +109,7 @@ Ledoit, O., & Wolf, M. (2003). Improved estimation of the covariance matrix
 """
 function shrink_sigma(resid::AbstractArray{Float64,2}, targetType::String)
     
-    # Dimensions of resid
+    # Dimensions of residuals
     (n, p) = size(resid)
     
     # Estimates and the variance of the error variance
