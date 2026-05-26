@@ -1,7 +1,7 @@
 name = "MatrixLM"
 uuid = "37290134-6146-11e9-0c71-a5c489be1f53"
-version = "0.3.1"
 authors = ["Jane Liang", "Gregory Farage", "Chenhao Zhao", "Saunak Sen"]
+version = "0.3.1"
 
 [deps]
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
@@ -17,7 +17,7 @@ StatsModels = "3eaba693-59b7-5ba5-a881-562e759f1c8d"
 Aqua = "0.8"
 DataFrames = "0.22, 1"
 Distributed = "1"
-Distributions = "0.25.122"
+Distributions = "0.25"
 GLM = "1.8"
 LinearAlgebra = "1"
 Random = "1"
@@ -25,7 +25,7 @@ SharedArrays = "1"
 Statistics = "1"
 StatsModels = "0.6, 0.7"
 Test = "1"
-julia = "1"
+julia = "1.10"
 
 [extras]
 Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
