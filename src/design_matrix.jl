@@ -23,8 +23,7 @@
     ```
 """
 macro mlmformula(ex)
-    ex_string = "0 ~" * string(ex) 
-    return @eval(@formula($(Meta.parse(ex_string))).rhs)
+    return StatsModels.parse!(ex)
 end
 
 """
