@@ -25,11 +25,18 @@ Where
 
 For simplicity, we assume that both the responses and the predictors are presented as dataframes.
 
-Our dataset consists of a dataframe `X`, which includes `p = 5` predictors. Among these predictors, two are categorical, and three are numerical, spread across `n = 100` samples. We then consider a response dataframe `Y` composed of `m = 250` responses. To simulate the `Y` data, we need to generate the matrices `Z`,`B`, and `E`.
+Our dataset consists of a dataframe `dfX`, which includes `5` predictors
+(but will require `p=7` coefficients, as we will see later).
+Among these predictors, two are categorical, and three are numerical, spread across `n = 100` samples. We then consider a response dataframe `Y` composed of `m = 250` responses. To simulate the `Y` data, we need to generate the matrices `Z`,`B`, and `E`.
 
 The matrix `Z` provides information about the response population, which corresponds to the `Y`'s columns $y_{i \in [1, 250]}$. The dimensions of this matrix are set at `250x10`.
 
-Given this setup, the coefficient matrix `B` is designed to have dimensions of `5x10`. This matches the number of predictors in `X` with the number of information categories in `Z`. Finally, we construct the noise matrix `E` containing the error terms. We generate this matrix as a normally distributed matrix ($N (0, 4) $), adding a layer of randomness to our simulation.
+Given this setup, the coefficient matrix `B` is designed to have
+dimensions of `7×10`. This matches the number of columns in `X`
+(the matrix coding the 5 predictors in the data frame)
+with the number of information categories in `Z`. Finally, we construct the noise matrix `E` containing the error terms.
+We generate this matrix as a normally distributed matrix
+(all values from N(0,σ=4)), adding a layer of randomness to our simulation.
 
 
 ```@example
@@ -58,12 +65,15 @@ Let's use the function `design_matrix()` to get the predictor model matrix based
 # Convert dataframe to prediction matrix
 X = design_matrix(@mlmformula(catvar1 + catvar2 + var3 + var4 + var5), dfX)
 
-p = size(X)[2];
+p = size(X)[2]; # 5 columns in dfX, but p=7 coefs bc catvar2 has 4 levels
 
 nothing #hide
 ```
 
-We also have the option to specify contrast coding in your model. For a detailed understanding of how to implement contrast coding, please refer to the documentation for [contrast coding with StatsModels.jl](https://juliastats.org/StatsModels.jl/stable/contrasts/#How-to-specify-contrast-coding). This will provide you with comprehensive instructions and examples.
+We also have the option to specify contrast coding in our model.
+For a detailed understanding of how to implement contrast coding,
+please refer to the documentation for [contrast coding with StatsModels.jl](https://juliastats.org/StatsModels.jl/stable/contrasts/#How-to-specify-contrast-coding).
+This provides comprehensive instructions and examples.
 
 ```@example
 # Convert dataframe to predicton matrix
@@ -168,7 +178,9 @@ plot(
 )
 ```
 
-The `resid()` function, available in `MatrixLM.jl`, computes residuals for each observation, helping you evaluate the discrepancy between the model's predictions and the observed data.
+The `resid()` function, available in `MatrixLM.jl`, computes residuals
+for each observation, helping us evaluate the discrepancy between
+the model's predictions and the observed data.
 
 ```@example
 resids = resid(est);
@@ -196,7 +208,11 @@ tStats = t_stat(est);
 nothing #hide
 ```
 
-Permutation p-values for the t-statistics can be computed by the `mlm_perms` function. `mlm_perms` calls the more general function `perm_pvals` and will run the permutations in parallel when possible. The illustrative example below runs only 5 permutations; a different number can be specified as the second argument. By default, the function used to permute `Y` is `shuffle_rows`, which shuffles the rows for `Y`. Alternative functions for permuting `Y`, such as `shuffle_cols`, can be passed into the argument `permFun`. `mlm_perms` calls `mlm` and `t_stat`, so the user is free to specify keyword arguments for `mlm` or `t_stat`; by default, `mlm_perms` will call both functions using their default behavior.
+Permutation p-values for the t-statistics can be computed by the `mlm_perms` function. `mlm_perms` calls the more general function `perm_pvals` and will run the permutations in parallel when possible.
+The illustrative example below runs only 500 permutations;
+a different number can be specified as the second argument
+(by modifying the `nPerms` value).
+By default, the function used to permute `Y` is `shuffle_rows`, which shuffles the rows for `Y`. Alternative functions for permuting `Y`, such as `shuffle_cols`, can be passed into the argument `permFun`. `mlm_perms` calls `mlm` and `t_stat`, so the user is free to specify keyword arguments for `mlm` or `t_stat`; by default, `mlm_perms` will call both functions using their default behavior.
 
 ```@example
 nPerms = 500
@@ -212,6 +228,14 @@ plot(
             size = (800, 300)),       
     title = ["T Statistics" "- Log(P-values)"]
 )
+```
+
+White cells represent p-values of 0, not missing. These p-values should be
+reported as `< 1/500` when using 500 permutations here, and more
+permutations would give more precision about how small these p-values are.
+
+```@repl
+pVals
 ```
 
 ## Summary
