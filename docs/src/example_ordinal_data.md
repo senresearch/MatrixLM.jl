@@ -26,9 +26,13 @@ Our dataset consists of a dataframe `X` with a single predictor. This predictor 
 To simulate the `Y` data, we need to construct the matrices `Z`, `B`, and `E`.
 The `Z` matrix imparts information about the response population, represented by the columns of `Y`, $y_{i \in [1, 250]}$. This matrix has dimensions `250x4`.
 
-In this configuration, our coefficient matrix `B` is set to have dimensions `4x5`, matching the number of predictors in the design matrix `X` and the number of information categories in `Z`.
+In this configuration, our coefficient matrix `B` is set to have
+dimensions `5×4`, matching the number of predictors in the
+design matrix `X` and the number of information categories in `Z`.
 
-Lastly, we define the noise matrix E to capture the error terms. This matrix is generated as a normally distributed matrix ($N (0, 1) $), introducing variability into our simulation.
+Lastly, we define the noise matrix E to capture the error terms.
+This matrix is generated as a normally distributed matrix
+(all values from N(0,σ=4)), introducing variability into our simulation.
 
 ```@example
 using MatrixLM, DataFrames, Random, Plots, StatsModels, Statistics
@@ -119,7 +123,10 @@ Y = X*B*Z' + E;
 nothing #hide
 ```
 
-Now, construct the `RawData` object consisting of the response variable `Y` and row/column predictors `X` and `Z`. All three matrices must be passed in as 2-dimensional arrays. You have the option to specify if `X` and `Z` include an intercept (true) or not (false). If this information is not provided, the default is false (no intercept).
+Now, construct the `RawData` object consisting of the response variable `Y` and row/column predictors `X` and `Z`.
+All three matrices must be passed in as 2-dimensional arrays.
+We have the option to specify if `X` and `Z` include an intercept (true) or not (false).
+If this information is not provided, the default is false (no intercept).
 
 ```@example
 # Construct a RawData object
@@ -135,6 +142,7 @@ Least-squares estimates for matrix linear models can be obtained by running `mlm
 
 ```@example
 est = mlm(dat; addXIntercept=false, addZIntercept=false); # Model estimation
+nothing # hide
 ```
 
 ## Model predictions and residuals
@@ -173,7 +181,9 @@ plot(
 )
 ```
 
-The `resid()` function, available in `MatrixLM.jl`, computes residuals for each observation, helping you evaluate the discrepancy between the model's predictions and the observed data.
+The `resid()` function, available in `MatrixLM.jl`, computes residuals
+for each observation, helping us evaluate the discrepancy between the
+model's predictions and the observed data.
 
 ```@example
 resids = resid(est);
@@ -201,7 +211,9 @@ tStats = t_stat(est);
 nothing #hide
 ```
 
-Permutation p-values for the t-statistics can be computed by the `mlm_perms` function. `mlm_perms` calls the more general function `perm_pvals` and will run the permutations in parallel when possible. The illustrative example below runs only 5 permutations; a different number can be specified as the second argument. By default, the function used to permute `Y` is `shuffle_rows`, which shuffles the rows for `Y`. Alternative functions for permuting `Y`, such as `shuffle_cols`, can be passed into the argument `permFun`. `mlm_perms` calls `mlm` and `t_stat`, so the user is free to specify keyword arguments for `mlm` or `t_stat`; by default, `mlm_perms` will call both functions using their default behavior.
+Permutation p-values for the t-statistics can be computed by the `mlm_perms` function. `mlm_perms` calls the more general function `perm_pvals` and will run the permutations in parallel when possible. The illustrative example below runs only 500 permutations;
+a different number can be specified as the second argument.
+By default, the function used to permute `Y` is `shuffle_rows`, which shuffles the rows for `Y`. Alternative functions for permuting `Y`, such as `shuffle_cols`, can be passed into the argument `permFun`. `mlm_perms` calls `mlm` and `t_stat`, so the user is free to specify keyword arguments for `mlm` or `t_stat`; by default, `mlm_perms` will call both functions using their default behavior.
 
 ```@example
 nPerms = 500
@@ -226,6 +238,7 @@ plot(
             size = (800, 300)),       
     title = ["T Statistics" "- Log(P-values)"]
 )
+pVals # white cells are for 0 p-values, when -log(p) = ∞
 ```
 
 
