@@ -38,3 +38,38 @@ lambdaD = MatrixLM.shrink_sigma(X, "D")[2]
     @test isapprox(lambdaB, lambdaD, atol=0.1)
     @test isapprox(lambdaC, lambdaD, atol= 0.1)
 end;
+
+@testset "tri2vec and vec2tri checks" begin
+        A = [1.0 0.2 0.3;
+             0.2 2.0 0.4;
+             0.3 0.4 3.0]
+
+    x, d = MatrixLM.tri2vec(A)
+    A_reconstructed = MatrixLM.vec2tri(x, d)
+    @test isapprox(A_reconstructed, A, atol=tol)
+end;
+
+@testset "tri2vec rejects non-square matrices" begin
+    A = randn(3, 4)
+    @test_throws ErrorException MatrixLM.tri2vec(A)
+
+end;
+
+@testset "vec2tri rejects incompatible dimensions" begin
+    x = [0.1, 0.2, 0.3]   # corresponds to off-diagonal entries of a 3x3 matrix
+    d = [1.0, 2.0]        # wrong diagonal length
+    @test_throws ErrorException MatrixLM.vec2tri(x, d)
+end;
+
+@testset "shrink_var returns positive definite covariance matrix" begin
+
+    Random.seed!(123)
+    # n < p to to make sample covariance singular/noisy
+    X_hd = randn(10, 25)
+
+    S = MatrixLM.shrink_var(X_hd)
+    
+    @test size(S) == (25, 25)
+    @test isapprox(S, S', atol=tol)
+    @test isposdef(S)
+end;

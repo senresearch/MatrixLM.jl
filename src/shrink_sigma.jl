@@ -295,8 +295,8 @@ function shrink_var(X::Matrix{Float64})
     r = atanh.(r)
     v = log.(vec(var(X,dims=1)))
 
-    (λr,r) = shrink(r,mean(r),vr)
-    (λv,v) = shrink(v,mean(v),vv)
+    (r, λr) = shrink(r,mean(r),vr)
+    (v, λv) = shrink(v,mean(v),vv)
 
     r[:] = tanh.(r)
     v[:] = exp.(v.+0.5.*(var(v).+mean(vv)))
