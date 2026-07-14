@@ -16,7 +16,7 @@ q = 20
 Random.seed!(4)
 X = rand(n,p)
     
-m = mean(X, dims=1)
+X_mean = mean(X, dims=1)
 est, varEst = MatrixLM.cov_est(X)
 lambda = MatrixLM.shrink_sigma(X, "A")[2]
 T = Matrix{Float64}(I, p, p)
@@ -64,12 +64,55 @@ end;
 @testset "shrink_var returns positive definite covariance matrix" begin
 
     Random.seed!(123)
-    # n < p to to make sample covariance singular/noisy
+
+    # n < p to make the sample covariance singular/noisy
     X_hd = randn(10, 25)
 
-    S = MatrixLM.shrink_var(X_hd)
-    
+    S, lambdaR = MatrixLM.shrink_var(X_hd)
+
     @test size(S) == (25, 25)
     @test isapprox(S, S', atol=tol)
-    @test isposdef(S)
+    @test isposdef(Symmetric(S))
+
+    @test lambdaR isa NamedTuple
+    @test hasproperty(lambdaR, :correlation)
+    @test hasproperty(lambdaR, :variance)
+
+    @test 0.0 <= lambdaR.correlation <= 1.0
+    @test 0.0 <= lambdaR.variance <= 1.0
+end;
+
+@testset "shrink_sigma target R routing" begin
+
+    Random.seed!(124)
+    X_R = randn(20, 12)
+
+    S_direct, lambda_direct = MatrixLM.shrink_var(X_R)
+    S_routed, lambda_routed = MatrixLM.shrink_sigma(X_R, "R")
+
+    @test isapprox(S_routed, S_direct, atol=tol)
+
+    @test isapprox(
+        lambda_routed.correlation,
+        lambda_direct.correlation,
+        atol=tol
+    )
+
+    @test isapprox(
+        lambda_routed.variance,
+        lambda_direct.variance,
+        atol=tol
+    )
+
+    @test isposdef(S_routed)
+end;
+
+@testset "shrink_sigma rejects invalid target" begin
+
+    X_invalid = randn(20, 5)
+
+    @test_throws ArgumentError MatrixLM.shrink_sigma(
+        X_invalid,
+        "invalid"
+    )
 end;

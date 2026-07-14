@@ -45,8 +45,42 @@ fresh_raw() = RawData(Response(copy(Y)), Predictors(copy(X), copy(Z)))
     #@test LinearAlgebra.issymmetric(round.(MLMEst.sigma, digits=10))
 end
 
+@testset "mlm targetType R integration" begin
+    MLMEst_R = mlm(
+        fresh_raw();
+        addXIntercept = false,
+        addZIntercept = false,
+        targetType = "R"
+    )
 
-MLMEst_w = mlm(MLMData_w, weights = w , addXIntercept = true, addZIntercept = false, targetType = 'E')
+    # Confirm that the requested target type is retained
+    @test MLMEst_R.targetType == "R"
+
+    # The residual covariance should have one row and column
+    # for each response variable
+    @test size(MLMEst_R.sigma) == (m, m)
+
+    # The covariance estimate should be symmetric and positive definite
+    @test isapprox(MLMEst_R.sigma, MLMEst_R.sigma', atol=tol)
+    @test isposdef(Symmetric(MLMEst_R.sigma))
+
+    # The R estimator should return two named shrinkage coefficients
+    @test MLMEst_R.lambda isa NamedTuple
+    @test hasproperty(MLMEst_R.lambda, :correlation)
+    @test hasproperty(MLMEst_R.lambda, :variance)
+
+    # Both shrinkage coefficients should lie between zero and one
+    @test 0.0 <= MLMEst_R.lambda.correlation <= 1.0
+    @test 0.0 <= MLMEst_R.lambda.variance <= 1.0
+
+    # Confirm that ordinary model outputs are still produced
+    @test size(MLMEst_R.B) == (p, q)
+    @test size(MLMEst_R.varB) == (p, q)
+
+end
+
+
+MLMEst_w = mlm(MLMData_w, weights = w , addXIntercept = true, addZIntercept = false, targetType = "E")
 GLMData_w = DataFrame(hcat(vec(Yw), kron(WZ,X)), :auto)
 GLMEst_w = lm(Matrix(GLMData_w[:,2:end]), Vector(GLMData_w[:,1]))
 

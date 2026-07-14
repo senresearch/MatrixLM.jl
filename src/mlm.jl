@@ -1,6 +1,6 @@
 """
     Mlm(B::Array{Float64,2}, varB::Array{Float64,2}, sigma::Array{Float64,2},    
-        data::RawData, weights, targetType, lambda::Float64)
+        data::RawData, weights, targetType, lambda)
 
 Type for storing the results of an mlm model fit. 
 
@@ -22,7 +22,7 @@ mutable struct Mlm
     # String indicating target type to shrink the variance toward, or `nothing`
     targetType 
     # Estimated shrinkage coefficient
-    lambda::Float64 
+    lambda 
 end
 
 
@@ -158,6 +158,8 @@ and shrinkage of the variance of the errors are options.
     - "B": Target is diagonal matrix with constant diagonal
     - "C": Target is has same diagonal element, and same off-diagonal element
     - "D": Target is diagonal matrix with unequal entries
+    - "R": Separately shrinks Fisher-transformed correlations and log-transformed 
+           variances toward their respective common means
 
 # Value
 
@@ -185,7 +187,7 @@ function mlm(data::RawData; addXIntercept::Bool=true, addZIntercept::Bool=true,
         data.q = data.q + 1
     end
     
-    if (typeof(targetType) != Nothing) & !(targetType in ["A", "B", "C", "D"])
+    if (typeof(targetType) != Nothing) & !(targetType in ["A", "B", "C", "D", "R"])
         println("Unrecognizable targetType will be ignored and no variance shrinkage will be performed.")
         targetType = nothing
     end
