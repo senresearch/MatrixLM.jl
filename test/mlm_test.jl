@@ -79,6 +79,53 @@ end
 
 end
 
+@testset "mlm Boolean variance shrinkage interface" begin
+    # varShrinkage = false should be equivalent to targetType = nothing
+    MLMEst_false = mlm(
+        fresh_raw(),
+        false;
+        addXIntercept = false,
+        addZIntercept = false
+    )
+
+    MLMEst_none = mlm(
+        fresh_raw();
+        addXIntercept = false,
+        addZIntercept = false,
+        targetType = nothing
+    )
+
+    @test MLMEst_false.targetType === nothing
+    @test MLMEst_none.targetType === nothing
+
+    @test isapprox(MLMEst_false.B, MLMEst_none.B, atol=tol)
+    @test isapprox(MLMEst_false.sigma, MLMEst_none.sigma, atol=tol)
+    @test isapprox(MLMEst_false.varB, MLMEst_none.varB, atol=tol)
+
+    # varShrinkage = true should be equivalent to targetType = "R"
+    MLMEst_true = mlm(
+        fresh_raw(),
+        true;
+        addXIntercept = false,
+        addZIntercept = false
+    )
+
+    MLMEst_R = mlm(
+        fresh_raw();
+        addXIntercept = false,
+        addZIntercept = false,
+        targetType = "R"
+    )
+
+    @test MLMEst_true.targetType == "R"
+    @test MLMEst_R.targetType == "R"
+
+    @test isapprox(MLMEst_true.B, MLMEst_R.B, atol=tol)
+    @test isapprox(MLMEst_true.sigma, MLMEst_R.sigma, atol=tol)
+    @test isapprox(MLMEst_true.varB, MLMEst_R.varB, atol=tol)
+    @test MLMEst_true.lambda == MLMEst_R.lambda
+end
+
 
 MLMEst_w = mlm(MLMData_w, weights = w , addXIntercept = true, addZIntercept = false, targetType = "E")
 GLMData_w = DataFrame(hcat(vec(Yw), kron(WZ,X)), :auto)

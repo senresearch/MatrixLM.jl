@@ -43,6 +43,8 @@ shrinkage of the variance of the errors.
     - "B": Target is diagonal matrix with constant diagonal
     - "C": Target is has same diagonal element, and same off-diagonal element
     - "D": Target is diagonal matrix with unequal entries
+    - "R": Separately shrinks Fisher-transformed correlations and log-transformed 
+           variances toward their respective common means
 
 # Value
 
@@ -91,6 +93,8 @@ incorporates shrinkage of the variance of the errors.
     - "B": Target is diagonal matrix with constant diagonal
     - "C": Target is has same diagonal element, and same off-diagonal element
     - "D": Target is diagonal matrix with unequal entries
+    - "R": Separately shrinks Fisher-transformed correlations and log-transformed 
+           variances toward their respective common means
 
 # Value
 
@@ -194,6 +198,60 @@ function mlm(data::RawData; addXIntercept::Bool=true, addZIntercept::Bool=true,
     
     # Run matrix linear models
     return mlm_fit(data, weights, targetType)
+end
+
+"""
+    mlm(
+        data::RawData,
+        varShrinkage::Bool;
+        addXIntercept::Bool=true,
+        addZIntercept::Bool=true,
+        weights=nothing
+    )
+
+Fit a matrix linear model, with optional shrinkage estimation of the error
+covariance matrix.
+
+This method provides a simplified interface for selecting variance shrinkage.
+
+# Arguments
+
+- `data::RawData`: A `RawData` object containing the response and predictor
+  matrices.
+- `varShrinkage::Bool`: Whether to apply variance shrinkage.
+    - `false`: No variance shrinkage is performed.
+    - `true`: The `"R"` variance shrinkage estimator is used.
+
+# Keyword arguments
+
+- `addXIntercept::Bool`: Whether to include an intercept in `X`, corresponding
+  to row main effects. Defaults to `true`.
+- `addZIntercept::Bool`: Whether to include an intercept in `Z`, corresponding
+  to column main effects. Defaults to `true`.
+- `weights`: A vector of column weights for `Y`, or `nothing`. Defaults to
+  `nothing`.
+
+# Value
+
+An `Mlm` object.
+"""
+
+function mlm(data::RawData, varShrinkage::Bool; addXIntercept::Bool=true, addZIntercept::Bool=true, weights=nothing, kwargs...)
+
+    if varShrinkage
+        targetType = "R"
+    else
+        targetType = nothing
+    end
+
+    return mlm(
+        data;
+        addXIntercept=addXIntercept,
+        addZIntercept=addZIntercept,
+        weights=weights,
+        targetType=targetType,
+        kwargs...
+    )
 end
 
 """
