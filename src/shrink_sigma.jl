@@ -195,13 +195,6 @@ Tuple
             - `correlation`: correlation shrinkage coefficient
             - `variance`: variance shrinkage coefficient
 
-# Details
-
-The covariance matrix is decomposed into a correlation matrix and a variance
-vector.  They are each transformed by a variance stabilizing transform and
-shrunk towards a common value. Then they are transformed back and the
-covariance matrix is reconstructed.
-
 # Reference
 
 Ledoit, O., & Wolf, M. (2003). Improved estimation of the covariance matrix 
@@ -255,7 +248,7 @@ Estimates variance of errors and the shrinkage coefficient
     - "B": Target is diagonal matrix with constant diagonal
     - "C": Target is has same diagonal element, and same off-diagonal element
     - "D": Target is diagonal matrix with unequal entries
-    - "R": Separately shrinks Fisher-transformed correlations and log-transformed 
+    - "R": Separately shrinks arctanh-transformed correlations and log-transformed 
              variances toward their respective common means
 
 # Value
@@ -267,12 +260,33 @@ Tuple
             - `correlation`: correlation shrinkage coefficient
             - `variance`: variance shrinkage coefficient
 
+# Details
 
-# Reference
+For `targetType=R`, the covariance matrix is decomposed into a
+correlation matrix and a variance vector as described by Barnard et
+al. (2000).  They are each transformed by variance stabilizing
+transforms for variances (log) and correlations (arctanh) and shrunk
+towards a common value using the approach of Ledoit and Wolf
+(2003). Then they are transformed back and the covariance matrix is
+reconstructed.  This approach is similar to that taken by the R
+package [`corpcor`](https://CRAN.R-project.org/package=corpcor).
 
-Ledoit, O., & Wolf, M. (2003). Improved estimation of the covariance matrix 
-    of stock returns with an application to portfolio selection. Journal of 
-    empirical finance, 10(5), 603-621.
+The other target types are from Schäfer, J., & Strimmer, K. (2005);
+however for most high-throughput biological data use cases, we
+recommend type `R`.
+
+# References
+
+- Ledoit, O., & Wolf, M. (2003). Improved estimation of the covariance
+  matrix of stock returns with an application to portfolio
+  selection. Journal of empirical finance, 10(5), 603-621.
+- Barnard J, McCulloch R, Meng XL (2000) Modeling covariance matrices
+  in terms of standard deviations and correlations, with applications
+  to shrinkage. Statistica Sinica 10:1281–1311.
+- Schäfer, J., & Strimmer, K. (2005). A shrinkage approach to
+  large-scale covariance matrix estimation and implications for
+  functional genomics. Statistical Applications in Genetics and
+  Molecular Biology, 4(1).
 
 """
 function shrink_sigma(resid::AbstractArray{Float64,2}, targetType::String)

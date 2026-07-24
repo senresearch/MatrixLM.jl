@@ -32,7 +32,15 @@ mlm(data, false)  # no variance shrinkage
 mlm(data, true)   # use the a shrinkage estimator
 ```
 
-When `varShrinkage=true`, `MatrixLM.jl` applies a shrinkage estimator, which separately shrinks transformed correlations and transformed variances toward their respective common targets.
+When `varShrinkage=true`, `MatrixLM.jl` applies a shrinkage estimator
+to the covariance matrix.  The covariance matrix is factored into a
+product of the variances and the correlation matrix as described by
+Barnard et al. (2000)[^3].  The variances and the correlations are
+each shrunk separately.  The variances are shrunk towards a common
+variance target after using the variance stabilizing log
+transformation.  The off-diagonal entries of the correlation matrix
+are shrunk towards a common correlation after using the variance
+stabilizing arctanh transformation.
 
 ## Data Generation
 
@@ -145,7 +153,7 @@ nothing #hide
 
 The estimator separately shrinks
 
-1. Fisher-transformed sample correlations toward their common mean, and
+1. arctanh-transformed sample correlations toward their common mean, and
 2. log-transformed sample variances toward their common mean.
 
 The fitted object records the estimated shrinkage intensities.
@@ -239,3 +247,5 @@ The estimator stabilizes the residual covariance estimate by separately shrinkin
 [^1]: Schäfer, J., & Strimmer, K. (2005). A shrinkage approach to large-scale covariance matrix estimation and implications for functional genomics. Statistical Applications in Genetics and Molecular Biology, 4(1). https://doi.org/10.2202/1544-6115.1175
 
 [^2]: Opgen-Rhein, R., & Strimmer, K. (2007). Accurate Ranking of Differentially Expressed Genes by a Distribution-Free Shrinkage Approach. Statistical Applications in Genetics and Molecular Biology, 6(1). https://doi.org/10.2202/1544-6115.1252
+
+[^3]:  Barnard J, McCulloch R, Meng XL (2000) Modeling covariance matrices in terms of standard deviations and correlations, with applications to shrinkage. Stat Sin 10:1281–1311. https://www.jstor.org/stable/24306780 
