@@ -36,7 +36,7 @@ shrinkage.
 
 # Arguments
 
-- `resid::AbstractArray{Float64,2}:` 2d array of floats consisting of the residuals
+- `resid::AbstractArray{Float64,2}:` 2d array of floats consisting of the resid
 - `targetType` : `nothing`
 
 # Value
@@ -70,7 +70,7 @@ shrinkage.
 
 # Arguments
 
-- `resid::AbstractArray{Float64,2}`: 2d array of floats consisting of the residuals
+- `resid::AbstractArray{Float64,2}`: 2d array of floats consisting of the resid
 - `targetType::AbstractString`: Indicating the target type toward which to shrink the 
   variance. Acceptable inputs are "A", "B", "C", "D", and "R". 
     - "A": Target is identity matrix

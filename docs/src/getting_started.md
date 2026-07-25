@@ -144,7 +144,7 @@ nothing #hide
 ## Model predictions and residuals
 
 
-The coefficient estimates can be accessed using `coef(est)`. Predicted values and residuals can be obtained by calling `predict()` and `resid()`. By default, both of these functions use the same data used to fit the model. However, a new `Predictors` object can be passed into `predict()` as the `newPredictors` argument, and a new `RawData` object can be passed into `resid()` as the newData argument. For convenience, `fitted(est)` will return the fitted values by calling predict with the default arguments.   
+The coefficient estimates can be accessed using `coef(est)`. Predicted values and residuals can be obtained by calling `predict()` and `residuals()`. By default, both of these functions use the same data used to fit the model. However, a new `Predictors` object can be passed into `predict()` as the `newPredictors` argument, and a new `RawData` object can be passed into `residuals()` as the newData argument. For convenience, `fitted(est)` will return the fitted values by calling predict with the default arguments.   
 
 To compare the estimated coefficients with the original matrix `B`, we will visualize the matrices using heatmaps. This graphical representation allows us to readily see differences and similarities between the two.
 
@@ -178,12 +178,12 @@ plot(
 )
 ```
 
-The `resid()` function, available in `MatrixLM.jl`, computes residuals
+The `residuals()` function, available in `MatrixLM.jl`, computes residuals
 for each observation, helping us evaluate the discrepancy between
 the model's predictions and the observed data.
 
 ```@example
-resids = resid(est);
+resids = residuals(est);
 
 plot(
     heatmap(resids[end:-1:1, :], 
@@ -265,4 +265,3 @@ MatrixLM.summary(est, alpha = 0.05, permutation_test = false)
 
 
 [^1]: Ledoit, O., & Wolf, M. (2003). Improved estimation of the covariance matrix of stock returns with an application to portfolio selection. Journal of empirical finance, 10(5), 603-621. 
-

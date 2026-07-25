@@ -6,7 +6,7 @@ module MatrixLM
     import LinearAlgebra.I, LinearAlgebra.mul!, 
            LinearAlgebra.diag, LinearAlgebra.diagm
     using DataFrames
-    
+    using StatsAPI: StatsAPI, predict, residuals, coef, fitted, confint
 
     # Data object types
     include("data_types.jl")
@@ -45,11 +45,11 @@ module MatrixLM
 
     # # Estimate extraction
     include("summary.jl")
-    export confint,summary
+    export confint, summary
 
     # Predictions and residuals
     include("predict.jl")
-    export coef, predict, fitted, resid
+    export coef, predict, fitted, residuals
 
     # Permutations
     include("perm_pvals.jl")

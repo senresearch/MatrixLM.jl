@@ -14,11 +14,11 @@ estimated coefficients in a fitted matrix linear model.
 DataFrame with columns `coefficient`, `ci_lower`, `ci_upper`, and `margin_of_error` for each
 coefficient.
 """
-function confint(mlm_est::Mlm; alpha::Float64 = 0.05)
+function StatsAPI.confint(mlm_est::Mlm; alpha::Float64 = 0.05)
 
 
     # Flatten MLM outputs to save into a dataframe
-    est_coef = MatrixLM.coef(mlm_est) |> vec
+    est_coef = coef(mlm_est) |> vec
     var_est = mlm_est.varB |> vec
     se = sqrt.(var_est)
 
@@ -63,7 +63,7 @@ function summary(mlm_est::Mlm;
     alpha::Float64 = 0.05, permutation_test::Bool = false, nPerms::Int = 500)
 
     # Flatten MLM outputs to save into a dataframe
-    est_coef = MatrixLM.coef(mlm_est) |> vec
+    est_coef = coef(mlm_est) |> vec
     var_est = mlm_est.varB  |> vec
     se = sqrt.(var_est)
 
@@ -72,7 +72,7 @@ function summary(mlm_est::Mlm;
     col_term = ["col_" * string(j) for j in 1:mlm_est.data.q for i in 1:mlm_est.data.p]
     
     # Get confidence intervals
-    confint = MatrixLM.confint(mlm_est; alpha = alpha)
+    confint_df = confint(mlm_est; alpha = alpha)
 
     # Get t-statistics and p-values
     if permutation_test == true
@@ -89,7 +89,7 @@ function summary(mlm_est::Mlm;
         std_error = se,
         t_stat = tStatsOut |> vec,
         p_value = pvalues |> vec,
-        ci_lower = confint.ci_lower,
-        ci_upper = confint.ci_upper,
+        ci_lower = confint_df.ci_lower,
+        ci_upper = confint_df.ci_upper,
     )
 end
