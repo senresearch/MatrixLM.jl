@@ -10,9 +10,7 @@ In this section, we demonstrate how to use variance shrinkage when fitting a mat
 
 Within the matrix linear model framework,
 
-$$
-Y = XBZ^T + E,
-$$
+$$Y = XBZ^T + E,$$
 
 where
 

@@ -76,7 +76,7 @@ please refer to the documentation for [contrast coding with StatsModels.jl](http
 This provides comprehensive instructions and examples.
 
 ```@example
-# Convert dataframe to predicton matrix
+# Convert dataframe to prediction matrix
 my_ctrst = Dict(
              :catvar1 => DummyCoding(base = "0"),
              :catvar2 => DummyCoding(base = "A")
