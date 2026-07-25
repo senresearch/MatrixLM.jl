@@ -10,13 +10,13 @@ makedocs(; modules=[MatrixLM], sitename="MatrixLM.jl", pages=[
         "Home" => "index.md",
         "Getting Started" => "getting_started.md",
         "Example: MLM for ordinal predictors" => "example_ordinal_data.md",
-        "Variance Shrinkage with MatrixLM.jl" => "varShrinkage_example.md",
+        "Example:Variance Shrinkage with MatrixLM.jl" => "varShrinkage_example.md",
         "Types and Functions" => "functions.md",
     ]
 )
 
 deploydocs(;
-    repo= "https://github.com/senresearch/MatrixLM.jl",
+    repo= "github.com/senresearch/MatrixLM.jl.git",
     devbranch= "main",
     devurl = "dev"
 )
