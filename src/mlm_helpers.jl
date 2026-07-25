@@ -1,5 +1,4 @@
 """
-
     calc_coeffs(X::AbstractArray{Float64,2}, Y::AbstractArray{Float64,2}, 
                 Z::AbstractArray{Float64,2}, XTX::AbstractArray{Float64,2}, 
                 ZTZ::AbstractArray{Float64,2})
@@ -73,18 +72,21 @@ shrinkage.
 
 - `resid::AbstractArray{Float64,2}`: 2d array of floats consisting of the resid
 - `targetType::AbstractString`: Indicating the target type toward which to shrink the 
-  variance. Acceptable inputs are "A", "B", "C", and "D". 
+  variance. Acceptable inputs are "A", "B", "C", "D", and "R". 
     - "A": Target is identity matrix
     - "B": Target is diagonal matrix with constant diagonal
     - "C": Target is has same diagonal element, and same off-diagonal element
     - "D": Target is diagonal matrix with unequal entries
+    - "R": Separately shrinks transformed correlations and transformed
+           variances toward their respective common means
 
 # Value
 
 Tuple
 - `sigma`: 2d array of floats; shrunk estimated variance of errors
-- `lambda`: floating scalar; estimated shrinkage coefficient 
-  (0 = no shrinkage, 1 = complete shrinkage)
+- `lambda`: For targets `"A"`–`"D"`, a floating-point scalar.
+            For target `"R"`, a named tuple containing correlation and variance
+            shrinkage coefficients.
 
 """
 function calc_sigma(resid::AbstractArray{Float64,2}, 

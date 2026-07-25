@@ -16,7 +16,7 @@ q = 20
 Random.seed!(4)
 X = rand(n,p)
     
-m = mean(X, dims=1)
+X_mean = mean(X, dims=1)
 est, varEst = MatrixLM.cov_est(X)
 lambda = MatrixLM.shrink_sigma(X, "A")[2]
 T = Matrix{Float64}(I, p, p)
@@ -37,4 +37,82 @@ lambdaD = MatrixLM.shrink_sigma(X, "D")[2]
     @test isapprox(lambdaB, lambdaC, atol=0.1)
     @test isapprox(lambdaB, lambdaD, atol=0.1)
     @test isapprox(lambdaC, lambdaD, atol= 0.1)
+end;
+
+@testset "tri2vec and vec2tri checks" begin
+        A = [1.0 0.2 0.3;
+             0.2 2.0 0.4;
+             0.3 0.4 3.0]
+
+    x, d = MatrixLM.tri2vec(A)
+    A_reconstructed = MatrixLM.vec2tri(x, d)
+    @test isapprox(A_reconstructed, A, atol=tol)
+end;
+
+@testset "tri2vec rejects non-square matrices" begin
+    A = randn(3, 4)
+    @test_throws ErrorException MatrixLM.tri2vec(A)
+
+end;
+
+@testset "vec2tri rejects incompatible dimensions" begin
+    x = [0.1, 0.2, 0.3]   # corresponds to off-diagonal entries of a 3x3 matrix
+    d = [1.0, 2.0]        # wrong diagonal length
+    @test_throws ErrorException MatrixLM.vec2tri(x, d)
+end;
+
+@testset "shrink_var returns positive definite covariance matrix" begin
+
+    Random.seed!(123)
+
+    # n < p to make the sample covariance singular/noisy
+    X_hd = randn(10, 25)
+
+    S, lambdaR = MatrixLM.shrink_var(X_hd)
+
+    @test size(S) == (25, 25)
+    @test isapprox(S, S', atol=tol)
+    @test isposdef(Symmetric(S))
+
+    @test lambdaR isa NamedTuple
+    @test hasproperty(lambdaR, :correlation)
+    @test hasproperty(lambdaR, :variance)
+
+    @test 0.0 <= lambdaR.correlation <= 1.0
+    @test 0.0 <= lambdaR.variance <= 1.0
+end;
+
+@testset "shrink_sigma target R routing" begin
+
+    Random.seed!(124)
+    X_R = randn(20, 12)
+
+    S_direct, lambda_direct = MatrixLM.shrink_var(X_R)
+    S_routed, lambda_routed = MatrixLM.shrink_sigma(X_R, "R")
+
+    @test isapprox(S_routed, S_direct, atol=tol)
+
+    @test isapprox(
+        lambda_routed.correlation,
+        lambda_direct.correlation,
+        atol=tol
+    )
+
+    @test isapprox(
+        lambda_routed.variance,
+        lambda_direct.variance,
+        atol=tol
+    )
+
+    @test isposdef(S_routed)
+end;
+
+@testset "shrink_sigma rejects invalid target" begin
+
+    X_invalid = randn(20, 5)
+
+    @test_throws ArgumentError MatrixLM.shrink_sigma(
+        X_invalid,
+        "invalid"
+    )
 end;
