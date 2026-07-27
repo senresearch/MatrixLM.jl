@@ -116,3 +116,10 @@ end;
         "invalid"
     )
 end;
+
+@testset "shrink_var rejects sample size <= 3" begin
+
+    X_small = randn(3, 5)
+
+    @test_throws ErrorException MatrixLM.shrink_var(X_small)
+end;
