@@ -2,10 +2,10 @@
 
 [![CI](https://github.com/senresearch/MatrixLM.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/senresearch/MatrixLM.jl/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/senresearch/MatrixLM.jl/branch/main/graph/badge.svg?token=uHM6utUQoi)](https://codecov.io/gh/senresearch/MatrixLM.jl)
-[![GNU Affero license](https://img.shields.io/badge/license%20-GNU%20AFFERO%20GENERAL%20PUBLIC%20-green)](https://github.com/senresearch/MatrixLM.jl/blob/main/LICENSE.md)
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://senresearch.github.io/MatrixLM.jl/stable)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://senresearch.github.io/MatrixLM.jl/dev) 
 [![Pkg Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![GNU Affero license](https://img.shields.io/badge/license%20-GNU%20AFFERO%20GENERAL%20PUBLIC%20-green)](https://github.com/senresearch/MatrixLM.jl/blob/main/LICENSE.md)
 
 ## Description
 
