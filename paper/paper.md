@@ -19,6 +19,10 @@ authors:
     orcid: 0000-0001-5607-7443
     equal-contrib: false
     affiliation: "1" # (Multiple affiliations must be quoted)
+  - name: Harsh Vardhan Dubey
+    orcid: 0009-0003-8709-7844
+    equal-contrib: false
+    affiliation: "1" # (Multiple affiliations must be quoted)
   - name: Śaunak Sen
     orcid: 0000-0003-4519-6361
     equal-contrib: false
@@ -30,7 +34,7 @@ affiliations:
  - name: Division of Research, Kaiser Permanente Northern California, United States
    index: 2
    ror: 00t60zh31
-date: 3 February 2025
+date: 26 July 2026
 bibliography: paper.bib
 
 ---
