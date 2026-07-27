@@ -138,6 +138,17 @@ GLMEst_w = lm(Matrix(GLMData_w[:,2:end]), Vector(GLMData_w[:,1]))
     #@test isapprox(GLM.coef(GLMEst_w), vec(MatrixLM.coef(MLMEst_w)), atol=tol)
 end;
 
+@testset "weighted mlm rejects invalid weight length" begin
+    bad_weights = rand(Float64, m - 1)
+
+    @test_throws ErrorException mlm(
+        fresh_raw();
+        weights = bad_weights,
+        addXIntercept = false,
+        addZIntercept = false
+    )
+end;
+
 
 @testset "tStatTest" begin
     # test t statistics with and without main effects, and with only one intercept
