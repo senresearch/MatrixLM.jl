@@ -187,6 +187,12 @@ x_{ik}\, z_{j\ell}\, b_{k\ell} + e_{ij}.  $$
 As the equation above shows, the elements of $B$ may be interpreted
 as interactions between the columns of $X$ and the columns of $Z$.
 
+The current implementation of MatrixLM requires complete response 
+and predictor matrices and does not directly accommodate missing 
+values. Missing data should therefore be addressed before model 
+fitting using an appropriate method selected according to the 
+assumed missingness mechanism and the structure of the data.
+
 We treat $X$ and $Z$ as known and estimate $B$ by least squares,
 choosing $\hat B$ to minimize the Frobenius norm of the residuals,
 $$
