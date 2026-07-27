@@ -26,6 +26,7 @@ Variance shrinkage stabilizes this estimate by shrinking noisy sample quantities
 `MatrixLM.jl` provides a simple Boolean interface for this choice:
 
 ```julia
+mlm(data)         # no variance shrinkage
 mlm(data, false)  # no variance shrinkage
 mlm(data, true)   # use the a shrinkage estimator
 ```
