@@ -31,19 +31,19 @@ MLMData = RawData(Response(Y), Predictors(X, Z));
 
 # Estimate Ŷpredict with X, Z intercept
 MLMEst = mlm(MLMData, addXIntercept = true, addZIntercept = true) # WARNING IT CHANGES INTERCEPT IN ORGINAL MLMData
-Ŷpredict_a = MatrixLM.predict(MLMEst).Y
-Ŷfitted = MatrixLM.fitted(MLMEst).Y
-residuals = resid(MLMEst, RawData(Response(Y),Predictors(X,Z,false,false)))
-default_resids = resid(MLMEst)
+Ŷpredict_a = predict(MLMEst).Y
+Ŷfitted = fitted(MLMEst).Y
+resids = residuals(MLMEst, RawData(Response(Y),Predictors(X,Z,false,false)))
+default_resids = residuals(MLMEst)
 
 @testset "predictTesting" begin   
     # testing the dimension of fitted y with actual Y, to see their consistancy
     @test sizeof(Ŷpredict_a) == sizeof(Y)
     @test sizeof(Ŷfitted) == sizeof(Y)
     @test isapprox(Ŷpredict_a, Ŷfitted, atol=tol)
-    # testing the calc_preds function, too see if they are identical with the resid function
-    @test MatrixLM.calc_resid(get_X(MLMEst.data), get_Y(MLMEst.data), get_Z(MLMEst.data),MatrixLM.coef(MLMEst)) == resid(MLMEst)
-    @test default_resids == residuals    
+    # testing the calc_preds function, too see if they are identical with the residuals function
+    @test MatrixLM.calc_resid(get_X(MLMEst.data), get_Y(MLMEst.data), get_Z(MLMEst.data),MatrixLM.coef(MLMEst)) == residuals(MLMEst)
+    @test default_resids == resids    
 end
 
 ###############################################
@@ -62,8 +62,8 @@ Ŷpredict2 = MatrixLM.predict(MLMEst, Predictors(X,Z,false, false)).Y
 # Estimate Ŷpredict without X, Z intercept
 MLMEst = mlm(MLMData, addXIntercept = false, addZIntercept = false)
 Ŷpredict_b = MatrixLM.predict(MLMEst).Y
-default_resids = resid(MLMEst)
-residuals2 = resid(MLMEst, RawData(Response(Y),Predictors(hcat(ones(size(X, 1)), X), hcat(ones(size(Z, 1)), Z),true, true)))
+default_resids = residuals(MLMEst)
+resids2 = residuals(MLMEst, RawData(Response(Y),Predictors(hcat(ones(size(X, 1)), X), hcat(ones(size(Z, 1)), Z),true, true)))
 # MLMEst.data.predictors.hasXIntercept -> false
 # MLMEst.data.predictors.hasZIntercept -> false
 
@@ -74,7 +74,7 @@ Ŷpredict3 = MatrixLM.predict(MLMEst, Predictors(hcat(ones(size(X, 1)), X), hca
 @testset "resid_test" begin
     @test isapprox(sum(Ŷpredict_a - Ŷpredict2), 0, atol = 0.1 )
     @test isapprox(sum(Ŷpredict_b - Ŷpredict3), 0, atol = 0.1 )
-    @test default_resids == residuals2
+    @test default_resids == resids2
 end
 
 #########################################
@@ -101,14 +101,14 @@ end
 
 @testset "calc_resid!" begin
     expected_resid = MatrixLM.calc_resid(X, Y, Z, B)
-    resid = similar(expected_resid)
-    fill!(resid, NaN)
+    resids = similar(expected_resid)
+    fill!(resids, NaN)
 
-    returned = MatrixLM.calc_resid!(resid, X, Y, Z, B)
+    returned = MatrixLM.calc_resid!(resids, X, Y, Z, B)
 
-    @test returned === resid
-    @test resid ≈ expected_resid atol = tol
+    @test returned === resids
+    @test resids ≈ expected_resid atol = tol
 
-    wrong_shape = Array{Float64}(undef, size(resid, 1) + 1, size(resid, 2))
+    wrong_shape = Array{Float64}(undef, size(resids, 1) + 1, size(resids, 2))
     @test_throws DimensionMismatch MatrixLM.calc_resid!(wrong_shape, X, Y, Z, B)
 end

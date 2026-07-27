@@ -35,7 +35,7 @@ using Statistics
     ci_upper_expected = est_coef .+ me_expected
 
     # 1 - Confint checks
-    ci_df = MatrixLM.confint(mlm_est; alpha = alpha)
+    ci_df = confint(mlm_est; alpha = alpha)
     @test ci_df.coefficient ≈ est_coef atol = tol
     @test ci_df.margin_of_error ≈ me_expected atol = tol
     @test ci_df.ci_lower ≈ ci_lower_expected atol = tol
@@ -71,7 +71,7 @@ using Statistics
     @test se ≈ glm_se atol = 1e-3  # allow a bit more tolerance for SEs
 
     # 5 - Confidence interval consistency with GLM 95% (symmetric z CI)
-    glm_ci = GLM.confint(glm_fit)  # columns: lower, upper
+    glm_ci = confint(glm_fit)  # columns: lower, upper
 
     @test round.(ci_df.ci_lower, digits = 3) ≈ round.(glm_ci[:, 1], digits = 3) atol = 1e-2
     @test round.(ci_df.ci_upper, digits = 3) ≈ round.(glm_ci[:, 2], digits = 3) atol = 1e-2

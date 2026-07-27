@@ -1,6 +1,6 @@
 """
     Mlm(B::Array{Float64,2}, varB::Array{Float64,2}, sigma::Array{Float64,2},    
-        data::RawData, weights, targetType, lambda::Float64)
+        data::RawData, weights, targetType, lambda)
 
 Type for storing the results of an mlm model fit. 
 
@@ -22,7 +22,7 @@ mutable struct Mlm
     # String indicating target type to shrink the variance toward, or `nothing`
     targetType 
     # Estimated shrinkage coefficient
-    lambda::Float64 
+    lambda 
 end
 
 
@@ -43,6 +43,8 @@ shrinkage of the variance of the errors.
     - "B": Target is diagonal matrix with constant diagonal
     - "C": Target is has same diagonal element, and same off-diagonal element
     - "D": Target is diagonal matrix with unequal entries
+    - "R": Separately shrinks Fisher-transformed correlations and log-transformed 
+           variances toward their respective common means
 
 # Value
 
@@ -59,7 +61,7 @@ function mlm_fit(data::RawData, weights::Nothing, targetType)
     # Estimate MLM coefficients
     B = calc_coeffs(get_X(data), get_Y(data), get_Z(data), XᵀX, ZᵀZ) 
     
-    # Calculate residuals 
+    # Calculate resid 
     resid = calc_resid(get_X(data), get_Y(data), get_Z(data), B)
     
     # Estimate variance of errors, optionally with variance shrinkage
@@ -91,6 +93,8 @@ incorporates shrinkage of the variance of the errors.
     - "B": Target is diagonal matrix with constant diagonal
     - "C": Target is has same diagonal element, and same off-diagonal element
     - "D": Target is diagonal matrix with unequal entries
+    - "R": Separately shrinks Fisher-transformed correlations and log-transformed 
+           variances toward their respective common means
 
 # Value
 
@@ -118,7 +122,7 @@ function mlm_fit(data::RawData, weights::Array{Float64,1}, targetType)
     # Estimate MLM coefficients
     B = calc_coeffs(get_X(data), get_Y(data), WZ, XᵀX, ZᵀWZ)
     
-    # Calculate residuals 
+    # Calculate resid 
     resid = calc_resid(get_X(data), get_Y(data), get_Z(data), B)
     
     # Estimate variance of errors, optionally with variance shrinkage
@@ -158,6 +162,8 @@ and shrinkage of the variance of the errors are options.
     - "B": Target is diagonal matrix with constant diagonal
     - "C": Target is has same diagonal element, and same off-diagonal element
     - "D": Target is diagonal matrix with unequal entries
+    - "R": Separately shrinks Fisher-transformed correlations and log-transformed 
+           variances toward their respective common means
 
 # Value
 
@@ -185,13 +191,67 @@ function mlm(data::RawData; addXIntercept::Bool=true, addZIntercept::Bool=true,
         data.q = data.q + 1
     end
     
-    if (typeof(targetType) != Nothing) & !(targetType in ["A", "B", "C", "D"])
+    if (typeof(targetType) != Nothing) & !(targetType in ["A", "B", "C", "D", "R"])
         println("Unrecognizable targetType will be ignored and no variance shrinkage will be performed.")
         targetType = nothing
     end
     
     # Run matrix linear models
     return mlm_fit(data, weights, targetType)
+end
+
+"""
+    mlm(
+        data::RawData,
+        varShrinkage::Bool;
+        addXIntercept::Bool=true,
+        addZIntercept::Bool=true,
+        weights=nothing
+    )
+
+Fit a matrix linear model, with optional shrinkage estimation of the error
+covariance matrix.
+
+This method provides a simplified interface for selecting variance shrinkage.
+
+# Arguments
+
+- `data::RawData`: A `RawData` object containing the response and predictor
+  matrices.
+- `varShrinkage::Bool`: Whether to apply variance shrinkage.
+    - `false`: No variance shrinkage is performed.
+    - `true`: The `"R"` variance shrinkage estimator is used.
+
+# Keyword arguments
+
+- `addXIntercept::Bool`: Whether to include an intercept in `X`, corresponding
+  to row main effects. Defaults to `true`.
+- `addZIntercept::Bool`: Whether to include an intercept in `Z`, corresponding
+  to column main effects. Defaults to `true`.
+- `weights`: A vector of column weights for `Y`, or `nothing`. Defaults to
+  `nothing`.
+
+# Value
+
+An `Mlm` object.
+"""
+
+function mlm(data::RawData, varShrinkage::Bool; addXIntercept::Bool=true, addZIntercept::Bool=true, weights=nothing, kwargs...)
+
+    if varShrinkage
+        targetType = "R"
+    else
+        targetType = nothing
+    end
+
+    return mlm(
+        data;
+        addXIntercept=addXIntercept,
+        addZIntercept=addZIntercept,
+        weights=weights,
+        targetType=targetType,
+        kwargs...
+    )
 end
 
 """

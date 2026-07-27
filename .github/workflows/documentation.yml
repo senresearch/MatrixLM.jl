@@ -10,24 +10,24 @@ on:
   pull_request:
 
 jobs:
-  build:
+  Documenter:
+    name: Documentation
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      statuses: write
     steps:
-      - uses: actions/checkout@v2
-      - uses: julia-actions/setup-julia@latest
-      - uses: julia-actions/julia-buildpkg@v1
+      - uses: actions/checkout@v6 # v6
         with:
-          version: '1'
-      - name: Install dependencies
-        run: julia --project=docs/ -e '
-             using Pkg;
-             Pkg.develop(PackageSpec(path=pwd()));
-             Pkg.add("Documenter");
-             Pkg.instantiate()'
-
-      - name: Build and deploy
-        run: julia --project=docs docs/make.jl
+          persist-credentials: false
+      - uses: julia-actions/setup-julia@v3
+        with:
+          version: 1
+      - name: Cache
+        uses: julia-actions/cache@v3
+      - uses: julia-actions/julia-buildpkg@v1 
+      - uses: julia-actions/julia-docdeploy@v1
         env:
+          DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }} # when run by tagbot
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }}
           DOCUMENTER_DEBUG: true

@@ -2,6 +2,7 @@
 # Library #
 ###########
 
+using Aqua
 using MatrixLM, LinearAlgebra, GLM
 using DataFrames 
 using Random, StatsModels, Statistics, Distributions
@@ -14,6 +15,9 @@ using Test
 
 
 @testset "MatrixLM" begin 
+    @testset "Aqua" begin
+        Aqua.test_all(MatrixLM)
+    end
     include("mlm_test.jl")
     include("misc_helpers_test.jl")
     include("shrink_sigma_test.jl")
@@ -25,4 +29,3 @@ using Test
     include("calc_sigma_test.jl")
     include("summary_test.jl")
 end
-
