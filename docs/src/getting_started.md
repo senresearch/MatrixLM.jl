@@ -41,7 +41,9 @@ We generate this matrix as a normally distributed matrix
 
 ```@example
 using MatrixLM, DataFrames, Random, Plots, StatsModels, Statistics
-Random.seed!(1)
+using StableRNGs
+
+rng = StableRNG(2026)
 
 # Dimensions of matrices 
 n = 100
@@ -52,11 +54,11 @@ q = 10
 
 # Generate data with two categorical variables and 3 numerical variables.
 dfX = hcat(
-    DataFrame(catvar1=string.(rand(0:1, n)), catvar2=rand(["A", "B", "C", "D"], n)), 
-    DataFrame(rand(n,3), ["var3", "var4", "var5"])
+    DataFrame(catvar1=string.(rand(rng, 0:1, n)), catvar2=rand(rng, ["A", "B", "C", "D"], n)), 
+    DataFrame(rand(rng, n,3), ["var3", "var4", "var5"])
     );
 
-nothing #hide
+first(dfX, 5)
 ```
 
 Let's use the function `design_matrix()` to get the predictor model matrix based on the formula expression, including all the variable terms.
@@ -67,7 +69,7 @@ X = design_matrix(@mlmformula(catvar1 + catvar2 + var3 + var4 + var5), dfX)
 
 p = size(X)[2]; # 5 columns in dfX, but p=7 coefs bc catvar2 has 4 levels
 
-nothing #hide
+X[1:5, :]
 ```
 
 We also have the option to specify contrast coding in our model.
@@ -84,14 +86,14 @@ my_ctrst = Dict(
            
 X = design_matrix(@mlmformula(catvar1 + catvar2 + var3 + var4 + var5), dfX, my_ctrst);
 
-nothing #hide
+X[1:5, :]
 ```
 
 Randomly generate some data for column covariates `Z` and the error matrix `E`:
 
 ```@example
-Z = rand(m,q);
-E = randn(n,m).*4;
+Z = rand(rng, m,q);
+E = randn(rng, n,m).*4;
 
 nothing #hide
 ```
@@ -130,6 +132,20 @@ dat = RawData(Response(Y), Predictors(X, Z));
 nothing #hide
 ```
 
+We can use the function `show()` and `display()` to respectively 
+display a compact and a readable summary of he matrices and 
+dimensions stored in a `RawData` object.
+
+```@example
+show(dat)
+```
+
+```@example
+display(dat)
+```
+
+
+
 ## Model estimation
 
 
@@ -140,6 +156,19 @@ est = mlm(dat; addXIntercept=false, addZIntercept=false); # Model estimation
 
 nothing #hide
 ```
+
+We can use the function `show()` and `display()` to respectively 
+display a compact and a readable summary of 
+a fitted matrix linear model, i.e. `Mlm` object.
+
+```@example
+show(est)
+```
+
+```@example
+display(est)
+```
+
 
 ## Model predictions and residuals
 

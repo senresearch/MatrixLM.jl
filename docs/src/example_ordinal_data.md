@@ -36,7 +36,9 @@ This matrix is generated as a normally distributed matrix
 
 ```@example
 using MatrixLM, DataFrames, Random, Plots, StatsModels, Statistics
-Random.seed!(1)
+using StableRNGs
+
+rng = StableRNG(2026)
 
 # Dimensions of matrices 
 n = 100
@@ -46,10 +48,10 @@ m = 250
 q = 4
 
 # Generate data with 1 ordinal categorical variable.
-dfX = DataFrame(catvar=rand(1:5, n));
+dfX = DataFrame(catvar=rand(rng, 1:5, n));
 levels_catvar = sort(unique(dfX.catvar));
 
-nothing #hide
+first(dfX, 5)
 ```
 
 To derive the predictor design matrix, we employ the `design_matrix()` function and apply contrast coding using the `SeqDiffCoding()` system. This particular coding system is particularly useful for testing hypotheses related to "sequential differences" between the levels of our ordinal predictor.
@@ -62,7 +64,7 @@ X_ctrst = Dict(
 X = design_matrix(@mlmformula(1 + catvar), dfX, X_ctrst);
 p = size(X, 2);
 
-nothing #hide
+X[1:5, :]
 ```
 
 The design matrix `X` has `p = 5` columns defined as:
@@ -76,14 +78,14 @@ We randomly generate a dataframe `Z` that provides information about whether a r
 The `FullDummyCoding` system generates one indicator (1 or 0) column for each level, including the base level. This technique is sometimes called one-hot encoding and is widely used for categorical variables.
 
 ```@example
-dfZ = DataFrame(attribute= rand(["A", "B", "C", "D"], m))
+dfZ = DataFrame(attribute= rand(rng, ["A", "B", "C", "D"], m))
 Z_ctrst = Dict(
              :attribute => StatsModels.FullDummyCoding(),
           )
            
 Z = design_matrix(@mlmformula(0 + attribute), dfZ, Z_ctrst);
 
-nothing #hide
+Z[1:5, :]
 ```
 
 The design matrix `Z` has `q = 4` columns defined as:
@@ -95,7 +97,7 @@ Z_names = MatrixLM.design_matrix_names(@mlmformula(0 + attribute), dfZ, Z_ctrst)
 The error matrix `E` is obtained as follows:
 
 ```@example
-E = randn(n,m).*4;
+E = randn(rng, n,m).*4;
 
 nothing #hide
 ```
@@ -135,6 +137,18 @@ dat = RawData(Response(Y), Predictors(X, Z, true, false));
 nothing #hide
 ```
 
+We can use the function `show()` and `display()` to respectively 
+display a compact and a readable summary of he matrices and 
+dimensions stored in a `RawData` object.
+
+```@example
+show(dat)
+```
+
+```@example
+display(dat)
+```
+
 ## Model estimation
 
 
@@ -144,6 +158,19 @@ Least-squares estimates for matrix linear models can be obtained by running `mlm
 est = mlm(dat; addXIntercept=false, addZIntercept=false); # Model estimation
 nothing # hide
 ```
+
+We can use the function `show()` and `display()` to respectively 
+display a compact and a readable summary of 
+a fitted matrix linear model, i.e. `Mlm` object.
+
+```@example
+show(est)
+```
+
+```@example
+display(est)
+```
+
 
 ## Model predictions and residuals
 

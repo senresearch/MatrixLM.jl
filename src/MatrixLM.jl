@@ -43,9 +43,13 @@ module MatrixLM
     include("mlm.jl")
     export Mlm, mlm, t_stat
 
-    # # Estimate extraction
+    # Estimate extraction
     include("summary.jl")
     export confint, summary
+
+    # Show methods
+    include("show.jl")
+    export show
 
     # Predictions and residuals
     include("predict.jl")

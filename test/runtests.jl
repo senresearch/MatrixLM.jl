@@ -28,4 +28,5 @@ using Test
     include("contr_test.jl")
     include("calc_sigma_test.jl")
     include("summary_test.jl")
+    include("show_test.jl")
 end
