@@ -48,7 +48,9 @@ correlations.
 
 ```@example varshrinkage
 using MatrixLM, LinearAlgebra, Random, Statistics
-Random.seed!(1)
+using StableRNGs
+
+rng = StableRNG(2026)
 
 # Matrix dimensions
 n = 100
@@ -57,8 +59,8 @@ p = 5
 q = 4
 
 # Row and column predictors
-X = randn(n, p)
-Z = randn(m, q)
+X = randn(rng, n, p)
+Z = randn(rng, m, q)
 
 # True coefficient matrix
 B = [
@@ -83,8 +85,8 @@ standard_deviations = sqrt.(variances)
 rho = 0.6
 
 # Generate correlated, heteroskedastic errors
-common_noise = randn(n, 1)
-independent_noise = randn(n, m)
+common_noise = randn(rng, n, 1)
+independent_noise = randn(rng, n, m)
 
 E = (
     sqrt(rho) .* common_noise .+
@@ -113,6 +115,14 @@ dat = RawData(
 nothing #hide
 ```
 
+We can use the function `show()` to respectively display 
+a readable summary of the matrices and dimensions stored in a `RawData` object.
+
+
+```@example varshrinkage
+show(dat)
+```
+
 ## Model Estimation Without Variance Shrinkage
 
 Set the positional Boolean argument to `false` to estimate the residual covariance matrix without shrinkage.
@@ -126,6 +136,13 @@ est_no_shrinkage = mlm(
 )
 
 nothing #hide
+```
+
+We can use the function `show()` to respectively display 
+a readable summary of the matrices and dimensions stored in a `Mlm` object.
+
+```@example varshrinkage
+show(est_no_shrinkage)
 ```
 
 The fitted object contains the coefficient estimates in `B`, the estimated error covariance matrix in `sigma`, and the coefficient variance estimates in `varB`.
@@ -147,8 +164,9 @@ est_shrinkage = mlm(
     addZIntercept=false
 )
 
-nothing #hide
+show(est_shrinkage)
 ```
+
 
 The estimator separately shrinks
 
