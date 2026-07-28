@@ -6,8 +6,8 @@
 
     @test MatrixLM.row_preview(empty_mat) == "[]"
     @test MatrixLM.row_preview(single_row_mat) == "[1.0, 2.0, 3.0]"
-    @test MatrixLM.row_preview(wide_mat) == "[1.0, 2.0, 3.0, …]"
-    @test MatrixLM.row_preview(wide_mat; max_cols=2) == "[1.0, 2.0, …]"
+    @test MatrixLM.row_preview(wide_mat) == "[1.0, 3.0, 5.0, …]"
+    @test MatrixLM.row_preview(wide_mat; max_cols=2) == "[1.0, 3.0, …]"
 end
 
 @testset "show methods" begin

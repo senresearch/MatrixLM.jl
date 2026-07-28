@@ -1,8 +1,13 @@
+using Pkg
+
+# Build docs in the docs-specific environment so documentation-only
+# dependencies (for example StableRNGs used in examples) are available.
+Pkg.activate(@__DIR__)
+Pkg.develop(PackageSpec(path=joinpath(@__DIR__, "..")))
+Pkg.instantiate()
+
 using MatrixLM
 using Documenter
-# using Pkg
-
-# Pkg.add("StableRNGs")
 
 # copy readme into index.md
 open(joinpath(@__DIR__, "src", "index.md"), "w") do io
