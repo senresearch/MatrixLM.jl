@@ -137,16 +137,11 @@ dat = RawData(Response(Y), Predictors(X, Z, true, false));
 nothing #hide
 ```
 
-We can use the function `show()` and `display()` to respectively 
-display a compact and a readable summary of he matrices and 
-dimensions stored in a `RawData` object.
+We can use the function `show()` to respectively display 
+a readable summary of the matrices and dimensions stored in a `RawData` object.
 
 ```@example
 show(dat)
-```
-
-```@example
-display(dat)
 ```
 
 ## Model estimation
@@ -159,16 +154,11 @@ est = mlm(dat; addXIntercept=false, addZIntercept=false); # Model estimation
 nothing # hide
 ```
 
-We can use the function `show()` and `display()` to respectively 
-display a compact and a readable summary of 
-a fitted matrix linear model, i.e. `Mlm` object.
+We can use the function `show()` to respectively display 
+a readable summary of the matrices and dimensions stored in a `Mlm` object.
 
 ```@example
 show(est)
-```
-
-```@example
-display(est)
 ```
 
 

@@ -50,7 +50,7 @@ correlations.
 using MatrixLM, LinearAlgebra, Random, Statistics
 using StableRNGs
 
-rng = StableRNG(27072026)
+rng = StableRNG(2026)
 
 # Matrix dimensions
 n = 100
@@ -115,16 +115,12 @@ dat = RawData(
 nothing #hide
 ```
 
-We can use the function `show()` and `display()` to respectively 
-display a compact and a readable summary of he matrices and 
-dimensions stored in a `RawData` object.
+We can use the function `show()` to respectively display 
+a readable summary of the matrices and dimensions stored in a `RawData` object.
 
-```@example
+
+```@example varshrinkage
 show(dat)
-```
-
-```@example
-display(dat)
 ```
 
 ## Model Estimation Without Variance Shrinkage
@@ -141,16 +137,12 @@ est_no_shrinkage = mlm(
 
 nothing #hide
 ```
-We can use the function `show()` and `display()` to respectively 
-display a compact and a readable summary of 
-a fitted matrix linear model, i.e. `Mlm` object.
 
-```@example
-show(est)
-```
+We can use the function `show()` to respectively display 
+a readable summary of the matrices and dimensions stored in a `Mlm` object.
 
-```@example
-display(est)
+```@example varshrinkage
+show(est_no_shrinkage)
 ```
 
 The fitted object contains the coefficient estimates in `B`, the estimated error covariance matrix in `sigma`, and the coefficient variance estimates in `varB`.
@@ -172,8 +164,9 @@ est_shrinkage = mlm(
     addZIntercept=false
 )
 
-nothing #hide
+show(est_shrinkage)
 ```
+
 
 The estimator separately shrinks
 

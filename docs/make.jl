@@ -1,5 +1,8 @@
 using MatrixLM
 using Documenter
+# using Pkg
+
+# Pkg.add("StableRNGs")
 
 # copy readme into index.md
 open(joinpath(@__DIR__, "src", "index.md"), "w") do io
@@ -11,6 +14,7 @@ makedocs(; modules=[MatrixLM], sitename="MatrixLM.jl", pages=[
         "Getting Started" => "getting_started.md",
         "Example: MLM for ordinal predictors" => "example_ordinal_data.md",
         "Example: Variance Shrinkage with MatrixLM.jl" => "varShrinkage_example.md",
+        "Example: Application to real data" => "application_to_real_data.md",
         "Types and Functions" => "functions.md",
     ]
 )

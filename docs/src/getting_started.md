@@ -39,7 +39,7 @@ We generate this matrix as a normally distributed matrix
 (all values from N(0,σ=4)), adding a layer of randomness to our simulation.
 
 
-```@example
+```@example 
 using MatrixLM, DataFrames, Random, Plots, StatsModels, Statistics
 using StableRNGs
 
@@ -63,7 +63,7 @@ first(dfX, 5)
 
 Let's use the function `design_matrix()` to get the predictor model matrix based on the formula expression, including all the variable terms.
 
-```@example
+```@example 
 # Convert dataframe to prediction matrix
 X = design_matrix(@mlmformula(catvar1 + catvar2 + var3 + var4 + var5), dfX)
 
@@ -77,7 +77,7 @@ For a detailed understanding of how to implement contrast coding,
 please refer to the documentation for [contrast coding with StatsModels.jl](https://juliastats.org/StatsModels.jl/stable/contrasts/#How-to-specify-contrast-coding).
 This provides comprehensive instructions and examples.
 
-```@example
+```@example 
 # Convert dataframe to prediction matrix
 my_ctrst = Dict(
              :catvar1 => DummyCoding(base = "0"),
@@ -91,7 +91,7 @@ X[1:5, :]
 
 Randomly generate some data for column covariates `Z` and the error matrix `E`:
 
-```@example
+```@example 
 Z = rand(rng, m,q);
 E = randn(rng, n,m).*4;
 
@@ -100,7 +100,7 @@ nothing #hide
 
 Next, we will structure the coefficient matrix B following a specific pattern. This approach will facilitate a more effective visualization of the results in the subsequent steps:
 
-```@example
+```@example 
 # (p,q)
 B = [
     2.0   3.0   4.0   5.0  6.0  7.0  8.0  0.0 0.5 -2.0;
@@ -117,7 +117,7 @@ nothing #hide
 
 Generate the response matrix `Y`:
 
-```@example
+```@example 
 Y = X*B*Z' + E;
 
 nothing #hide
@@ -125,25 +125,19 @@ nothing #hide
 
 Now, construct the `RawData` object consisting of the response variable `Y` and row/column predictors `X` and `Z`. All three matrices must be passed in as 2-dimensional arrays.
 
-```@example
+```@example 
 # Construct a RawData object
 dat = RawData(Response(Y), Predictors(X, Z));
 
 nothing #hide
 ```
 
-We can use the function `show()` and `display()` to respectively 
-display a compact and a readable summary of he matrices and 
-dimensions stored in a `RawData` object.
+We can use the function `show()` to respectively display 
+a readable summary of the matrices and dimensions stored in a `RawData` object.
 
 ```@example
 show(dat)
 ```
-
-```@example
-display(dat)
-```
-
 
 
 ## Model estimation
@@ -151,22 +145,17 @@ display(dat)
 
 Least-squares estimates for matrix linear models can be obtained by running `mlm`. An object of type `Mlm` will be returned, with variables for the coefficient estimates (`B`), the coefficient variance estimates (`varB`), and the estimated variance of the errors (`sigma`). By default, `mlm` estimates both row and column main effects (X and Z intercepts), but this behavior can be suppressed by setting `addXIntercept=false` and/or `addZIntercept=false`. Column weights for `Y` and the target type for variance shrinkage[^1] can be optionally supplied to `weights` and `targetType`, respectively. 
 
-```@example
+```@example 
 est = mlm(dat; addXIntercept=false, addZIntercept=false); # Model estimation
 
 nothing #hide
 ```
 
-We can use the function `show()` and `display()` to respectively 
-display a compact and a readable summary of 
-a fitted matrix linear model, i.e. `Mlm` object.
+We can use the function `show()` to respectively display 
+a readable summary of the matrices and dimensions stored in a `Mlm` object.
 
-```@example
+```@example 
 show(est)
-```
-
-```@example
-display(est)
 ```
 
 
@@ -177,7 +166,7 @@ The coefficient estimates can be accessed using `coef(est)`. Predicted values an
 
 To compare the estimated coefficients with the original matrix `B`, we will visualize the matrices using heatmaps. This graphical representation allows us to readily see differences and similarities between the two.
 
-```@example
+```@example 
 esti_coef = coef(est); # Get the coefficients of the model
 
 plot(
@@ -193,7 +182,7 @@ plot(
 
 Let's employ the same visualization method to compare the predicted values with the original `Y` response matrix. This allows us to gauge the accuracy of our model predictions.
 
-```@example
+```@example 
 preds = predict(est); # Prediction value
 
 plot(
@@ -211,7 +200,7 @@ The `residuals()` function, available in `MatrixLM.jl`, computes residuals
 for each observation, helping us evaluate the discrepancy between
 the model's predictions and the observed data.
 
-```@example
+```@example 
 resids = residuals(est);
 
 plot(
@@ -231,7 +220,7 @@ plot(
 
 The t-statistics for an `Mlm` object (defined as `est.B ./ sqrt.(est.varB)`) can be obtained by running `t_stat`. By default, `t_stat` does not return the corresponding t-statistics for any main effects that were estimated by `mlm`, but they will be returned if `isMainEff=true`.
 
-```@example
+```@example 
 tStats = t_stat(est);
 
 nothing #hide
@@ -243,7 +232,7 @@ a different number can be specified as the second argument
 (by modifying the `nPerms` value).
 By default, the function used to permute `Y` is `shuffle_rows`, which shuffles the rows for `Y`. Alternative functions for permuting `Y`, such as `shuffle_cols`, can be passed into the argument `permFun`. `mlm_perms` calls `mlm` and `t_stat`, so the user is free to specify keyword arguments for `mlm` or `t_stat`; by default, `mlm_perms` will call both functions using their default behavior.
 
-```@example
+```@example 
 nPerms = 500
 tStats, pVals = mlm_perms(dat, nPerms, addXIntercept=false, addZIntercept=false);
 
@@ -286,7 +275,7 @@ The `summary` method has three keyword arguments:
   
 This summary table can be used to identify which row/column covariate combinations are significant and to estimate their effect sizes along with their uncertainty.
 
-```@example
+```@example 
 MatrixLM.summary(est, alpha = 0.05, permutation_test = false)
 ```
 
