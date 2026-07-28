@@ -1,6 +1,6 @@
 name = "MatrixLM"
 uuid = "37290134-6146-11e9-0c71-a5c489be1f53"
-version = "1.0.0"
+version = "1.1.0"
 authors = ["Jane Liang", "Gregory Farage", "Chenhao Zhao", "Harsh Vardhan Dubey", "Saunak Sen"]
 
 [workspace]
