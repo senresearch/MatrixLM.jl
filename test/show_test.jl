@@ -46,4 +46,12 @@ end
     @test occursin("Preview of B first row", detailed_model)
     @test occursin("Preview of sigma(Σ) first row", detailed_model)
     @test occursin("Covariance shrinkage: none", detailed_model)
+
+    model_shrunk = mlm(data; targetType = "R")
+    detailed_model_shrunk = sprint(show, MIME"text/plain"(), model_shrunk)
+
+    @test occursin("Covariance shrinkage target: R", detailed_model_shrunk)
+    @test occursin("Shrinkage coefficient:", detailed_model_shrunk)
+    @test occursin("correlation =", detailed_model_shrunk)
+    @test occursin("variance =", detailed_model_shrunk)
 end
