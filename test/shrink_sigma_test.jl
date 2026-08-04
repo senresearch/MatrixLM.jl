@@ -13,8 +13,8 @@ p = 10
 q = 20
     
 # Generate some matrices.
-Random.seed!(4)
-X = rand(n,p)
+rng = StableRNG(4)
+X = rand(rng, n, p)
     
 X_mean = mean(X, dims=1)
 est, varEst = MatrixLM.cov_est(X)
@@ -50,7 +50,8 @@ end;
 end;
 
 @testset "tri2vec rejects non-square matrices" begin
-    A = randn(3, 4)
+    rng = StableRNG(41)
+    A = randn(rng, 3, 4)
     @test_throws ErrorException MatrixLM.tri2vec(A)
 
 end;
@@ -63,10 +64,10 @@ end;
 
 @testset "shrink_var returns positive definite covariance matrix" begin
 
-    Random.seed!(123)
+    rng = StableRNG(123)
 
     # n < p to make the sample covariance singular/noisy
-    X_hd = randn(10, 25)
+    X_hd = randn(rng, 10, 25)
 
     S, lambdaR = MatrixLM.shrink_var(X_hd)
 
@@ -84,8 +85,8 @@ end;
 
 @testset "shrink_sigma target R routing" begin
 
-    Random.seed!(124)
-    X_R = randn(20, 12)
+    rng = StableRNG(124)
+    X_R = randn(rng, 20, 12)
 
     S_direct, lambda_direct = MatrixLM.shrink_var(X_R)
     S_routed, lambda_routed = MatrixLM.shrink_sigma(X_R, "R")
@@ -109,7 +110,8 @@ end;
 
 @testset "shrink_sigma rejects invalid target" begin
 
-    X_invalid = randn(20, 5)
+    rng = StableRNG(125)
+    X_invalid = randn(rng, 20, 5)
 
     @test_throws ArgumentError MatrixLM.shrink_sigma(
         X_invalid,
@@ -119,7 +121,8 @@ end;
 
 @testset "shrink_var rejects sample size <= 3" begin
 
-    X_small = randn(3, 5)
+    rng = StableRNG(126)
+    X_small = randn(rng, 3, 5)
 
     @test_throws ErrorException MatrixLM.shrink_var(X_small)
 end;
