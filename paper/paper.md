@@ -189,9 +189,9 @@ $n \times m$ matrix of residuals. In element-wise form, each entry
 $y_{ij}$ is written as $$ y_{ij} = \sum_{k=1}^p \sum_{\ell=1}^q
 x_{ik}\, z_{j\ell}\, b_{k\ell} + e_{ij}.  $$ As the equation above
 shows, the elements of $B$ may be interpreted as interactions between
-the columns of $X$ and the columns of $Z$.  The residuals are assumed
-to have zero mean, with variance $\Sigma$ across the features and
-independent across samples. $$V(\hbox{vec}(E)) = \Sigma \otimes I.$$
+the columns of $X$ and the columns of $Z$. The residuals are assumed
+to have zero mean, with a covariance $\Sigma$ across the features and
+independent across samples, $$V(\hbox{vec}(E)) = \Sigma \otimes I.$$
 
 The current implementation of MatrixLM requires complete response 
 and predictor matrices. Missing data should therefore be addressed 
@@ -212,7 +212,7 @@ can construct fitted values $\hat Y = X \hat B Z^T$ and standard
 errors and test statistics for entries of $\hat B$ or for
 user-specified linear contrasts, directly analogous to classical
 linear models.  The covariance matrix $\Sigma$ is estimated from 
-the empirical covariance of the residuals.  Since the number of features 
+the empirical covariance of the residuals. Since the number of features 
 can be comparable or greater than the number of samples, the covariance 
 estimate can be singular. The package provides the user the option
 of using a shrinkage estimator for the covariance matrix which is 
