@@ -27,6 +27,13 @@ covariance $\Sigma$ across the features, $$V(\hbox{vec}(E)) = \Sigma \otimes I.$
 Thus, the model allows features within a sample to be correlated while 
 treating the samples as independent.
 
+The covariance matrix $\Sigma$ is estimated from the empirical covariance 
+matrix of the residuals. When the number of features is comparable to or greater 
+than the number of samples, the empirical covariance estimate may be singular. 
+MatrixLM.jl therefore provides the option of using a shrinkage covariance estimator, 
+which produces a nonsingular estimate of $\Sigma$. The shrinkage target can be specified 
+using the `targetType` argument.
+
 The current implementation of MatrixLM.jl requires complete response
 and predictor matrices. Missing data should therefore be addressed before
 model fitting using a method appropriate for the assumed missingness
