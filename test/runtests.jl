@@ -6,6 +6,7 @@ using Aqua
 using MatrixLM, LinearAlgebra, GLM
 using DataFrames 
 using Random, StatsModels, Statistics, Distributions
+using StableRNGs
 using Test
 
 
