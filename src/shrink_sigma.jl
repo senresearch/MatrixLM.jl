@@ -216,7 +216,8 @@ function shrink_var(X::AbstractMatrix{Float64})
     
     (r,a) = tri2vec(cor(X))
     r = atanh.(r)
-    v = log.(vec(var(X,dims=1)))
+    # v = log.(vec(var(X,dims=1))) # Failin on Julia nightly 2026-08-05
+    v = log.(map(var, eachcol(X)))
 
     (r, λr) = shrink(r,mean(r),vr)
     (v, λv) = shrink(v,mean(v),vv)

@@ -20,6 +20,25 @@ Where
 - ``E_{n \times m}`` is the error term, 
 - ``B_{p \times q}`` is the matrix for main and interaction effects.
 
+The elements of $B$ may be interpreted as interactions between
+the columns of $X$ and the columns of $Z$. The residuals are assumed
+to have mean zero, to be independent across samples, and to have a 
+covariance $\Sigma$ across the features, $$V(\hbox{vec}(E)) = \Sigma \otimes I.$$
+Thus, the model allows features within a sample to be correlated while 
+treating the samples as independent.
+
+The covariance matrix $\Sigma$ is estimated from the empirical covariance 
+matrix of the residuals. When the number of features is comparable to or greater 
+than the number of samples, the empirical covariance estimate may be singular. 
+MatrixLM.jl therefore provides the option of using a shrinkage covariance estimator, 
+which produces a nonsingular estimate of $\Sigma$. The shrinkage target can be specified 
+using the `targetType` argument.
+
+The current implementation of MatrixLM.jl requires complete response
+and predictor matrices. Missing data should therefore be addressed before
+model fitting using a method appropriate for the assumed missingness
+mechanism and the structure of the data.
+
 
 ## Data Generation
 
