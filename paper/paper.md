@@ -120,7 +120,7 @@ across features using empirical Bayes methods. While they use sample or
 individual-level information, they do not use feature annotations in 
 their modeling, which is central to MLMs. In the plant breeding literature, 
 bilinear models are often used for assessing gene-environment interactions. 
-The best known packages are metan [@olivoto_metan_2020] and Bilinear [@santantonio_blinear_2022], 
+The best known packages are metan [@olivoto_metan_2020] and Bilinear [@santantonio_bilinear_2022], 
 but neither is suited for high-throughput phenotypes, although they provide 
 other more specialized features such as missing data imputation using the 
 EM algorithm. In principle, general-purpose packages such as GLM.jl [@glmjl] 
