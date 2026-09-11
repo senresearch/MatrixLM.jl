@@ -73,7 +73,9 @@ Pkg.add(url = "https://github.com/senresearch/MatrixLM.jl", rev="main")
 
 ## Contributing
 
-We appreciate contributions from users including reporting bugs, fixing issues, improving performance and adding new features.
+We appreciate contributions from users. GitHub Issues are the preferred venue for reporting 
+bugs and requesting features, while GitHub Pull Requests are the preferred venue for contributing code, 
+such as bug fixes, performance improvements, or new features.
 
 ## Questions
 
