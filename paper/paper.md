@@ -41,7 +41,7 @@ bibliography: paper.bib
 
 # Summary
 
-`MatrixLM` is an open-source Julia package for fitting matrix linear
+`MatrixLM` is an open-source Julia [@julia] package for fitting matrix linear
 models, which extend classical linear regression to a bilinear
 framework for matrix-valued responses.  It is designed for analyzing
 high-throughput assays in which both rows and columns of the
