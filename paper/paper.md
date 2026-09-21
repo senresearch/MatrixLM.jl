@@ -53,7 +53,7 @@ as a joint function of sample-level covariates (e.g., treatment group,
 demographic factors) and feature-level covariates (e.g., molecular or
 anatomical annotations, biological groups, pathways). `MatrixLM`
 implements efficient estimation and inference for this class of models
-using efficient matrix operations whenever possible
+using fast matrix operations whenever possible
 allowing users to fit large numbers of models while retaining an
 explicit linear model interpretation. The inputs include a response
 matrix and two design matrices encoding the row and column covariates,
