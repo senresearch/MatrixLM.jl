@@ -1,0 +1,61 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: MatrixLM.jl
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Gregory
+    family-names: Farage
+    affiliation: >-
+      Division of Biostatistics, Department of Preventive
+      Medicine, University of Tennessee Health Science
+      Center, United States
+    orcid: 'https://orcid.org/0000-0003-4268-9507'
+  - given-names: Jane
+    name-particle: W
+    family-names: Liang
+    orcid: 'https://orcid.org/0000-0002-2302-3809'
+    affiliation: >-
+      Division of Research, Kaiser Permanente Northern
+      California, United States
+  - given-names: Chenhao
+    family-names: Zhao
+    affiliation: >-
+      Division of Biostatistics, Department of Preventive
+      Medicine, University of Tennessee Health Science
+      Center, United States
+    orcid: 'https://orcid.org/0000-0001-5607-7443'
+  - given-names: Harsh Vardhan
+    family-names: Dubey
+    orcid: 'https://orcid.org/0009-0003-8709-7844'
+    affiliation: >-
+      Division of Biostatistics, Department of Preventive
+      Medicine, University of Tennessee Health Science
+      Center, United States
+  - given-names: Śaunak
+    family-names: Sen
+    orcid: 'https://orcid.org/0000-0003-4519-6361'
+    affiliation: >-
+      Division of Biostatistics, Department of Preventive
+      Medicine, University of Tennessee Health Science
+      Center, United States
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.22903253
+    description: MatrixLM.jl v1.1.2
+repository-code: 'https://github.com/senresearch/MatrixLM.jl'
+url: 'https://senresearch.github.io/MatrixLM.jl/stable/'
+abstract: >-
+  `MatrixLM` is an open-source Julia package for fitting
+  matrix linear models, which extend classical linear
+  regression to a bilinear framework for matrix-valued
+  responses.  It is designed for analyzing high-throughput
+  assays in which both rows and columns of the data matrix
+  have associated covariates, such as in metabolomics,
+  proteomics, or chemical genetic screens.
+license: AGPL-3.0
+version: 1.1.2
