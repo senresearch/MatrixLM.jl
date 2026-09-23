@@ -173,7 +173,7 @@ domain-oriented model specification.
 
 Matrix linear models extend ordinary linear regression to situations
 where the outcome is a whole matrix rather than a single response
-vector. We arrange the data as follows:
+vector. We arrange the data as follows (see schematic representation in Figure 1):
 
 - $Y$ is an $n \times m$ matrix of high-throughput measurements (rows
   = samples, columns = features).
