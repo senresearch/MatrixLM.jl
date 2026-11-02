@@ -10,6 +10,8 @@ jobs:
       contents: read
       pull-requests: write
     steps:
+      - name: Julia Setup
+        uses: julia-actions/setup-julia@v3
       - name: Pkg.add("CompatHelper")
         run: julia -e 'using Pkg; Pkg.add("CompatHelper")'
       - name: CompatHelper.main()
